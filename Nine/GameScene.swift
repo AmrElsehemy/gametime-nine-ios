@@ -1,12 +1,16 @@
 import Foundation
 import SpriteKit
+import UIKit
 import GameTimeCore
 import GameTimeExperience
 
+@MainActor
 final class GameScene: SKScene {
     private enum NodeName {
         static let reset = "action:reset"
         static let next = "action:next"
+        static let sound = "action:sound"
+        static let haptics = "action:haptics"
         static let cellPrefix = "cell:"
     }
 
@@ -30,6 +34,9 @@ final class GameScene: SKScene {
         isActive: !tutorialStore.isComplete
     )
     private var emittedTutorialEvents: [NineTutorialEvent] = []
+
+    private let feedbackPreferences = NineFeedbackPreferenceStore()
+    private lazy var feedback = NineFeedbackEngine(preferences: feedbackPreferences)
 
     private var levelIndex = 0
     private var boardState: NineBoardState?
@@ -87,6 +94,16 @@ final class GameScene: SKScene {
         guard let location = touches.first?.location(in: self) else { return }
         let hitNodes = nodes(at: location)
 
+        if hitNodes.contains(where: { $0.name == NodeName.sound }) {
+            toggleSound()
+            return
+        }
+
+        if hitNodes.contains(where: { $0.name == NodeName.haptics }) {
+            toggleHaptics()
+            return
+        }
+
         if hitNodes.contains(where: { $0.name == NodeName.reset }) {
             resetCurrentLevel()
             return
@@ -141,8 +158,20 @@ final class GameScene: SKScene {
 
         renderScene()
 
+        if markerWasPresent {
+            feedback.play(.removal)
+        } else if invalidPlacement {
+            feedback.play(.invalid)
+            animateConflict(at: coordinate)
+        } else {
+            feedback.play(.placement)
+            animatePlacement(at: coordinate)
+        }
+
         if latestEvaluation.isSolved {
             isLevelComplete = true
+            let isMilestone = (levelIndex + 1).isMultiple(of: 5)
+            feedback.play(isMilestone ? .milestone : .solved)
             presentCompletion()
         }
     }
@@ -197,12 +226,31 @@ final class GameScene: SKScene {
                 )
             )
         }
+        feedback.play(.reset)
         renderScene()
     }
 
     private func advanceLevel() {
         let nextIndex = levelIndex + 1
         loadLevel(at: nextIndex < levels.count ? nextIndex : 0)
+    }
+
+    private func toggleSound() {
+        let nextValue = !feedbackPreferences.current.soundEnabled
+        feedbackPreferences.setSoundEnabled(nextValue)
+        if nextValue {
+            feedback.play(.placement)
+        }
+        renderScene()
+    }
+
+    private func toggleHaptics() {
+        let nextValue = !feedbackPreferences.current.hapticsEnabled
+        feedbackPreferences.setHapticsEnabled(nextValue)
+        if nextValue {
+            feedback.play(.placement)
+        }
+        renderScene()
     }
 
     private func renderScene() {
@@ -393,20 +441,24 @@ final class GameScene: SKScene {
         ring.zPosition = 8
         board.addChild(ring)
 
-        ring.run(
-            .repeatForever(
-                .sequence([
-                    .group([
-                        .scale(to: 1.16, duration: 0.55),
-                        .fadeAlpha(to: 0.40, duration: 0.55)
-                    ]),
-                    .group([
-                        .scale(to: 1.0, duration: 0.55),
-                        .fadeAlpha(to: 1.0, duration: 0.55)
+        if UIAccessibility.isReduceMotionEnabled {
+            ring.alpha = 0.82
+        } else {
+            ring.run(
+                .repeatForever(
+                    .sequence([
+                        .group([
+                            .scale(to: 1.16, duration: 0.55),
+                            .fadeAlpha(to: 0.40, duration: 0.55)
+                        ]),
+                        .group([
+                            .scale(to: 1.0, duration: 0.55),
+                            .fadeAlpha(to: 1.0, duration: 0.55)
+                        ])
                     ])
-                ])
+                )
             )
-        )
+        }
 
         guard tutorialSession.currentAssistance >= .contextual else { return }
 
@@ -458,6 +510,50 @@ final class GameScene: SKScene {
             x: (CGFloat(coordinate.column) - half) * cellSide,
             y: (half - CGFloat(coordinate.row)) * cellSide
         )
+    }
+
+    private func animatePlacement(at coordinate: BoardCoordinate) {
+        guard !UIAccessibility.isReduceMotionEnabled,
+              let board = childNode(withName: "board") else {
+            return
+        }
+
+        let name = cellName(for: coordinate)
+        guard let pebble = board.children.last(where: {
+            $0.name == name && $0.zPosition >= 3
+        }) else {
+            return
+        }
+
+        pebble.setScale(0.72)
+        pebble.alpha = 0.55
+        pebble.run(
+            .group([
+                .fadeIn(withDuration: 0.10),
+                .sequence([
+                    .scale(to: 1.08, duration: 0.10),
+                    .scale(to: 0.98, duration: 0.08),
+                    .scale(to: 1.0, duration: 0.08)
+                ])
+            ])
+        )
+    }
+
+    private func animateConflict(at coordinate: BoardCoordinate) {
+        guard !UIAccessibility.isReduceMotionEnabled,
+              let board = childNode(withName: "board") else {
+            return
+        }
+
+        let name = cellName(for: coordinate)
+        let nodes = board.children.filter { $0.name == name }
+        let shake = SKAction.sequence([
+            .moveBy(x: -5, y: 0, duration: 0.045),
+            .moveBy(x: 10, y: 0, duration: 0.075),
+            .moveBy(x: -8, y: 0, duration: 0.065),
+            .moveBy(x: 3, y: 0, duration: 0.045)
+        ])
+        nodes.forEach { $0.run(shake) }
     }
 
     private func makePebble(
@@ -540,10 +636,27 @@ final class GameScene: SKScene {
 
     private func addFooter() {
         let footerY = max(68, size.height * 0.12)
+        let settings = feedbackPreferences.current
 
-        let reset = makeButton(title: "Reset", name: NodeName.reset)
+        let sound = makeButton(
+            title: settings.soundEnabled ? "Sound On" : "Sound Off",
+            name: NodeName.sound,
+            width: 96
+        )
+        sound.position = CGPoint(x: size.width * 0.22, y: footerY)
+        addChild(sound)
+
+        let reset = makeButton(title: "Reset", name: NodeName.reset, width: 88)
         reset.position = CGPoint(x: size.width / 2, y: footerY)
         addChild(reset)
+
+        let haptics = makeButton(
+            title: settings.hapticsEnabled ? "Haptics On" : "Haptics Off",
+            name: NodeName.haptics,
+            width: 104
+        )
+        haptics.position = CGPoint(x: size.width * 0.78, y: footerY)
+        addChild(haptics)
 
         let kit = SKLabelNode(fontNamed: "AvenirNext-Medium")
         kit.text = "GameTimeKit \(GameTimeKit.version)"
@@ -554,12 +667,16 @@ final class GameScene: SKScene {
         addChild(kit)
     }
 
-    private func makeButton(title: String, name: String) -> SKNode {
+    private func makeButton(
+        title: String,
+        name: String,
+        width: CGFloat = 116
+    ) -> SKNode {
         let root = SKNode()
         root.name = name
 
         let shape = SKShapeNode(
-            rectOf: CGSize(width: 116, height: 42),
+            rectOf: CGSize(width: width, height: 42),
             cornerRadius: 21
         )
         shape.name = name
@@ -571,7 +688,7 @@ final class GameScene: SKScene {
         let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         label.name = name
         label.text = title
-        label.fontSize = 14
+        label.fontSize = 13
         label.fontColor = inkColor.withAlphaComponent(0.78)
         label.verticalAlignmentMode = .center
         label.horizontalAlignmentMode = .center
@@ -582,20 +699,23 @@ final class GameScene: SKScene {
 
     private func presentCompletion() {
         guard let board = childNode(withName: "board") else { return }
+        let reduceMotion = UIAccessibility.isReduceMotionEnabled
 
-        let cells = board.children.filter {
-            $0.name?.hasPrefix(NodeName.cellPrefix) == true
-        }
+        if !reduceMotion {
+            let cells = board.children.filter {
+                $0.name?.hasPrefix(NodeName.cellPrefix) == true
+            }
 
-        for (index, cell) in cells.enumerated() {
-            let delay = Double(index % max(1, currentLevel.definition.size)) * 0.025
-            cell.run(
-                .sequence([
-                    .wait(forDuration: delay),
-                    .scale(to: 1.045, duration: 0.10),
-                    .scale(to: 1.0, duration: 0.18)
-                ])
-            )
+            for (index, cell) in cells.enumerated() {
+                let delay = Double(index % max(1, currentLevel.definition.size)) * 0.025
+                cell.run(
+                    .sequence([
+                        .wait(forDuration: delay),
+                        .scale(to: 1.045, duration: 0.10),
+                        .scale(to: 1.0, duration: 0.18)
+                    ])
+                )
+            }
         }
 
         let badge = SKShapeNode(
@@ -607,8 +727,8 @@ final class GameScene: SKScene {
         badge.lineWidth = 1
         badge.position = CGPoint(x: size.width / 2, y: size.height * 0.51)
         badge.zPosition = 20
-        badge.setScale(0.84)
-        badge.alpha = 0
+        badge.setScale(reduceMotion ? 1.0 : 0.84)
+        badge.alpha = reduceMotion ? 1.0 : 0
         addChild(badge)
 
         let solved = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
@@ -629,12 +749,14 @@ final class GameScene: SKScene {
         next.setScale(0.88)
         badge.addChild(next)
 
-        badge.run(
-            .group([
-                .fadeIn(withDuration: 0.18),
-                .scale(to: 1.0, duration: 0.28)
-            ])
-        )
+        if !reduceMotion {
+            badge.run(
+                .group([
+                    .fadeIn(withDuration: 0.18),
+                    .scale(to: 1.0, duration: 0.28)
+                ])
+            )
+        }
     }
 
     private func emitTutorialEvents(_ events: [NineTutorialEvent]) {
