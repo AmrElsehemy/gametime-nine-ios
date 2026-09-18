@@ -134,9 +134,9 @@ final class NineFeedbackEngine {
         }
     }
 
-    private func playHaptic(_ event: NineFeedbackEvent, cue: NineFeedbackCue) {
+    private func playHaptic(_ semanticEvent: NineFeedbackEvent, cue: NineFeedbackCue) {
         guard let hapticEngine else {
-            playUIKitFallback(event)
+            playUIKitFallback(semanticEvent)
             return
         }
 
@@ -148,7 +148,7 @@ final class NineFeedbackEngine {
             parameterID: .hapticSharpness,
             value: cue.hapticSharpness
         )
-        let event = CHHapticEvent(
+        let hapticEvent = CHHapticEvent(
             eventType: .hapticTransient,
             parameters: [intensity, sharpness],
             relativeTime: 0
@@ -156,11 +156,11 @@ final class NineFeedbackEngine {
 
         do {
             try hapticEngine.start()
-            let pattern = try CHHapticPattern(events: [event], parameters: [])
+            let pattern = try CHHapticPattern(events: [hapticEvent], parameters: [])
             let player = try hapticEngine.makePlayer(with: pattern)
             try player.start(atTime: 0)
         } catch {
-            playUIKitFallback(event)
+            playUIKitFallback(semanticEvent)
         }
     }
 
