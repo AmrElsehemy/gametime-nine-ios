@@ -42,6 +42,7 @@ final class GameScene: SKScene {
     private let progressStore = NineProgressStore()
     private lazy var progress = progressStore.load(levels: levels)
     private var playMode: NinePlayMode = .progression
+    private var dailyChallengeDayKey: String?
     private var levelStartedAt: TimeInterval = 0
 
     private var levelIndex = 0
@@ -64,6 +65,10 @@ final class GameScene: SKScene {
 
     private var todayDayKey: String {
         NineUTCDate.dayKey(for: Date())
+    }
+
+    private var activeDailyDayKey: String {
+        dailyChallengeDayKey ?? todayDayKey
     }
 
     override func didMove(to view: SKView) {
@@ -208,6 +213,9 @@ final class GameScene: SKScene {
                $0.definition.id == session.levelID
            }) {
             playMode = session.mode
+            dailyChallengeDayKey = session.mode == .daily
+                ? (session.dayKey ?? todayDayKey)
+                : nil
             loadLevel(
                 at: index,
                 restoring: Set(session.markers)
@@ -216,6 +224,7 @@ final class GameScene: SKScene {
         }
 
         playMode = .progression
+        dailyChallengeDayKey = nil
         let currentID = progress.currentLevelID
         let index = levels.firstIndex(where: {
             $0.definition.id == currentID
@@ -269,7 +278,7 @@ final class GameScene: SKScene {
         progress.activeSession = NineSavedSession(
             mode: playMode,
             levelID: currentLevel.definition.id,
-            dayKey: playMode == .daily ? todayDayKey : nil,
+            dayKey: playMode == .daily ? activeDailyDayKey : nil,
             markers: state.markers.sorted()
         )
         progressStore.save(progress)
@@ -308,7 +317,6 @@ final class GameScene: SKScene {
     private func recordCompletion() {
         let elapsed = max(0, uptime - levelStartedAt)
         let levelID = currentLevel.definition.id
-        let dayKey = todayDayKey
 
         switch playMode {
         case .progression:
@@ -319,13 +327,13 @@ final class GameScene: SKScene {
                 levelID: levelID,
                 nextLevelID: nextLevelID,
                 durationSeconds: elapsed,
-                dayKey: dayKey
+                dayKey: todayDayKey
             )
         case .daily:
             progress.recordDailyCompletion(
                 levelID: levelID,
                 durationSeconds: elapsed,
-                dayKey: dayKey
+                dayKey: activeDailyDayKey
             )
         }
 
@@ -365,11 +373,13 @@ final class GameScene: SKScene {
         }
 
         playMode = .daily
+        dailyChallengeDayKey = todayDayKey
         loadLevel(at: dailyIndex)
     }
 
     private func resumeProgression() {
         playMode = .progression
+        dailyChallengeDayKey = nil
         let targetID = progress.currentLevelID
         let targetIndex = levels.firstIndex(where: {
             $0.definition.id == targetID
@@ -421,7 +431,7 @@ final class GameScene: SKScene {
     private func addHeader() {
         let eyebrow = SKLabelNode(fontNamed: "AvenirNext-Medium")
         if playMode == .daily {
-            eyebrow.text = "DAILY  ·  \(todayDayKey)"
+            eyebrow.text = "DAILY  ·  \(activeDailyDayKey)"
         } else if tutorialSession.isActive && levelIndex < tutorialLevelCount {
             eyebrow.text = "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(tutorialLevelCount)"
         } else {
