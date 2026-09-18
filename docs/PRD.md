@@ -11,7 +11,7 @@ Release target: App Store submission by Day 10
 ## 1. Purpose
 Nine is the first public Game Time title and the first production proof of the Knowlly Games studio pipeline.
 
-The mechanic is intentionally simple so engineering effort can validate the reusable horizontal systems: native rendering, onboarding, haptics/audio, persistence, replay, analytics, diagnostics, Game Center, rewarded monetization, StoreKit, TestFlight/App Store release, support, visual/asset production, and marketing capture.
+The mechanic is intentionally simple so engineering effort can validate the reusable horizontal systems: native rendering, onboarding, haptics/audio, persistence, replay, analytics, diagnostics, Game Center, rewarded monetization, StoreKit where justified, TestFlight/App Store release, support, visual/asset production, and marketing capture.
 
 ## 2. Player promise
 A polished logic puzzle that can be understood by playing, solved in short sessions, and mastered through increasingly challenging boards.
@@ -36,6 +36,8 @@ Initial rule family:
 
 The exact final rule set may be tuned during implementation, but it must stay easy to explain through interaction and deterministic to validate.
 
+Every ordinary shipped production puzzle must have **exactly one valid solution**. Ambiguous/multi-solution boards are rejected by the content pipeline.
+
 ## 4. Core loop
 1. Open a level.
 2. Tap cells to place/remove markers.
@@ -57,6 +59,8 @@ Initial direction:
 - semantic motion should make placement, conflict, hint, solve and milestones feel distinct
 - solved states should create visually satisfying capture moments
 - art direction must produce assets usable in-game, App Store screenshots, website and social creative
+
+The current production-capable fallback is **Tactile Territories**: a procedural SpriteKit/Core Graphics visual system with material-like territories and a distinctive Pebble marker. Bespoke illustration must not become a release blocker.
 
 The public product name should be locked only after the visual system is strong enough to judge the name in context.
 
@@ -82,7 +86,7 @@ The first levels are the tutorial.
 ### Level 5
 - full ordinary rules with minimal guidance
 
-Assistance escalates only when the player hesitates or repeatedly makes invalid moves.
+Assistance escalates only when the player hesitates or repeatedly makes invalid moves. Initial tunable thresholds are defined in the onboarding implementation issue.
 
 No monetization is shown during the initial teaching flow.
 
@@ -98,7 +102,8 @@ No monetization is shown during the initial teaching flow.
 - timer where useful
 - level progression
 - local save with versioned schema
-- 100+ validated/curated puzzles if content generation/validation supports quality
+- **submission hard floor of 60 unique, solver-verified puzzles**
+- target 100+ validated/curated puzzles when quality and difficulty curation support it
 - daily challenge
 - forgiving streak
 - haptics
@@ -109,29 +114,53 @@ No monetization is shown during the initial teaching flow.
 - crash/non-fatal diagnostics
 - Game Center leaderboard/achievements where useful
 - rewarded ad for optional value such as a hint or bonus reward
-- Remove Ads IAP
-- settings, support, privacy links, restore purchases
+- settings, support and privacy links
+- StoreKit only for products that provide a real player-facing entitlement/value
 - accessibility basics
 - App Store icon/screenshots/preview assets
 - marketing capture hooks and initial social creatives
 
-## 8. Monetization
+## 8. Content validation and solver
+The production content pipeline must distinguish:
+- `0` solutions → invalid
+- `1` solution → valid production puzzle
+- `2+` solutions → ambiguous and rejected for ordinary shipped content
+
+The v1 solver uses deterministic backtracking with:
+- MRV (minimum remaining values)
+- forward checking
+- immediate pruning for row/column/region/adjacency conflicts
+- deterministic candidate ordering
+- bounded solution counting that stops after the second solution
+
+This approach is intentionally chosen over Algorithm X/DLX for v1 because the small 6×6–9×9 boards and adjacency constraint are naturally handled by incremental backtracking without added exact-cover machinery.
+
+Solver work metrics such as visited nodes, branches and backtracks may contribute to difficulty estimation but are not the sole difficulty measure.
+
+## 9. Monetization
 Primary model: rewarded value.
 
 Initial opportunities:
 - watch a rewarded ad for a free hint
-- optionally double an earned reward after completion
+- optionally double an earned reward after completion when there is meaningful reward value to double
+
+Initial provider: **Google AdMob / Google Mobile Ads SDK**, isolated behind `GameTimeCommerce`.
 
 Rules:
+- rewarded ads only initially
+- no mediation in v1
 - the full game remains playable without ads
 - no monetization during first-time teaching flow
 - no interstitial during active gameplay
 - no artificial failures designed to force monetization
-- Remove Ads entitlement must be restorable
+- ad failure never blocks play
+
+### Remove Ads decision
+Do **not** ship a `Remove Ads` IAP merely because optional rewarded ads exist. If a later v1 decision introduces a real non-rewarded placement, then a clearly defined Remove Ads entitlement may be added and must be restorable. Otherwise the product is omitted.
 
 Coins may be introduced only if they improve the loop without bloating v1.
 
-## 9. Progression and retention
+## 10. Progression and retention
 v1 should support:
 - sequential level progression
 - daily puzzle
@@ -141,18 +170,18 @@ v1 should support:
 
 Premium pass, large store, events, cosmetics and advanced LiveOps are post-v1 unless retention proves demand.
 
-## 10. Rendering and technology
+## 11. Rendering and technology
 - Swift
 - SpriteKit for the game surface and effects
 - UIKit/Core Animation only where cleaner for shell UI
 - Core Haptics
 - AVFoundation
 - GameKit
-- StoreKit 2
+- StoreKit 2 where an actual product requires it
 
-The rule engine must not depend on SpriteKit.
+The rule engine and solver must not depend on SpriteKit.
 
-## 11. Replay
+## 12. Replay
 Record enough deterministic information to reproduce a session:
 - app/game version
 - level version/id
@@ -162,7 +191,7 @@ Record enough deterministic information to reproduce a session:
 
 Replay supports QA, bug reproduction, analytics, and later automated marketing capture.
 
-## 12. Analytics
+## 13. Analytics
 Minimum events:
 - first_open
 - tutorial_started
@@ -179,28 +208,30 @@ Minimum events:
 - reward_offer_shown
 - reward_offer_accepted
 - reward_completed
-- iap_started
-- iap_completed
+- iap_started/iap_completed only if an IAP ships
 - session_start/session_end
 
 All analytics must avoid collecting unnecessary personal information.
 
-## 13. Quality bar
+## 14. Quality bar
 Before submission:
 - all v1 rules covered by unit tests
-- every shipped level validated as solvable
+- every ordinary shipped production level has exactly one solver-verified solution
+- production content meets the submission hard floor
 - persisted-state migration tested
 - no P0/P1 known defects
 - onboarding verified from clean install
 - offline play verified
 - ad failure does not block play
 - Game Center failure does not block play
-- purchase restore verified in sandbox
+- any shipped purchase entitlement/restore flow verified in sandbox
 - replay reproduces representative sessions
 - acceptable performance on supported devices
 - final visual identity is coherent across gameplay, app icon, App Store and web/social surfaces
+- release build is validated against the real GameTimeKit dependency rather than only a CI contract stub
+- live support/privacy URLs match the actual shipped SDK/data behavior
 
-## 14. Out of scope
+## 15. Out of scope
 - custom username/password accounts
 - multiplayer
 - premium/season pass
@@ -210,7 +241,7 @@ Before submission:
 - sophisticated backend dependency
 - server-authoritative gameplay
 
-## 15. Definition of done
-Game #001 v1.0 is done when it is submitted to App Review with production-ready gameplay, visual identity/assets, onboarding, telemetry, monetization, support/privacy surfaces, App Store assets, launch creatives, and a tested release build.
+## 16. Definition of done
+Game #001 v1.0 is done when it is submitted to App Review with production-ready gameplay, visual identity/assets, onboarding, telemetry, justified monetization, support/privacy surfaces, App Store assets, launch creatives, and a tested release build.
 
 A framework build or TestFlight-only state is not considered shipped.
