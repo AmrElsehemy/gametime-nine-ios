@@ -96,6 +96,7 @@ final class NineFeedbackEngine {
         standardFormatWithSampleRate: 44_100,
         channels: 1
     )!
+    private var audioConfigured = false
     private var audioReady = false
 
     init(preferences: NineFeedbackPreferenceStore = .init()) {
@@ -180,9 +181,15 @@ final class NineFeedbackEngine {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
 
-            audioEngine.attach(player)
-            audioEngine.connect(player, to: audioEngine.mainMixerNode, format: audioFormat)
-            try audioEngine.start()
+            if !audioConfigured {
+                audioEngine.attach(player)
+                audioEngine.connect(player, to: audioEngine.mainMixerNode, format: audioFormat)
+                audioConfigured = true
+            }
+
+            if !audioEngine.isRunning {
+                try audioEngine.start()
+            }
             audioReady = true
         } catch {
             audioReady = false
@@ -190,7 +197,7 @@ final class NineFeedbackEngine {
     }
 
     private func playTone(_ cue: NineFeedbackCue) {
-        if !audioReady {
+        if !audioReady || !audioEngine.isRunning {
             prepareAudio()
         }
         guard audioReady else { return }
