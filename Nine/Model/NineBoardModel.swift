@@ -263,3 +263,113 @@ enum NineConstraintEngine {
         )
     }
 }
+
+// MARK: - Temporary vertical-slice content
+
+/// In-code content used only to make issue #5 playable end-to-end. The
+/// production level pipeline in issue #7 replaces this catalogue with
+/// versioned bundled data, validation, and solver-backed authoring.
+struct PrototypeLevel: Sendable {
+    let definition: LevelDefinition
+    let initialMarkers: Set<BoardCoordinate>
+    let solution: [BoardCoordinate]
+
+    init(
+        id: String,
+        size: Int,
+        regionIDs: [Int],
+        solutionColumns: [Int],
+        prefilledCount: Int
+    ) {
+        precondition(solutionColumns.count == size)
+
+        let solution = solutionColumns.enumerated().map {
+            BoardCoordinate(row: $0.offset, column: $0.element)
+        }
+
+        self.definition = try! LevelDefinition(
+            id: id,
+            size: size,
+            regionIDs: regionIDs,
+            adjacencyRule: .noTouching
+        )
+        self.solution = solution
+        self.initialMarkers = Set(solution.prefix(prefilledCount))
+    }
+}
+
+enum PrototypeLevels {
+    static let all: [PrototypeLevel] = [
+        PrototypeLevel(
+            id: "prototype-001",
+            size: 6,
+            regionIDs: [
+                0, 0, 0, 1, 1, 2,
+                0, 0, 1, 1, 1, 2,
+                3, 0, 1, 1, 2, 2,
+                3, 3, 4, 1, 2, 2,
+                3, 4, 4, 4, 5, 2,
+                3, 4, 4, 5, 5, 5
+            ],
+            solutionColumns: [1, 3, 5, 0, 2, 4],
+            prefilledCount: 5
+        ),
+        PrototypeLevel(
+            id: "prototype-002",
+            size: 6,
+            regionIDs: [
+                0, 0, 0, 0, 0, 1,
+                2, 2, 0, 0, 1, 1,
+                2, 2, 2, 2, 3, 1,
+                4, 2, 2, 3, 3, 3,
+                4, 4, 4, 5, 3, 3,
+                4, 4, 5, 5, 5, 5
+            ],
+            solutionColumns: [2, 5, 1, 4, 0, 3],
+            prefilledCount: 3
+        ),
+        PrototypeLevel(
+            id: "prototype-003",
+            size: 6,
+            regionIDs: [
+                1, 0, 0, 0, 0, 0,
+                1, 1, 0, 0, 2, 2,
+                1, 3, 2, 2, 2, 2,
+                3, 3, 3, 2, 2, 4,
+                3, 3, 5, 4, 4, 4,
+                5, 5, 5, 5, 4, 4
+            ],
+            solutionColumns: [3, 0, 4, 1, 5, 2],
+            prefilledCount: 2
+        ),
+        PrototypeLevel(
+            id: "prototype-004",
+            size: 6,
+            regionIDs: [
+                2, 1, 1, 0, 0, 0,
+                2, 1, 1, 1, 0, 0,
+                2, 2, 1, 1, 0, 3,
+                2, 2, 1, 4, 3, 3,
+                2, 5, 4, 4, 4, 3,
+                5, 5, 5, 4, 4, 3
+            ],
+            solutionColumns: [4, 2, 0, 5, 3, 1],
+            prefilledCount: 1
+        ),
+        PrototypeLevel(
+            id: "prototype-005",
+            size: 7,
+            regionIDs: [
+                0, 0, 1, 1, 2, 2, 3,
+                0, 1, 1, 1, 2, 2, 3,
+                0, 1, 1, 2, 2, 2, 3,
+                4, 4, 1, 2, 2, 3, 3,
+                4, 4, 4, 5, 2, 3, 3,
+                4, 4, 5, 5, 5, 6, 3,
+                4, 4, 5, 5, 6, 6, 6
+            ],
+            solutionColumns: [0, 2, 4, 6, 1, 3, 5],
+            prefilledCount: 0
+        )
+    ]
+}
