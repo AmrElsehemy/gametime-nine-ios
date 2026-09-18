@@ -8,6 +8,8 @@ import GameTimeExperience
 final class GameScene: SKScene {
     private enum NodeName {
         static let reset = "action:reset"
+        static let undo = "action:undo"
+        static let hint = "action:hint"
         static let next = "action:next"
         static let sound = "action:sound"
         static let haptics = "action:haptics"
@@ -18,6 +20,7 @@ final class GameScene: SKScene {
     private let canvasColor = SKColor.nine(hex: 0xF5F2EA)
     private let inkColor = SKColor.nine(hex: 0x262624)
     private let warningColor = SKColor.nine(hex: 0xC95555)
+    private let hintColor = SKColor.nine(hex: 0x2F766E)
     private let regionPalette: [SKColor] = [
         .nine(hex: 0xF58E7E),
         .nine(hex: 0xF3B46D),
@@ -44,6 +47,10 @@ final class GameScene: SKScene {
     private var playMode: NinePlayMode = .progression
     private var dailyChallengeDayKey: String?
     private var levelStartedAt: TimeInterval = 0
+
+    private var moveHistory = NineMoveHistory()
+    private var activeHint: NineHint?
+    private var emittedGameplayIntents: [NineGameplayIntent] = []
 
     private var levelIndex = 0
     private var boardState: NineBoardState?
@@ -125,6 +132,16 @@ final class GameScene: SKScene {
             return
         }
 
+        if hitNodes.contains(where: { $0.name == NodeName.undo }) {
+            undoCurrentMove()
+            return
+        }
+
+        if hitNodes.contains(where: { $0.name == NodeName.hint }) {
+            previewHint()
+            return
+        }
+
         if hitNodes.contains(where: { $0.name == NodeName.reset }) {
             resetCurrentLevel()
             return
@@ -149,11 +166,17 @@ final class GameScene: SKScene {
         guard changed else { return }
 
         boardState = state
+        moveHistory.record(state.markers)
+        activeHint = nil
         latestEvaluation = NineConstraintEngine.evaluate(
             state,
             level: currentLevel.definition
         )
         persistActiveSession(state)
+        recordGameplayIntent(
+            kind: markerWasPresent ? .remove : .place,
+            coordinate: coordinate
+        )
 
         let placedMarker = !markerWasPresent && state.markers.contains(coordinate)
         let invalidPlacement = placedMarker
@@ -248,6 +271,8 @@ final class GameScene: SKScene {
             markers: markers
         )
         boardState = state
+        moveHistory.reset(to: state.markers)
+        activeHint = nil
         latestEvaluation = NineConstraintEngine.evaluate(
             state,
             level: level.definition
@@ -284,6 +309,47 @@ final class GameScene: SKScene {
         progressStore.save(progress)
     }
 
+    private func undoCurrentMove() {
+        guard !isLevelComplete,
+              let previousMarkers = moveHistory.undo() else {
+            return
+        }
+
+        let restored = NineBoardState(
+            level: currentLevel.definition,
+            markers: previousMarkers
+        )
+        boardState = restored
+        activeHint = nil
+        latestEvaluation = NineConstraintEngine.evaluate(
+            restored,
+            level: currentLevel.definition
+        )
+        persistActiveSession(restored)
+        recordGameplayIntent(kind: .undo)
+        feedback.play(.undo)
+        renderScene()
+    }
+
+    private func previewHint() {
+        guard !isLevelComplete,
+              let state = boardState,
+              let hint = NineHintEngine.nextHint(
+                level: currentLevel,
+                state: state
+              ) else {
+            return
+        }
+
+        activeHint = hint
+        recordGameplayIntent(
+            kind: .hintPreview,
+            coordinate: hint.coordinate
+        )
+        feedback.play(.hint)
+        renderScene()
+    }
+
     private func resetCurrentLevel() {
         let level = currentLevel
         let resetState = NineBoardState(
@@ -291,6 +357,8 @@ final class GameScene: SKScene {
             markers: level.initialMarkers
         )
         boardState = resetState
+        moveHistory.reset(to: resetState.markers)
+        activeHint = nil
         latestEvaluation = NineConstraintEngine.evaluate(
             resetState,
             level: level.definition
@@ -298,6 +366,7 @@ final class GameScene: SKScene {
         isLevelComplete = false
         levelStartedAt = uptime
         persistActiveSession(resetState)
+        recordGameplayIntent(kind: .reset)
 
         if playMode == .progression,
            tutorialSession.isActive,
@@ -463,6 +532,11 @@ final class GameScene: SKScene {
     }
 
     private var headerCopy: (title: String, subtitle: String) {
+        if let activeHint {
+            let action = activeHint.action == .place ? "Place" : "Remove"
+            return ("Hint: \(action.lowercased()) the marked pebble", activeHint.reason)
+        }
+
         if playMode == .daily {
             let count = progress.streak.currentCount
             let streakCopy = count > 0
@@ -568,6 +642,12 @@ final class GameScene: SKScene {
             half: half,
             state: state
         )
+        addHintGuidance(
+            to: container,
+            side: side,
+            cellSide: cellSide,
+            half: half
+        )
 
         return container
     }
@@ -579,7 +659,8 @@ final class GameScene: SKScene {
         half: CGFloat,
         state: NineBoardState
     ) {
-        guard playMode == .progression,
+        guard activeHint == nil,
+              playMode == .progression,
               tutorialSession.isActive,
               levelIndex < tutorialLevelCount,
               tutorialSession.currentAssistance != .none,
@@ -648,6 +729,67 @@ final class GameScene: SKScene {
             )
             pointer.zPosition = 9
             board.addChild(pointer)
+        }
+    }
+
+    private func addHintGuidance(
+        to board: SKNode,
+        side: CGFloat,
+        cellSide: CGFloat,
+        half: CGFloat
+    ) {
+        guard let activeHint else { return }
+
+        let targetPosition = boardPosition(
+            for: activeHint.coordinate,
+            cellSide: cellSide,
+            half: half
+        )
+
+        let ring = SKShapeNode(
+            ellipseOf: CGSize(width: cellSide * 0.80, height: cellSide * 0.80)
+        )
+        ring.position = targetPosition
+        ring.fillColor = .clear
+        ring.strokeColor = hintColor
+        ring.lineWidth = 3
+        ring.glowWidth = 1
+        ring.zPosition = 9
+        board.addChild(ring)
+
+        let symbol = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+        symbol.text = activeHint.action == .place ? "+" : "−"
+        symbol.fontSize = max(18, cellSide * 0.30)
+        symbol.fontColor = hintColor
+        symbol.verticalAlignmentMode = .center
+        symbol.horizontalAlignmentMode = .center
+        symbol.position = CGPoint(
+            x: targetPosition.x + cellSide * 0.30,
+            y: targetPosition.y + cellSide * 0.30
+        )
+        symbol.zPosition = 10
+        board.addChild(symbol)
+
+        let callout = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+        callout.text = activeHint.action == .place
+            ? "Place a pebble in the marked cell."
+            : "Remove the pebble from the marked cell."
+        callout.fontSize = 13
+        callout.fontColor = hintColor
+        callout.horizontalAlignmentMode = .center
+        callout.position = CGPoint(x: 0, y: -side / 2 - 28)
+        callout.zPosition = 10
+        board.addChild(callout)
+
+        if !UIAccessibility.isReduceMotionEnabled {
+            ring.run(
+                .repeatForever(
+                    .sequence([
+                        .fadeAlpha(to: 0.42, duration: 0.55),
+                        .fadeAlpha(to: 1.0, duration: 0.55)
+                    ])
+                )
+            )
         }
     }
 
@@ -816,25 +958,29 @@ final class GameScene: SKScene {
             addChild(daily)
         }
 
-        let sound = makeButton(
-            title: settings.soundEnabled ? "Sound On" : "Sound Off",
-            name: NodeName.sound,
-            width: 96
-        )
-        sound.position = CGPoint(x: size.width * 0.22, y: footerY)
-        addChild(sound)
+        let controls: [(String, String, CGFloat, CGFloat)] = [
+            (settings.soundEnabled ? "Sound" : "Muted", NodeName.sound, 72, 0.10),
+            (moveHistory.canUndo ? "Undo" : "Undo", NodeName.undo, 68, 0.30),
+            ("Reset", NodeName.reset, 68, 0.50),
+            (activeHint == nil ? "Hint" : "Hint ✓", NodeName.hint, 68, 0.70),
+            (settings.hapticsEnabled ? "Haptic" : "No Hap", NodeName.haptics, 72, 0.90)
+        ]
 
-        let reset = makeButton(title: "Reset", name: NodeName.reset, width: 88)
-        reset.position = CGPoint(x: size.width / 2, y: footerY)
-        addChild(reset)
-
-        let haptics = makeButton(
-            title: settings.hapticsEnabled ? "Haptics On" : "Haptics Off",
-            name: NodeName.haptics,
-            width: 104
-        )
-        haptics.position = CGPoint(x: size.width * 0.78, y: footerY)
-        addChild(haptics)
+        for control in controls {
+            let button = makeButton(
+                title: control.0,
+                name: control.1,
+                width: control.2
+            )
+            button.position = CGPoint(
+                x: size.width * control.3,
+                y: footerY
+            )
+            if control.1 == NodeName.undo && !moveHistory.canUndo {
+                button.alpha = 0.38
+            }
+            addChild(button)
+        }
 
         let kit = SKLabelNode(fontNamed: "AvenirNext-Medium")
         kit.text = "GameTimeKit \(GameTimeKit.version)"
@@ -866,7 +1012,7 @@ final class GameScene: SKScene {
         let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         label.name = name
         label.text = title
-        label.fontSize = 13
+        label.fontSize = 12
         label.fontColor = inkColor.withAlphaComponent(0.78)
         label.verticalAlignmentMode = .center
         label.horizontalAlignmentMode = .center
@@ -944,6 +1090,28 @@ final class GameScene: SKScene {
                 ])
             )
         }
+    }
+
+    private func recordGameplayIntent(
+        kind: NineGameplayIntentKind,
+        coordinate: BoardCoordinate? = nil
+    ) {
+        emittedGameplayIntents.append(
+            NineGameplayIntent(
+                kind: kind,
+                levelID: currentLevel.definition.id,
+                coordinate: coordinate
+            )
+        )
+        if emittedGameplayIntents.count > 200 {
+            emittedGameplayIntents.removeFirst(
+                emittedGameplayIntents.count - 200
+            )
+        }
+
+        #if DEBUG
+        print("[NineIntent] \(kind.rawValue) \(coordinate.map(String.init(describing:)) ?? "-")")
+        #endif
     }
 
     private func emitTutorialEvents(_ events: [NineTutorialEvent]) {
