@@ -23,4 +23,20 @@ Shared platform code belongs in [`AmrElsehemy/gametime-ios`](https://github.com/
 - Rewarded monetization adds optional value, never manufactured frustration.
 - Public App Store submission is the definition of done.
 
-See [`docs/PRD.md`](docs/PRD.md).
+## Build and run
+
+Keep the game repo and shared platform repo as siblings:
+
+```text
+~/Work/GameTime/
+├── gametime-ios/
+└── gametime-nine-ios/
+```
+
+Then open `Nine.xcodeproj`, select the `Nine` scheme, and run on an iPhone simulator/device. The project consumes `../gametime-ios` as a local Swift package during active development.
+
+See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full local-development/package workflow.
+
+## Documentation
+
+Start with [`docs/PRD.md`](docs/PRD.md). Visual identity work is tracked separately and should merge into this repo once the production direction is proven.

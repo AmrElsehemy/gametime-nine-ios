@@ -1,0 +1,390 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D10000000000000000000001 /* NineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000001 /* NineApp.swift */; };
+		D10000000000000000000002 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000002 /* GameScene.swift */; };
+		D10000000000000000000003 /* NineSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000003 /* NineSmokeTests.swift */; };
+		D10000000000000000000004 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
+		D10000000000000000000005 /* GameTimeExperience in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000002 /* GameTimeExperience */; };
+		D10000000000000000000006 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D11000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D80000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D50000000000000000000001;
+			remoteInfo = Nine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D20000000000000000000001 /* NineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineApp.swift; sourceTree = "<group>"; };
+		D20000000000000000000002 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D20000000000000000000003 /* NineSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineSmokeTests.swift; sourceTree = "<group>"; };
+		D20000000000000000000004 /* Nine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20000000000000000000005 /* NineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D10000000000000000000004 /* GameTimeCore in Frameworks */,
+				D10000000000000000000005 /* GameTimeExperience in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D10000000000000000000006 /* GameTimeCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				D40000000000000000000002 /* Nine */,
+				D40000000000000000000003 /* NineTests */,
+				D40000000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D40000000000000000000002 /* Nine */ = {
+			isa = PBXGroup;
+			children = (
+				D20000000000000000000001 /* NineApp.swift */,
+				D20000000000000000000002 /* GameScene.swift */,
+			);
+			path = Nine;
+			sourceTree = "<group>";
+		};
+		D40000000000000000000003 /* NineTests */ = {
+			isa = PBXGroup;
+			children = (
+				D20000000000000000000003 /* NineSmokeTests.swift */,
+			);
+			path = NineTests;
+			sourceTree = "<group>";
+		};
+		D40000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D20000000000000000000004 /* Nine.app */,
+				D20000000000000000000005 /* NineTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D50000000000000000000001 /* Nine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91000000000000000000002 /* Build configuration list for PBXNativeTarget "Nine" */;
+			buildPhases = (
+				D60000000000000000000001 /* Sources */,
+				D30000000000000000000001 /* Frameworks */,
+				D70000000000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nine;
+			packageProductDependencies = (
+				D90000000000000000000001 /* GameTimeCore */,
+				D90000000000000000000002 /* GameTimeExperience */,
+			);
+			productName = Nine;
+			productReference = D20000000000000000000004 /* Nine.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D50000000000000000000002 /* NineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91000000000000000000003 /* Build configuration list for PBXNativeTarget "NineTests" */;
+			buildPhases = (
+				D60000000000000000000002 /* Sources */,
+				D30000000000000000000002 /* Frameworks */,
+				D70000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D12000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = NineTests;
+			packageProductDependencies = (
+				D90000000000000000000001 /* GameTimeCore */,
+			);
+			productName = NineTests;
+			productReference = D20000000000000000000005 /* NineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D80000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					D50000000000000000000001 = {
+						CreatedOnToolsVersion = 26.0;
+						DevelopmentTeam = 4XD74F27J2;
+						ProvisioningStyle = Automatic;
+					};
+					D50000000000000000000002 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = D91000000000000000000001 /* Build configuration list for PBXProject "Nine" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D40000000000000000000001;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D40000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D50000000000000000000001 /* Nine */,
+				D50000000000000000000002 /* NineTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D70000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D70000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D60000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D10000000000000000000001 /* NineApp.swift in Sources */,
+				D10000000000000000000002 /* GameScene.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D60000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D10000000000000000000003 /* NineSmokeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D12000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D50000000000000000000001 /* Nine */;
+			targetProxy = D11000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D13000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D13000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D13000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4XD74F27J2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Nine;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.gametime.nine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D13000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4XD74F27J2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Nine;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.gametime.nine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D13000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4XD74F27J2;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.gametime.nine.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nine";
+			};
+			name = Debug;
+		};
+		D13000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4XD74F27J2;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.gametime.nine.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nine";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D91000000000000000000001 /* Build configuration list for PBXProject "Nine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D13000000000000000000001 /* Debug */,
+				D13000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D91000000000000000000002 /* Build configuration list for PBXNativeTarget "Nine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D13000000000000000000003 /* Debug */,
+				D13000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D91000000000000000000003 /* Build configuration list for PBXNativeTarget "NineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D13000000000000000000005 /* Debug */,
+				D13000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../gametime-ios;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D90000000000000000000001 /* GameTimeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
+			productName = GameTimeCore;
+		};
+		D90000000000000000000002 /* GameTimeExperience */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
+			productName = GameTimeExperience;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D80000000000000000000001 /* Project object */;
+}
