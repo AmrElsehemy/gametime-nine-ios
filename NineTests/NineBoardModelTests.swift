@@ -46,12 +46,11 @@ private func rowRegions(
     let level = try rowRegions(size: 6)
     var state = NineBoardState(level: level)
 
-    #expect(
-        state.toggleMarker(
-            at: .init(row: 6, column: 0),
-            level: level
-        ) == false
+    let didToggle = state.toggleMarker(
+        at: .init(row: 6, column: 0),
+        level: level
     )
+    #expect(didToggle == false)
     #expect(state.markers.isEmpty)
 }
 
@@ -60,23 +59,28 @@ private func rowRegions(
     let coordinate = BoardCoordinate(row: 2, column: 4)
     var state = NineBoardState(level: level)
 
-    #expect(state.placeMarker(at: coordinate, level: level))
-    #expect(!state.placeMarker(at: coordinate, level: level))
+    let firstPlacement = state.placeMarker(at: coordinate, level: level)
+    #expect(firstPlacement)
+
+    let duplicatePlacement = state.placeMarker(at: coordinate, level: level)
+    #expect(!duplicatePlacement)
     #expect(state.markers == [coordinate])
 
-    #expect(state.toggleMarker(at: coordinate, level: level))
+    let didToggle = state.toggleMarker(at: coordinate, level: level)
+    #expect(didToggle)
     #expect(state.markers.isEmpty)
 
-    #expect(!state.removeMarker(at: coordinate))
+    let didRemove = state.removeMarker(at: coordinate)
+    #expect(!didRemove)
 }
 
 @Test func detectsRowColumnAndRegionConflictsTogether() throws {
     let level = try rowRegions(size: 6)
     var state = NineBoardState(level: level)
 
-    state.placeMarker(at: .init(row: 0, column: 0), level: level)
-    state.placeMarker(at: .init(row: 0, column: 1), level: level)
-    state.placeMarker(at: .init(row: 1, column: 0), level: level)
+    _ = state.placeMarker(at: .init(row: 0, column: 0), level: level)
+    _ = state.placeMarker(at: .init(row: 0, column: 1), level: level)
+    _ = state.placeMarker(at: .init(row: 1, column: 0), level: level)
 
     let evaluation = NineConstraintEngine.evaluate(state, level: level)
 
@@ -91,8 +95,8 @@ private func rowRegions(
     let level = try rowRegions(size: 6, adjacency: .noTouching)
     var state = NineBoardState(level: level)
 
-    state.placeMarker(at: .init(row: 0, column: 0), level: level)
-    state.placeMarker(at: .init(row: 1, column: 1), level: level)
+    _ = state.placeMarker(at: .init(row: 0, column: 0), level: level)
+    _ = state.placeMarker(at: .init(row: 1, column: 1), level: level)
 
     let evaluation = NineConstraintEngine.evaluate(state, level: level)
 
@@ -110,8 +114,8 @@ private func rowRegions(
     let level = try rowRegions(size: 6, adjacency: .none)
     var state = NineBoardState(level: level)
 
-    state.placeMarker(at: .init(row: 0, column: 0), level: level)
-    state.placeMarker(at: .init(row: 1, column: 1), level: level)
+    _ = state.placeMarker(at: .init(row: 0, column: 0), level: level)
+    _ = state.placeMarker(at: .init(row: 1, column: 1), level: level)
 
     let evaluation = NineConstraintEngine.evaluate(state, level: level)
     #expect(!evaluation.violations.contains { $0.kind == .adjacency })
@@ -174,11 +178,10 @@ private func rowRegions(
     )
     var state = NineBoardState(level: first)
 
-    #expect(
-        !state.placeMarker(
-            at: .init(row: 0, column: 0),
-            level: second
-        )
+    let didPlace = state.placeMarker(
+        at: .init(row: 0, column: 0),
+        level: second
     )
+    #expect(!didPlace)
     #expect(!NineConstraintEngine.evaluate(state, level: second).isSolved)
 }
