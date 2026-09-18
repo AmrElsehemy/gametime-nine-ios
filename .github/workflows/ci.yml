@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: macos-latest
+    env:
+      GAMETIMEKIT_READ_TOKEN: ${{ secrets.GAMETIMEKIT_READ_TOKEN }}
     steps:
       - name: Checkout Nine
         uses: actions/checkout@v4
@@ -15,15 +17,15 @@ jobs:
           path: gametime-nine-ios
 
       - name: Checkout real GameTimeKit when cross-repo token is configured
-        if: ${{ secrets.GAMETIMEKIT_READ_TOKEN != '' }}
+        if: ${{ env.GAMETIMEKIT_READ_TOKEN != '' }}
         uses: actions/checkout@v4
         with:
           repository: AmrElsehemy/gametime-ios
-          token: ${{ secrets.GAMETIMEKIT_READ_TOKEN }}
+          token: ${{ env.GAMETIMEKIT_READ_TOKEN }}
           path: gametime-ios
 
       - name: Create CI GameTimeKit contract stub when token is unavailable
-        if: ${{ secrets.GAMETIMEKIT_READ_TOKEN == '' }}
+        if: ${{ env.GAMETIMEKIT_READ_TOKEN == '' }}
         shell: bash
         run: |
           mkdir -p gametime-ios/Sources/GameTimeCore gametime-ios/Sources/GameTimeExperience
