@@ -1,3 +1,4 @@
+import Foundation
 import SpriteKit
 import GameTimeCore
 import GameTimeExperience
@@ -23,6 +24,12 @@ final class GameScene: SKScene {
         .nine(hex: 0xD98EBC)
     ]
 
+    private let tutorialStore = NineTutorialCompletionStore()
+    private lazy var tutorialSession = NineTutorialSession(
+        isActive: !tutorialStore.isComplete
+    )
+    private var emittedTutorialEvents: [NineTutorialEvent] = []
+
     private var levelIndex = 0
     private var boardState: NineBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
@@ -31,6 +38,10 @@ final class GameScene: SKScene {
 
     private var currentLevel: PrototypeLevel {
         PrototypeLevels.all[levelIndex]
+    }
+
+    private var uptime: TimeInterval {
+        ProcessInfo.processInfo.systemUptime
     }
 
     override func didMove(to view: SKView) {
@@ -47,6 +58,19 @@ final class GameScene: SKScene {
 
     override func didChangeSize(_ oldSize: CGSize) {
         guard hasPresentedScene else { return }
+        renderScene()
+    }
+
+    override func update(_ currentTime: TimeInterval) {
+        guard tutorialSession.isActive, !isLevelComplete else { return }
+
+        let events = tutorialSession.assistanceDue(
+            levelID: currentLevel.definition.id,
+            now: uptime
+        )
+        guard !events.isEmpty else { return }
+
+        emitTutorialEvents(events)
         renderScene()
     }
 
@@ -70,6 +94,7 @@ final class GameScene: SKScene {
             return
         }
 
+        let markerWasPresent = state.markers.contains(coordinate)
         let changed = state.toggleMarker(
             at: coordinate,
             level: currentLevel.definition
@@ -81,6 +106,28 @@ final class GameScene: SKScene {
             state,
             level: currentLevel.definition
         )
+
+        let placedMarker = !markerWasPresent && state.markers.contains(coordinate)
+        let invalidPlacement = placedMarker
+            && latestEvaluation.conflictingCoordinates.contains(coordinate)
+
+        emitTutorialEvents(
+            tutorialSession.recordInteraction(
+                isValid: !invalidPlacement,
+                levelID: currentLevel.definition.id,
+                now: uptime
+            )
+        )
+
+        if latestEvaluation.isSolved,
+           levelIndex == PrototypeLevels.all.count - 1,
+           tutorialSession.isActive {
+            tutorialStore.markComplete()
+            emitTutorialEvents(
+                tutorialSession.complete(levelID: currentLevel.definition.id)
+            )
+        }
+
         renderScene()
 
         if latestEvaluation.isSolved {
@@ -100,6 +147,14 @@ final class GameScene: SKScene {
             NineConstraintEngine.evaluate($0, level: level.definition)
         } ?? .init(violations: [], isSolved: false)
         isLevelComplete = false
+
+        emitTutorialEvents(
+            tutorialSession.beginLevel(
+                index: levelIndex,
+                levelID: level.definition.id,
+                now: uptime
+            )
+        )
         renderScene()
     }
 
@@ -115,6 +170,14 @@ final class GameScene: SKScene {
             level: level.definition
         )
         isLevelComplete = false
+
+        emitTutorialEvents(
+            tutorialSession.recordInteraction(
+                isValid: true,
+                levelID: level.definition.id,
+                now: uptime
+            )
+        )
         renderScene()
     }
 
@@ -148,15 +211,19 @@ final class GameScene: SKScene {
 
     private func addHeader() {
         let eyebrow = SKLabelNode(fontNamed: "AvenirNext-Medium")
-        eyebrow.text = "PUZZLE  \(levelIndex + 1) / \(PrototypeLevels.all.count)"
+        eyebrow.text = tutorialSession.isActive
+            ? "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(PrototypeLevels.all.count)"
+            : "PUZZLE  \(levelIndex + 1) / \(PrototypeLevels.all.count)"
         eyebrow.fontSize = 12
         eyebrow.fontColor = inkColor.withAlphaComponent(0.48)
         eyebrow.horizontalAlignmentMode = .center
         eyebrow.position = CGPoint(x: size.width / 2, y: size.height - 78)
         addChild(eyebrow)
 
+        let copy = headerCopy
+
         let title = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
-        title.text = "Place one pebble in every territory"
+        title.text = copy.title
         title.fontSize = min(22, size.width * 0.055)
         title.fontColor = inkColor
         title.horizontalAlignmentMode = .center
@@ -164,12 +231,34 @@ final class GameScene: SKScene {
         addChild(title)
 
         let subtitle = SKLabelNode(fontNamed: "AvenirNext-Regular")
-        subtitle.text = "One per row. One per column. No touching."
+        subtitle.text = copy.subtitle
         subtitle.fontSize = 13
         subtitle.fontColor = inkColor.withAlphaComponent(0.56)
         subtitle.horizontalAlignmentMode = .center
         subtitle.position = CGPoint(x: size.width / 2, y: size.height - 140)
         addChild(subtitle)
+    }
+
+    private var headerCopy: (title: String, subtitle: String) {
+        guard tutorialSession.isActive else {
+            return (
+                "Place one pebble in every territory",
+                "One per row. One per column. No touching."
+            )
+        }
+
+        switch levelIndex {
+        case 0:
+            return ("Place the last pebble", "Finish this nearly-complete board.")
+        case 1:
+            return ("One per row. One per column.", "Keep every row and column unique.")
+        case 2:
+            return ("One in every territory", "Each colored territory gets one pebble.")
+        case 3:
+            return ("Pebbles can’t touch", "Leave at least one cell between neighbors.")
+        default:
+            return ("You’ve got it", "Use all four rules together.")
+        }
     }
 
     private func makeBoard(
@@ -209,9 +298,10 @@ final class GameScene: SKScene {
             for column in 0..<dimension {
                 let coordinate = BoardCoordinate(row: row, column: column)
                 let regionID = currentLevel.definition.regionID(at: coordinate) ?? 0
-                let position = CGPoint(
-                    x: (CGFloat(column) - half) * cellSide,
-                    y: (half - CGFloat(row)) * cellSide
+                let position = boardPosition(
+                    for: coordinate,
+                    cellSide: cellSide,
+                    half: half
                 )
 
                 let cell = SKShapeNode(
@@ -240,7 +330,114 @@ final class GameScene: SKScene {
             }
         }
 
+        addTutorialGuidance(
+            to: container,
+            side: side,
+            cellSide: cellSide,
+            half: half,
+            state: state
+        )
+
         return container
+    }
+
+    private func addTutorialGuidance(
+        to board: SKNode,
+        side: CGFloat,
+        cellSide: CGFloat,
+        half: CGFloat,
+        state: NineBoardState
+    ) {
+        guard tutorialSession.isActive,
+              tutorialSession.currentAssistance != .none,
+              let target = currentLevel.solution.first(where: {
+                  !state.markers.contains($0)
+              }) else {
+            return
+        }
+
+        let targetPosition = boardPosition(
+            for: target,
+            cellSide: cellSide,
+            half: half
+        )
+
+        let ring = SKShapeNode(
+            ellipseOf: CGSize(width: cellSide * 0.76, height: cellSide * 0.76)
+        )
+        ring.position = targetPosition
+        ring.fillColor = .clear
+        ring.strokeColor = SKColor.white.withAlphaComponent(0.96)
+        ring.lineWidth = tutorialSession.currentAssistance == .strong ? 4 : 2.5
+        ring.glowWidth = tutorialSession.currentAssistance == .strong ? 3 : 1
+        ring.zPosition = 8
+        board.addChild(ring)
+
+        ring.run(
+            .repeatForever(
+                .sequence([
+                    .group([
+                        .scale(to: 1.16, duration: 0.55),
+                        .fadeAlpha(to: 0.40, duration: 0.55)
+                    ]),
+                    .group([
+                        .scale(to: 1.0, duration: 0.55),
+                        .fadeAlpha(to: 1.0, duration: 0.55)
+                    ])
+                ])
+            )
+        )
+
+        guard tutorialSession.currentAssistance >= .contextual else { return }
+
+        let callout = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+        callout.text = tutorialGuidanceText
+        callout.fontSize = 13
+        callout.fontColor = inkColor.withAlphaComponent(0.82)
+        callout.horizontalAlignmentMode = .center
+        callout.verticalAlignmentMode = .center
+        callout.position = CGPoint(x: 0, y: -side / 2 - 28)
+        callout.zPosition = 10
+        board.addChild(callout)
+
+        if tutorialSession.currentAssistance == .strong {
+            let pointer = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+            pointer.text = "↓"
+            pointer.fontSize = 24
+            pointer.fontColor = inkColor.withAlphaComponent(0.78)
+            pointer.position = CGPoint(
+                x: targetPosition.x,
+                y: targetPosition.y + cellSide * 0.48
+            )
+            pointer.zPosition = 9
+            board.addChild(pointer)
+        }
+    }
+
+    private var tutorialGuidanceText: String {
+        switch levelIndex {
+        case 0:
+            return "Try the glowing cell."
+        case 1:
+            return "Find the row and column still missing a pebble."
+        case 2:
+            return "Look for a territory with no pebble yet."
+        case 3:
+            return "Keep the next pebble away from its neighbors."
+        default:
+            return "Use row, column, territory and spacing together."
+        }
+    }
+
+    private func boardPosition(
+        for coordinate: BoardCoordinate,
+        cellSide: CGFloat,
+        half: CGFloat
+    ) -> CGPoint {
+        CGPoint(
+            x: (CGFloat(coordinate.column) - half) * cellSide,
+            y: (half - CGFloat(coordinate.row)) * cellSide
+        )
     }
 
     private func makePebble(
@@ -418,6 +615,21 @@ final class GameScene: SKScene {
                 .scale(to: 1.0, duration: 0.28)
             ])
         )
+    }
+
+    private func emitTutorialEvents(_ events: [NineTutorialEvent]) {
+        guard !events.isEmpty else { return }
+
+        emittedTutorialEvents.append(contentsOf: events)
+        if emittedTutorialEvents.count > 100 {
+            emittedTutorialEvents.removeFirst(emittedTutorialEvents.count - 100)
+        }
+
+        #if DEBUG
+        for event in events {
+            print("[NineTutorial] \(event.name) \(event.properties)")
+        }
+        #endif
     }
 
     private func cellName(for coordinate: BoardCoordinate) -> String {

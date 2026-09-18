@@ -204,3 +204,101 @@ private func rowRegions(
         #expect(prototype.initialMarkers.isSubset(of: Set(prototype.solution)))
     }
 }
+
+@Test func tutorialEscalatesAtFourEightAndFifteenSeconds() {
+    var session = NineTutorialSession(isActive: true)
+    let started = session.beginLevel(index: 0, levelID: "tutorial-1", now: 100)
+
+    #expect(started.map(\.name) == ["tutorial_started", "tutorial_level_started"])
+    #expect(session.assistanceDue(levelID: "tutorial-1", now: 103.9).isEmpty)
+
+    let subtle = session.assistanceDue(levelID: "tutorial-1", now: 104)
+    #expect(session.currentAssistance == .subtle)
+    #expect(subtle.first?.properties["trigger"] == "idle")
+
+    _ = session.assistanceDue(levelID: "tutorial-1", now: 108)
+    #expect(session.currentAssistance == .contextual)
+
+    _ = session.assistanceDue(levelID: "tutorial-1", now: 115)
+    #expect(session.currentAssistance == .strong)
+}
+
+@Test func validTutorialProgressResetsAssistanceAndInvalidCluster() {
+    var session = NineTutorialSession(isActive: true)
+    _ = session.beginLevel(index: 1, levelID: "tutorial-2", now: 0)
+    _ = session.assistanceDue(levelID: "tutorial-2", now: 8)
+    #expect(session.currentAssistance == .contextual)
+
+    _ = session.recordInteraction(
+        isValid: false,
+        levelID: "tutorial-2",
+        now: 8.5
+    )
+    #expect(session.invalidInteractionTimes.count == 1)
+
+    let progress = session.recordInteraction(
+        isValid: true,
+        levelID: "tutorial-2",
+        now: 9
+    )
+
+    #expect(progress.first?.name == "tutorial_interaction")
+    #expect(session.currentAssistance == .none)
+    #expect(session.invalidInteractionTimes.isEmpty)
+    #expect(session.assistanceDue(levelID: "tutorial-2", now: 12.9).isEmpty)
+}
+
+@Test func repeatedInvalidInteractionsEscalateWithinSixSecondWindow() {
+    var session = NineTutorialSession(isActive: true)
+    _ = session.beginLevel(index: 3, levelID: "tutorial-4", now: 0)
+
+    let first = session.recordInteraction(
+        isValid: false,
+        levelID: "tutorial-4",
+        now: 1
+    )
+    #expect(first.count == 1)
+    #expect(session.currentAssistance == .none)
+
+    let second = session.recordInteraction(
+        isValid: false,
+        levelID: "tutorial-4",
+        now: 2
+    )
+    #expect(session.currentAssistance == .contextual)
+    #expect(second.last?.properties["trigger"] == "invalid_interactions")
+
+    _ = session.recordInteraction(
+        isValid: false,
+        levelID: "tutorial-4",
+        now: 3
+    )
+    #expect(session.currentAssistance == .strong)
+}
+
+@Test func tutorialCompletionDisablesHelpAndMonetizationSuppression() {
+    var session = NineTutorialSession(isActive: true)
+    _ = session.beginLevel(index: 4, levelID: "tutorial-5", now: 0)
+
+    #expect(session.suppressesMonetization)
+
+    let completed = session.complete(levelID: "tutorial-5")
+    #expect(completed.first?.name == "tutorial_completed")
+    #expect(!session.isActive)
+    #expect(!session.suppressesMonetization)
+    #expect(session.assistanceDue(levelID: "tutorial-5", now: 100).isEmpty)
+}
+
+@Test func tutorialCompletionStorePersistsAcrossInstances() throws {
+    let suiteName = "NineTutorialCompletionStoreTests.\(UUID().uuidString)"
+    let defaults = try #require(UserDefaults(suiteName: suiteName))
+    defaults.removePersistentDomain(forName: suiteName)
+    defer { defaults.removePersistentDomain(forName: suiteName) }
+
+    let first = NineTutorialCompletionStore(defaults: defaults)
+    #expect(!first.isComplete)
+    first.markComplete()
+
+    let second = NineTutorialCompletionStore(defaults: defaults)
+    #expect(second.isComplete)
+}
