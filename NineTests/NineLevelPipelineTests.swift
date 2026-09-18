@@ -102,3 +102,184 @@ import Testing
         _ = try NineLevelPackValidator.validate(unsupported)
     }
 }
+
+@Test func saveCodecMigratesSyntheticV1State() throws {
+    let legacy = """
+    {
+      "schemaVersion": 1,
+      "currentLevelID": "v1-003",
+      "unlockedLevelIDs": ["v1-001", "v1-002", "v1-003"],
+      "completedLevelIDs": ["v1-001", "v1-002"]
+    }
+    """
+
+    let migrated = try NineSaveCodec.decode(Data(legacy.utf8))
+
+    #expect(migrated.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(migrated.currentLevelID == "v1-003")
+    #expect(migrated.unlockedLevelIDs == ["v1-001", "v1-002", "v1-003"])
+    #expect(migrated.levelProgress["v1-001"]?.completionCount == 1)
+    #expect(migrated.levelProgress["v1-002"]?.completionCount == 1)
+    #expect(migrated.activeSession == nil)
+    #expect(migrated.streak == .empty)
+}
+
+@Test func saveCodecRoundTripsActiveBoardAndBestTime() throws {
+    let levels = PrototypeLevels.production
+    var state = NineSaveState.fresh(levels: levels)
+    let level = try #require(levels.first)
+    let marker = BoardCoordinate(row: 0, column: 0)
+
+    state.activeSession = NineSavedSession(
+        mode: .progression,
+        levelID: level.definition.id,
+        dayKey: nil,
+        markers: [marker]
+    )
+    state.recordProgressionCompletion(
+        levelID: level.definition.id,
+        nextLevelID: levels.dropFirst().first?.definition.id,
+        durationSeconds: 12.5,
+        dayKey: "2026-09-18"
+    )
+
+    let encoded = try NineSaveCodec.encode(state)
+    let decoded = try NineSaveCodec.decode(encoded)
+
+    #expect(decoded == state)
+    #expect(decoded.levelProgress[level.definition.id]?.bestDurationSeconds == 12.5)
+}
+
+@Test func dailyChallengeSelectionIsStableAndSupportsBundledOverride() throws {
+    let levels = PrototypeLevels.production
+    let date = Date(timeIntervalSince1970: 1_800_000_000)
+
+    let first = NineDailyChallenge.levelIndex(
+        for: date,
+        in: levels,
+        excludingFirst: 5
+    )
+    let second = NineDailyChallenge.levelIndex(
+        for: date,
+        in: levels,
+        excludingFirst: 5
+    )
+
+    #expect(first == second)
+    let selected = try #require(first)
+    #expect(selected >= 5)
+    #expect(selected < levels.count)
+
+    let overrideIndex = try #require(levels.indices.dropFirst(5).first)
+    let overridden = NineDailyChallenge.levelIndex(
+        for: date,
+        in: levels,
+        excludingFirst: 5,
+        overrideLevelID: levels[overrideIndex].definition.id
+    )
+    #expect(overridden == overrideIndex)
+}
+
+@Test func utcDayKeysDoNotDependOnDeviceTimezone() {
+    let instant = Date(timeIntervalSince1970: 1_800_000_000)
+    let key = NineUTCDate.dayKey(for: instant)
+
+    #expect(key.count == 10)
+    #expect(NineUTCDate.dayDistance(from: key, to: key) == 0)
+}
+
+@Test func streakAllowsOneMissWithoutInflatingTheCount() {
+    var streak = NineStreakState.empty
+
+    streak = NineStreakPolicy.applyingCompletion(
+        dayKey: "2026-09-01",
+        to: streak
+    )
+    #expect(streak.currentCount == 1)
+
+    streak = NineStreakPolicy.applyingCompletion(
+        dayKey: "2026-09-02",
+        to: streak
+    )
+    #expect(streak.currentCount == 2)
+
+    streak = NineStreakPolicy.applyingCompletion(
+        dayKey: "2026-09-04",
+        to: streak
+    )
+    #expect(streak.currentCount == 2)
+
+    streak = NineStreakPolicy.applyingCompletion(
+        dayKey: "2026-09-05",
+        to: streak
+    )
+    #expect(streak.currentCount == 3)
+    #expect(streak.longestCount == 3)
+
+    streak = NineStreakPolicy.applyingCompletion(
+        dayKey: "2026-09-10",
+        to: streak
+    )
+    #expect(streak.currentCount == 1)
+    #expect(streak.longestCount == 3)
+}
+
+@Test func dailyCompletionIsIdempotentForStreakCredit() {
+    let levels = PrototypeLevels.production
+    let level = levels[5]
+    var state = NineSaveState.fresh(levels: levels)
+
+    state.recordDailyCompletion(
+        levelID: level.definition.id,
+        durationSeconds: 20,
+        dayKey: "2026-09-18"
+    )
+    state.recordDailyCompletion(
+        levelID: level.definition.id,
+        durationSeconds: 18,
+        dayKey: "2026-09-18"
+    )
+
+    #expect(state.streak.currentCount == 1)
+    #expect(state.dailyCompletions.count == 1)
+    #expect(state.levelProgress[level.definition.id]?.completionCount == 2)
+    #expect(state.levelProgress[level.definition.id]?.bestDurationSeconds == 18)
+}
+
+@Test @MainActor func corruptedSaveRecoversToFreshOfflineProgress() throws {
+    let suiteName = "NineProgressStoreTests.\(UUID().uuidString)"
+    let defaults = try #require(UserDefaults(suiteName: suiteName))
+    defer { defaults.removePersistentDomain(forName: suiteName) }
+
+    let key = "corrupt-save"
+    defaults.set(Data("definitely not json".utf8), forKey: key)
+
+    let store = NineProgressStore(defaults: defaults, key: key)
+    let levels = PrototypeLevels.production
+    let recovered = store.load(levels: levels)
+
+    #expect(recovered.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(recovered.currentLevelID == levels.first?.definition.id)
+    #expect(recovered.unlockedLevelIDs == [levels[0].definition.id])
+    #expect(defaults.data(forKey: key) == nil)
+}
+
+@Test func staleDailySessionIsDiscardedDuringSanitization() throws {
+    let levels = PrototypeLevels.production
+    var state = NineSaveState.fresh(levels: levels)
+    let dailyLevel = levels[5]
+    state.activeSession = NineSavedSession(
+        mode: .daily,
+        levelID: dailyLevel.definition.id,
+        dayKey: "2026-09-17",
+        markers: [BoardCoordinate(row: 0, column: 0)]
+    )
+
+    let sanitized = state.sanitized(
+        levels: levels,
+        todayDayKey: "2026-09-18"
+    )
+
+    #expect(sanitized.activeSession == nil)
+    #expect(sanitized.currentLevelID == levels.first?.definition.id)
+}
