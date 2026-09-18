@@ -11,6 +11,7 @@ final class GameScene: SKScene {
         static let next = "action:next"
         static let sound = "action:sound"
         static let haptics = "action:haptics"
+        static let daily = "action:daily"
         static let cellPrefix = "cell:"
     }
 
@@ -38,6 +39,11 @@ final class GameScene: SKScene {
     private let feedbackPreferences = NineFeedbackPreferenceStore()
     private lazy var feedback = NineFeedbackEngine(preferences: feedbackPreferences)
 
+    private let progressStore = NineProgressStore()
+    private lazy var progress = progressStore.load(levels: levels)
+    private var playMode: NinePlayMode = .progression
+    private var levelStartedAt: TimeInterval = 0
+
     private var levelIndex = 0
     private var boardState: NineBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
@@ -56,12 +62,16 @@ final class GameScene: SKScene {
         ProcessInfo.processInfo.systemUptime
     }
 
+    private var todayDayKey: String {
+        NineUTCDate.dayKey(for: Date())
+    }
+
     override func didMove(to view: SKView) {
         backgroundColor = canvasColor
         view.ignoresSiblingOrder = true
 
         if boardState == nil {
-            loadLevel(at: 0)
+            restoreSavedSession()
         } else {
             renderScene()
         }
@@ -74,7 +84,8 @@ final class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        guard tutorialSession.isActive,
+        guard playMode == .progression,
+              tutorialSession.isActive,
               levelIndex < tutorialLevelCount,
               !isLevelComplete else {
             return
@@ -101,6 +112,11 @@ final class GameScene: SKScene {
 
         if hitNodes.contains(where: { $0.name == NodeName.haptics }) {
             toggleHaptics()
+            return
+        }
+
+        if hitNodes.contains(where: { $0.name == NodeName.daily }) {
+            toggleDailyChallenge()
             return
         }
 
@@ -132,12 +148,15 @@ final class GameScene: SKScene {
             state,
             level: currentLevel.definition
         )
+        persistActiveSession(state)
 
         let placedMarker = !markerWasPresent && state.markers.contains(coordinate)
         let invalidPlacement = placedMarker
             && latestEvaluation.conflictingCoordinates.contains(coordinate)
 
-        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+        if playMode == .progression,
+           tutorialSession.isActive,
+           levelIndex < tutorialLevelCount {
             emitTutorialEvents(
                 tutorialSession.recordInteraction(
                     isValid: !invalidPlacement,
@@ -147,7 +166,8 @@ final class GameScene: SKScene {
             )
         }
 
-        if latestEvaluation.isSolved,
+        if playMode == .progression,
+           latestEvaluation.isSolved,
            levelIndex == tutorialLevelCount - 1,
            tutorialSession.isActive {
             tutorialStore.markComplete()
@@ -170,29 +190,70 @@ final class GameScene: SKScene {
 
         if latestEvaluation.isSolved {
             isLevelComplete = true
-            let isMilestone = (levelIndex + 1).isMultiple(of: 5)
+            recordCompletion()
+            let isMilestone = playMode == .daily
+                || (levelIndex + 1).isMultiple(of: 5)
             feedback.play(isMilestone ? .milestone : .solved)
             presentCompletion()
         }
     }
 
-    private func loadLevel(at index: Int) {
+    private func restoreSavedSession() {
+        guard !levels.isEmpty else {
+            preconditionFailure("Nine requires at least one validated bundled level")
+        }
+
+        if let session = progress.activeSession,
+           let index = levels.firstIndex(where: {
+               $0.definition.id == session.levelID
+           }) {
+            playMode = session.mode
+            loadLevel(
+                at: index,
+                restoring: Set(session.markers)
+            )
+            return
+        }
+
+        playMode = .progression
+        let currentID = progress.currentLevelID
+        let index = levels.firstIndex(where: {
+            $0.definition.id == currentID
+        }) ?? 0
+        loadLevel(at: index)
+    }
+
+    private func loadLevel(
+        at index: Int,
+        restoring restoredMarkers: Set<BoardCoordinate>? = nil
+    ) {
         guard !levels.isEmpty else {
             preconditionFailure("Nine requires at least one validated bundled level")
         }
 
         levelIndex = max(0, min(index, levels.count - 1))
         let level = currentLevel
-        boardState = NineBoardState(
+        let markers = restoredMarkers ?? level.initialMarkers
+        let state = NineBoardState(
             level: level.definition,
-            markers: level.initialMarkers
+            markers: markers
         )
-        latestEvaluation = boardState.map {
-            NineConstraintEngine.evaluate($0, level: level.definition)
-        } ?? .init(violations: [], isSolved: false)
+        boardState = state
+        latestEvaluation = NineConstraintEngine.evaluate(
+            state,
+            level: level.definition
+        )
         isLevelComplete = false
+        levelStartedAt = uptime
 
-        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+        if playMode == .progression {
+            progress.currentLevelID = level.definition.id
+        }
+        persistActiveSession(state)
+
+        if playMode == .progression,
+           tutorialSession.isActive,
+           levelIndex < tutorialLevelCount {
             emitTutorialEvents(
                 tutorialSession.beginLevel(
                     index: levelIndex,
@@ -202,6 +263,16 @@ final class GameScene: SKScene {
             )
         }
         renderScene()
+    }
+
+    private func persistActiveSession(_ state: NineBoardState) {
+        progress.activeSession = NineSavedSession(
+            mode: playMode,
+            levelID: currentLevel.definition.id,
+            dayKey: playMode == .daily ? todayDayKey : nil,
+            markers: state.markers.sorted()
+        )
+        progressStore.save(progress)
     }
 
     private func resetCurrentLevel() {
@@ -216,8 +287,12 @@ final class GameScene: SKScene {
             level: level.definition
         )
         isLevelComplete = false
+        levelStartedAt = uptime
+        persistActiveSession(resetState)
 
-        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+        if playMode == .progression,
+           tutorialSession.isActive,
+           levelIndex < tutorialLevelCount {
             emitTutorialEvents(
                 tutorialSession.recordInteraction(
                     isValid: true,
@@ -230,9 +305,76 @@ final class GameScene: SKScene {
         renderScene()
     }
 
+    private func recordCompletion() {
+        let elapsed = max(0, uptime - levelStartedAt)
+        let levelID = currentLevel.definition.id
+        let dayKey = todayDayKey
+
+        switch playMode {
+        case .progression:
+            let nextLevelID = levels.indices.contains(levelIndex + 1)
+                ? levels[levelIndex + 1].definition.id
+                : nil
+            progress.recordProgressionCompletion(
+                levelID: levelID,
+                nextLevelID: nextLevelID,
+                durationSeconds: elapsed,
+                dayKey: dayKey
+            )
+        case .daily:
+            progress.recordDailyCompletion(
+                levelID: levelID,
+                durationSeconds: elapsed,
+                dayKey: dayKey
+            )
+        }
+
+        progressStore.save(progress)
+    }
+
     private func advanceLevel() {
+        if playMode == .daily {
+            resumeProgression()
+            return
+        }
+
         let nextIndex = levelIndex + 1
-        loadLevel(at: nextIndex < levels.count ? nextIndex : 0)
+        if nextIndex < levels.count {
+            loadLevel(at: nextIndex)
+        } else {
+            progress.currentLevelID = levels.first?.definition.id
+            progressStore.save(progress)
+            loadLevel(at: 0)
+        }
+    }
+
+    private func toggleDailyChallenge() {
+        guard !tutorialSession.isActive || playMode == .daily else { return }
+
+        if playMode == .daily {
+            resumeProgression()
+            return
+        }
+
+        guard let dailyIndex = NineDailyChallenge.levelIndex(
+            for: Date(),
+            in: levels,
+            excludingFirst: tutorialLevelCount
+        ) else {
+            return
+        }
+
+        playMode = .daily
+        loadLevel(at: dailyIndex)
+    }
+
+    private func resumeProgression() {
+        playMode = .progression
+        let targetID = progress.currentLevelID
+        let targetIndex = levels.firstIndex(where: {
+            $0.definition.id == targetID
+        }) ?? 0
+        loadLevel(at: targetIndex)
     }
 
     private func toggleSound() {
@@ -278,9 +420,13 @@ final class GameScene: SKScene {
 
     private func addHeader() {
         let eyebrow = SKLabelNode(fontNamed: "AvenirNext-Medium")
-        eyebrow.text = tutorialSession.isActive && levelIndex < tutorialLevelCount
-            ? "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(tutorialLevelCount)"
-            : "PUZZLE  \(levelIndex + 1) / \(levels.count)"
+        if playMode == .daily {
+            eyebrow.text = "DAILY  ·  \(todayDayKey)"
+        } else if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+            eyebrow.text = "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(tutorialLevelCount)"
+        } else {
+            eyebrow.text = "PUZZLE  \(levelIndex + 1) / \(levels.count)"
+        }
         eyebrow.fontSize = 12
         eyebrow.fontColor = inkColor.withAlphaComponent(0.48)
         eyebrow.horizontalAlignmentMode = .center
@@ -307,6 +453,14 @@ final class GameScene: SKScene {
     }
 
     private var headerCopy: (title: String, subtitle: String) {
+        if playMode == .daily {
+            let count = progress.streak.currentCount
+            let streakCopy = count > 0
+                ? "Current streak: \(count). One missed day is forgiven."
+                : "Solve once today to start your streak."
+            return ("Today’s puzzle", streakCopy)
+        }
+
         guard tutorialSession.isActive && levelIndex < tutorialLevelCount else {
             return (
                 "Place one pebble in every territory",
@@ -415,7 +569,8 @@ final class GameScene: SKScene {
         half: CGFloat,
         state: NineBoardState
     ) {
-        guard tutorialSession.isActive,
+        guard playMode == .progression,
+              tutorialSession.isActive,
               levelIndex < tutorialLevelCount,
               tutorialSession.currentAssistance != .none,
               let target = currentLevel.solution.first(where: {
@@ -638,6 +793,19 @@ final class GameScene: SKScene {
         let footerY = max(68, size.height * 0.12)
         let settings = feedbackPreferences.current
 
+        if !tutorialSession.isActive || playMode == .daily {
+            let dailyTitle = playMode == .daily
+                ? "Back to levels"
+                : "Daily · \(progress.streak.currentCount)"
+            let daily = makeButton(
+                title: dailyTitle,
+                name: NodeName.daily,
+                width: 126
+            )
+            daily.position = CGPoint(x: size.width / 2, y: footerY + 52)
+            addChild(daily)
+        }
+
         let sound = makeButton(
             title: settings.soundEnabled ? "Sound On" : "Sound Off",
             name: NodeName.sound,
@@ -732,18 +900,27 @@ final class GameScene: SKScene {
         addChild(badge)
 
         let solved = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
-        solved.text = levelIndex == levels.count - 1
-            ? "Pack complete"
-            : "Beautiful."
-        solved.fontSize = 23
+        if playMode == .daily {
+            solved.text = "Daily complete · Streak \(progress.streak.currentCount)"
+        } else {
+            solved.text = levelIndex == levels.count - 1
+                ? "Pack complete"
+                : "Beautiful."
+        }
+        solved.fontSize = playMode == .daily ? 18 : 23
         solved.fontColor = inkColor
         solved.position = CGPoint(x: 0, y: 14)
         solved.verticalAlignmentMode = .center
         badge.addChild(solved)
 
-        let nextTitle = levelIndex == levels.count - 1
-            ? "Play again"
-            : "Next puzzle"
+        let nextTitle: String
+        if playMode == .daily {
+            nextTitle = "Back to levels"
+        } else if levelIndex == levels.count - 1 {
+            nextTitle = "Play again"
+        } else {
+            nextTitle = "Next puzzle"
+        }
         let next = makeButton(title: nextTitle, name: NodeName.next)
         next.position = CGPoint(x: 0, y: -30)
         next.setScale(0.88)
