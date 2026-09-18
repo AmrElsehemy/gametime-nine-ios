@@ -13,6 +13,8 @@
 		D10000000000000000000004 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
 		D10000000000000000000005 /* GameTimeExperience in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000002 /* GameTimeExperience */; };
 		D10000000000000000000006 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
+		D10000000000000000000007 /* NineBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000006 /* NineBoardModel.swift */; };
+		D10000000000000000000008 /* NineBoardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000007 /* NineBoardModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,8 @@
 		D20000000000000000000003 /* NineSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineSmokeTests.swift; sourceTree = "<group>"; };
 		D20000000000000000000004 /* Nine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20000000000000000000005 /* NineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20000000000000000000006 /* NineBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/NineBoardModel.swift; sourceTree = "<group>"; };
+		D20000000000000000000007 /* NineBoardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineBoardModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 			children = (
 				D20000000000000000000001 /* NineApp.swift */,
 				D20000000000000000000002 /* GameScene.swift */,
+				D20000000000000000000006 /* NineBoardModel.swift */,
 			);
 			path = Nine;
 			sourceTree = "<group>";
@@ -76,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				D20000000000000000000003 /* NineSmokeTests.swift */,
+				D20000000000000000000007 /* NineBoardModelTests.swift */,
 			);
 			path = NineTests;
 			sourceTree = "<group>";
@@ -201,6 +207,7 @@
 			files = (
 				D10000000000000000000001 /* NineApp.swift in Sources */,
 				D10000000000000000000002 /* GameScene.swift in Sources */,
+				D10000000000000000000007 /* NineBoardModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D10000000000000000000003 /* NineSmokeTests.swift in Sources */,
+				D10000000000000000000008 /* NineBoardModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
