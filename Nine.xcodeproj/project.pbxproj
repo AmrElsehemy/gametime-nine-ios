@@ -15,6 +15,10 @@
 		D10000000000000000000006 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
 		D10000000000000000000007 /* NineBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000006 /* NineBoardModel.swift */; };
 		D10000000000000000000008 /* NineBoardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000007 /* NineBoardModelTests.swift */; };
+		D10000000000000000000009 /* NineLevelPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000008 /* NineLevelPipeline.swift */; };
+		D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */; };
+		D1000000000000000000000B /* NineLevelPipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000A /* NineLevelPipelineTests.swift */; };
+		D1000000000000000000000C /* NineLevels-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000B /* NineLevels-v1.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +39,10 @@
 		D20000000000000000000005 /* NineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20000000000000000000006 /* NineBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/NineBoardModel.swift; sourceTree = "<group>"; };
 		D20000000000000000000007 /* NineBoardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineBoardModelTests.swift; sourceTree = "<group>"; };
+		D20000000000000000000008 /* NineLevelPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/NineLevelPipeline.swift; sourceTree = "<group>"; };
+		D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/PrototypeLevel+Pipeline.swift"; sourceTree = "<group>"; };
+		D2000000000000000000000A /* NineLevelPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineLevelPipelineTests.swift; sourceTree = "<group>"; };
+		D2000000000000000000000B /* NineLevels-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Resources/NineLevels-v1.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +81,9 @@
 				D20000000000000000000001 /* NineApp.swift */,
 				D20000000000000000000002 /* GameScene.swift */,
 				D20000000000000000000006 /* NineBoardModel.swift */,
+				D20000000000000000000008 /* NineLevelPipeline.swift */,
+				D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */,
+				D2000000000000000000000B /* NineLevels-v1.json */,
 			);
 			path = Nine;
 			sourceTree = "<group>";
@@ -82,6 +93,7 @@
 			children = (
 				D20000000000000000000003 /* NineSmokeTests.swift */,
 				D20000000000000000000007 /* NineBoardModelTests.swift */,
+				D2000000000000000000000A /* NineLevelPipelineTests.swift */,
 			);
 			path = NineTests;
 			sourceTree = "<group>";
@@ -188,6 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1000000000000000000000C /* NineLevels-v1.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +221,8 @@
 				D10000000000000000000001 /* NineApp.swift in Sources */,
 				D10000000000000000000002 /* GameScene.swift in Sources */,
 				D10000000000000000000007 /* NineBoardModel.swift in Sources */,
+				D10000000000000000000009 /* NineLevelPipeline.swift in Sources */,
+				D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +232,7 @@
 			files = (
 				D10000000000000000000003 /* NineSmokeTests.swift in Sources */,
 				D10000000000000000000008 /* NineBoardModelTests.swift in Sources */,
+				D1000000000000000000000B /* NineLevelPipelineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

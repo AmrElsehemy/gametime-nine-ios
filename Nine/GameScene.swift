@@ -24,6 +24,7 @@ final class GameScene: SKScene {
         .nine(hex: 0xD98EBC)
     ]
 
+    private let levels = PrototypeLevels.production
     private let tutorialStore = NineTutorialCompletionStore()
     private lazy var tutorialSession = NineTutorialSession(
         isActive: !tutorialStore.isComplete
@@ -36,8 +37,12 @@ final class GameScene: SKScene {
     private var isLevelComplete = false
     private var hasPresentedScene = false
 
+    private var tutorialLevelCount: Int {
+        min(5, levels.count)
+    }
+
     private var currentLevel: PrototypeLevel {
-        PrototypeLevels.all[levelIndex]
+        levels[levelIndex]
     }
 
     private var uptime: TimeInterval {
@@ -62,7 +67,11 @@ final class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        guard tutorialSession.isActive, !isLevelComplete else { return }
+        guard tutorialSession.isActive,
+              levelIndex < tutorialLevelCount,
+              !isLevelComplete else {
+            return
+        }
 
         let events = tutorialSession.assistanceDue(
             levelID: currentLevel.definition.id,
@@ -111,16 +120,18 @@ final class GameScene: SKScene {
         let invalidPlacement = placedMarker
             && latestEvaluation.conflictingCoordinates.contains(coordinate)
 
-        emitTutorialEvents(
-            tutorialSession.recordInteraction(
-                isValid: !invalidPlacement,
-                levelID: currentLevel.definition.id,
-                now: uptime
+        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+            emitTutorialEvents(
+                tutorialSession.recordInteraction(
+                    isValid: !invalidPlacement,
+                    levelID: currentLevel.definition.id,
+                    now: uptime
+                )
             )
-        )
+        }
 
         if latestEvaluation.isSolved,
-           levelIndex == PrototypeLevels.all.count - 1,
+           levelIndex == tutorialLevelCount - 1,
            tutorialSession.isActive {
             tutorialStore.markComplete()
             emitTutorialEvents(
@@ -137,7 +148,11 @@ final class GameScene: SKScene {
     }
 
     private func loadLevel(at index: Int) {
-        levelIndex = max(0, min(index, PrototypeLevels.all.count - 1))
+        guard !levels.isEmpty else {
+            preconditionFailure("Nine requires at least one validated bundled level")
+        }
+
+        levelIndex = max(0, min(index, levels.count - 1))
         let level = currentLevel
         boardState = NineBoardState(
             level: level.definition,
@@ -148,13 +163,15 @@ final class GameScene: SKScene {
         } ?? .init(violations: [], isSolved: false)
         isLevelComplete = false
 
-        emitTutorialEvents(
-            tutorialSession.beginLevel(
-                index: levelIndex,
-                levelID: level.definition.id,
-                now: uptime
+        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+            emitTutorialEvents(
+                tutorialSession.beginLevel(
+                    index: levelIndex,
+                    levelID: level.definition.id,
+                    now: uptime
+                )
             )
-        )
+        }
         renderScene()
     }
 
@@ -171,19 +188,21 @@ final class GameScene: SKScene {
         )
         isLevelComplete = false
 
-        emitTutorialEvents(
-            tutorialSession.recordInteraction(
-                isValid: true,
-                levelID: level.definition.id,
-                now: uptime
+        if tutorialSession.isActive && levelIndex < tutorialLevelCount {
+            emitTutorialEvents(
+                tutorialSession.recordInteraction(
+                    isValid: true,
+                    levelID: level.definition.id,
+                    now: uptime
+                )
             )
-        )
+        }
         renderScene()
     }
 
     private func advanceLevel() {
         let nextIndex = levelIndex + 1
-        loadLevel(at: nextIndex < PrototypeLevels.all.count ? nextIndex : 0)
+        loadLevel(at: nextIndex < levels.count ? nextIndex : 0)
     }
 
     private func renderScene() {
@@ -211,9 +230,9 @@ final class GameScene: SKScene {
 
     private func addHeader() {
         let eyebrow = SKLabelNode(fontNamed: "AvenirNext-Medium")
-        eyebrow.text = tutorialSession.isActive
-            ? "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(PrototypeLevels.all.count)"
-            : "PUZZLE  \(levelIndex + 1) / \(PrototypeLevels.all.count)"
+        eyebrow.text = tutorialSession.isActive && levelIndex < tutorialLevelCount
+            ? "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(tutorialLevelCount)"
+            : "PUZZLE  \(levelIndex + 1) / \(levels.count)"
         eyebrow.fontSize = 12
         eyebrow.fontColor = inkColor.withAlphaComponent(0.48)
         eyebrow.horizontalAlignmentMode = .center
@@ -240,7 +259,7 @@ final class GameScene: SKScene {
     }
 
     private var headerCopy: (title: String, subtitle: String) {
-        guard tutorialSession.isActive else {
+        guard tutorialSession.isActive && levelIndex < tutorialLevelCount else {
             return (
                 "Place one pebble in every territory",
                 "One per row. One per column. No touching."
@@ -349,6 +368,7 @@ final class GameScene: SKScene {
         state: NineBoardState
     ) {
         guard tutorialSession.isActive,
+              levelIndex < tutorialLevelCount,
               tutorialSession.currentAssistance != .none,
               let target = currentLevel.solution.first(where: {
                   !state.markers.contains($0)
@@ -592,8 +612,8 @@ final class GameScene: SKScene {
         addChild(badge)
 
         let solved = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
-        solved.text = levelIndex == PrototypeLevels.all.count - 1
-            ? "Prototype complete"
+        solved.text = levelIndex == levels.count - 1
+            ? "Pack complete"
             : "Beautiful."
         solved.fontSize = 23
         solved.fontColor = inkColor
@@ -601,7 +621,7 @@ final class GameScene: SKScene {
         solved.verticalAlignmentMode = .center
         badge.addChild(solved)
 
-        let nextTitle = levelIndex == PrototypeLevels.all.count - 1
+        let nextTitle = levelIndex == levels.count - 1
             ? "Play again"
             : "Next puzzle"
         let next = makeButton(title: nextTitle, name: NodeName.next)
