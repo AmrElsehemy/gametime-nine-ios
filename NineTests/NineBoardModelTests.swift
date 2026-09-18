@@ -185,3 +185,22 @@ private func rowRegions(
     #expect(!didPlace)
     #expect(!NineConstraintEngine.evaluate(state, level: second).isSolved)
 }
+
+@Test func prototypeCatalogueContainsFivePlayableBoardsWithValidKnownSolutions() {
+    #expect(PrototypeLevels.all.count == 5)
+
+    for prototype in PrototypeLevels.all {
+        let solutionState = NineBoardState(
+            level: prototype.definition,
+            markers: Set(prototype.solution)
+        )
+        let evaluation = NineConstraintEngine.evaluate(
+            solutionState,
+            level: prototype.definition
+        )
+
+        #expect(evaluation.isSolved)
+        #expect(evaluation.violations.isEmpty)
+        #expect(prototype.initialMarkers.isSubset(of: Set(prototype.solution)))
+    }
+}
