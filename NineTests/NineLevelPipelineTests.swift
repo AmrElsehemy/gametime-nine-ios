@@ -278,11 +278,16 @@ import Testing
 }
 
 @Test func moveHistoryUndoIsPredictableAndStopsAtInitialState() throws {
-    let level = try #require(PrototypeLevels.production.first)
-    var history = NineMoveHistory()
+    let level = PrototypeLevels.production[5]
     let initial = level.initialMarkers
-    let firstMove = initial.union([level.solution.first!])
-    let secondMove = firstMove.union([level.solution.last!])
+    let missing = level.solution.filter { !initial.contains($0) }
+    #expect(missing.count >= 2)
+    let firstCoordinate = try #require(missing.first)
+    let secondCoordinate = try #require(missing.dropFirst().first)
+
+    let firstMove = initial.union([firstCoordinate])
+    let secondMove = firstMove.union([secondCoordinate])
+    var history = NineMoveHistory()
 
     history.reset(to: initial)
     history.record(firstMove)
