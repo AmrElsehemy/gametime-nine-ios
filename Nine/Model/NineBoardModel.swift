@@ -373,3 +373,221 @@ enum PrototypeLevels {
         )
     ]
 }
+
+// MARK: - Learn-by-playing onboarding
+
+enum TutorialAssistanceLevel: Int, Equatable, Comparable, Sendable {
+    case none = 0
+    case subtle = 1
+    case contextual = 2
+    case strong = 3
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+enum TutorialAssistanceTrigger: String, Equatable, Sendable {
+    case idle
+    case invalidInteractions = "invalid_interactions"
+}
+
+struct TutorialAssistancePolicy: Equatable, Sendable {
+    let subtleDelay: TimeInterval
+    let contextualDelay: TimeInterval
+    let strongDelay: TimeInterval
+    let invalidWindow: TimeInterval
+    let contextualInvalidCount: Int
+    let strongInvalidCount: Int
+
+    static let v1 = TutorialAssistancePolicy(
+        subtleDelay: 4,
+        contextualDelay: 8,
+        strongDelay: 15,
+        invalidWindow: 6,
+        contextualInvalidCount: 2,
+        strongInvalidCount: 3
+    )
+}
+
+struct NineTutorialEvent: Equatable, Sendable {
+    let name: String
+    let properties: [String: String]
+}
+
+struct NineTutorialSession {
+    let policy: TutorialAssistancePolicy
+    private(set) var isActive: Bool
+    private(set) var currentAssistance: TutorialAssistanceLevel = .none
+    private(set) var lastProgressTime: TimeInterval = 0
+    private(set) var invalidInteractionTimes: [TimeInterval] = []
+    private(set) var hasStarted = false
+
+    init(
+        isActive: Bool,
+        policy: TutorialAssistancePolicy = .v1
+    ) {
+        self.isActive = isActive
+        self.policy = policy
+    }
+
+    var suppressesMonetization: Bool { isActive }
+
+    mutating func beginLevel(
+        index: Int,
+        levelID: String,
+        now: TimeInterval
+    ) -> [NineTutorialEvent] {
+        guard isActive else { return [] }
+
+        currentAssistance = .none
+        invalidInteractionTimes.removeAll(keepingCapacity: true)
+        lastProgressTime = now
+
+        var events: [NineTutorialEvent] = []
+        if !hasStarted {
+            hasStarted = true
+            events.append(
+                NineTutorialEvent(
+                    name: "tutorial_started",
+                    properties: ["level_id": levelID]
+                )
+            )
+        }
+        events.append(
+            NineTutorialEvent(
+                name: "tutorial_level_started",
+                properties: [
+                    "level_id": levelID,
+                    "tutorial_level": String(index + 1)
+                ]
+            )
+        )
+        return events
+    }
+
+    mutating func recordInteraction(
+        isValid: Bool,
+        levelID: String,
+        now: TimeInterval
+    ) -> [NineTutorialEvent] {
+        guard isActive else { return [] }
+
+        var events = [
+            NineTutorialEvent(
+                name: "tutorial_interaction",
+                properties: [
+                    "level_id": levelID,
+                    "valid": isValid ? "true" : "false"
+                ]
+            )
+        ]
+
+        if isValid {
+            currentAssistance = .none
+            invalidInteractionTimes.removeAll(keepingCapacity: true)
+            lastProgressTime = now
+            return events
+        }
+
+        invalidInteractionTimes = invalidInteractionTimes.filter {
+            now - $0 <= policy.invalidWindow
+        }
+        invalidInteractionTimes.append(now)
+
+        let desired: TutorialAssistanceLevel
+        if invalidInteractionTimes.count >= policy.strongInvalidCount {
+            desired = .strong
+        } else if invalidInteractionTimes.count >= policy.contextualInvalidCount {
+            desired = .contextual
+        } else {
+            desired = currentAssistance
+        }
+
+        if desired > currentAssistance {
+            currentAssistance = desired
+            events.append(
+                assistanceEvent(
+                    levelID: levelID,
+                    trigger: .invalidInteractions
+                )
+            )
+        }
+        return events
+    }
+
+    mutating func assistanceDue(
+        levelID: String,
+        now: TimeInterval
+    ) -> [NineTutorialEvent] {
+        guard isActive else { return [] }
+
+        let elapsed = max(0, now - lastProgressTime)
+        let desired: TutorialAssistanceLevel
+        if elapsed >= policy.strongDelay {
+            desired = .strong
+        } else if elapsed >= policy.contextualDelay {
+            desired = .contextual
+        } else if elapsed >= policy.subtleDelay {
+            desired = .subtle
+        } else {
+            desired = .none
+        }
+
+        guard desired > currentAssistance else { return [] }
+        currentAssistance = desired
+        return [assistanceEvent(levelID: levelID, trigger: .idle)]
+    }
+
+    mutating func complete(
+        levelID: String
+    ) -> [NineTutorialEvent] {
+        guard isActive else { return [] }
+        isActive = false
+        currentAssistance = .none
+        invalidInteractionTimes.removeAll()
+        return [
+            NineTutorialEvent(
+                name: "tutorial_completed",
+                properties: ["level_id": levelID]
+            )
+        ]
+    }
+
+    private func assistanceEvent(
+        levelID: String,
+        trigger: TutorialAssistanceTrigger
+    ) -> NineTutorialEvent {
+        NineTutorialEvent(
+            name: "tutorial_assistance_shown",
+            properties: [
+                "level_id": levelID,
+                "assistance_level": String(currentAssistance.rawValue),
+                "trigger": trigger.rawValue
+            ]
+        )
+    }
+}
+
+struct NineTutorialCompletionStore {
+    static let defaultKey = "nine.onboarding.completed.v1"
+
+    let defaults: UserDefaults
+    let key: String
+
+    init(
+        defaults: UserDefaults = .standard,
+        key: String = NineTutorialCompletionStore.defaultKey
+    ) {
+        self.defaults = defaults
+        self.key = key
+    }
+
+    var isComplete: Bool {
+        defaults.bool(forKey: key)
+    }
+
+    func markComplete() {
+        defaults.set(true, forKey: key)
+    }
+}
