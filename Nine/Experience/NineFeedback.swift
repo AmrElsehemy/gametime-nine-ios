@@ -257,13 +257,17 @@ enum NineHintEngine {
             level: level.definition
         )
 
-        if let conflict = evaluation.conflictingCoordinates
+        // A rule conflict marks every participant, including correct solution
+        // markers. Only tell the player to remove a conflicting marker when that
+        // marker is itself outside the unique authored solution.
+        if let wrongConflict = evaluation.conflictingCoordinates
+            .subtracting(authoredSolution)
             .subtracting(initial)
             .sorted()
             .first {
             return NineHint(
                 action: .remove,
-                coordinate: conflict,
+                coordinate: wrongConflict,
                 reason: "This pebble conflicts with another rule."
             )
         }
