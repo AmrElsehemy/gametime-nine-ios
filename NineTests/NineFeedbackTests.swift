@@ -89,7 +89,8 @@ import Testing
         )
     )
 
-    let undoMarkers = try #require(history.undo())
+    let undoResult = history.undo()
+    let undoMarkers = try #require(undoResult)
     state = NineBoardState(level: level.definition, markers: undoMarkers)
     recorder.record(
         NineGameplayIntent(
