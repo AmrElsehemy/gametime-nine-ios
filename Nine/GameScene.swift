@@ -4,6 +4,26 @@ import UIKit
 import GameTimeCore
 import GameTimeExperience
 
+enum NineCapturePreset: String, CaseIterable, Sendable {
+    case simple
+    case placement
+    case territories
+    case daily
+    case solved
+
+    static func parse(arguments: [String]) -> NineCapturePreset? {
+        guard let flag = arguments.firstIndex(of: "--nine-capture"),
+              arguments.indices.contains(flag + 1) else {
+            return nil
+        }
+        return NineCapturePreset(rawValue: arguments[flag + 1])
+    }
+
+    static var current: NineCapturePreset? {
+        parse(arguments: ProcessInfo.processInfo.arguments)
+    }
+}
+
 @MainActor
 final class GameScene: SKScene {
     private enum NodeName {
@@ -67,6 +87,7 @@ final class GameScene: SKScene {
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
     private var isLevelComplete = false
     private var hasPresentedScene = false
+    private let capturePreset = NineCapturePreset.current
 
     private var tutorialLevelCount: Int {
         min(5, levels.count)
@@ -91,13 +112,17 @@ final class GameScene: SKScene {
     override func didMove(to view: SKView) {
         backgroundColor = canvasColor
         view.ignoresSiblingOrder = true
-        beginAnalyticsSessionIfNeeded()
-        beginGameCenterIfNeeded()
 
-        if boardState == nil {
-            restoreSavedSession()
+        if let capturePreset {
+            applyCapturePreset(capturePreset)
         } else {
-            renderScene()
+            beginAnalyticsSessionIfNeeded()
+            beginGameCenterIfNeeded()
+            if boardState == nil {
+                restoreSavedSession()
+            } else {
+                renderScene()
+            }
         }
         hasPresentedScene = true
     }
@@ -259,6 +284,76 @@ final class GameScene: SKScene {
             let isMilestone = playMode == .daily
                 || (levelIndex + 1).isMultiple(of: 5)
             feedback.play(isMilestone ? .milestone : .solved)
+            presentCompletion()
+        }
+    }
+
+    private func applyCapturePreset(_ preset: NineCapturePreset) {
+        guard !levels.isEmpty else { return }
+
+        // Capture mode is deterministic, offline, and side-effect free: no analytics,
+        // persistence, ads, Game Center auth, or debug chrome.
+        tutorialSession = NineTutorialSession(isActive: false)
+        playMode = preset == .daily ? .daily : .progression
+        dailyChallengeDayKey = preset == .daily ? "2026-09-19" : nil
+        if preset == .daily {
+            progress.streak = NineStreakState(
+                currentCount: 5,
+                longestCount: 8,
+                lastCompletedDayKey: "2026-09-18"
+            )
+        }
+
+        let standard = Array(levels.indices.dropFirst(tutorialLevelCount))
+        func firstIndex(size: Int, offset: Int = 0) -> Int? {
+            Array(standard.filter { levels[$0].definition.size == size }.dropFirst(offset)).first
+        }
+
+        let index: Int
+        switch preset {
+        case .simple:
+            index = firstIndex(size: 6) ?? min(tutorialLevelCount, levels.count - 1)
+        case .placement:
+            index = firstIndex(size: 6, offset: 3) ?? firstIndex(size: 6) ?? 0
+        case .territories:
+            index = firstIndex(size: 9) ?? standard.last ?? 0
+        case .daily:
+            index = firstIndex(size: 7) ?? standard.first ?? 0
+        case .solved:
+            index = firstIndex(size: 8) ?? standard.last ?? 0
+        }
+
+        levelIndex = index
+        let level = currentLevel
+        let orderedSolution = level.solution.sorted()
+        let markers: Set<BoardCoordinate>
+        switch preset {
+        case .simple:
+            markers = Set(orderedSolution.dropLast(min(2, orderedSolution.count)))
+        case .placement:
+            markers = Set(orderedSolution.enumerated().compactMap { pair in
+                pair.offset.isMultiple(of: 2) ? pair.element : nil
+            })
+        case .territories:
+            markers = Set(orderedSolution.prefix(max(3, orderedSolution.count / 3)))
+        case .daily:
+            markers = Set(orderedSolution.prefix(max(3, orderedSolution.count / 2)))
+        case .solved:
+            markers = Set(orderedSolution)
+        }
+
+        let state = NineBoardState(level: level.definition, markers: markers)
+        boardState = state
+        moveHistory.reset(to: state.markers)
+        activeHint = nil
+        latestEvaluation = NineConstraintEngine.evaluate(state, level: level.definition)
+        isLevelComplete = preset == .solved
+        levelStartedAt = uptime
+        replayRecorder = nil
+        hasActiveAnalyticsLevel = false
+        renderScene()
+
+        if preset == .solved {
             presentCompletion()
         }
     }
@@ -1147,13 +1242,15 @@ final class GameScene: SKScene {
             addChild(button)
         }
 
-        let kit = SKLabelNode(fontNamed: "AvenirNext-Medium")
-        kit.text = "GameTimeKit \(GameTimeKit.version)"
-        kit.fontSize = 10
-        kit.fontColor = inkColor.withAlphaComponent(0.28)
-        kit.horizontalAlignmentMode = .center
-        kit.position = CGPoint(x: size.width / 2, y: 26)
-        addChild(kit)
+        if capturePreset == nil {
+            let kit = SKLabelNode(fontNamed: "AvenirNext-Medium")
+            kit.text = "GameTimeKit \(GameTimeKit.version)"
+            kit.fontSize = 10
+            kit.fontColor = inkColor.withAlphaComponent(0.28)
+            kit.horizontalAlignmentMode = .center
+            kit.position = CGPoint(x: size.width / 2, y: 26)
+            addChild(kit)
+        }
     }
 
     private func makeButton(
