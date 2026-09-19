@@ -246,8 +246,6 @@ struct NineHint: Equatable, Sendable {
 }
 
 enum NineHintEngine {
-    /// Returns one deterministic preview action without mutating the board.
-    /// Wrong/conflicting player markers are removed before a solution cell is revealed.
     static func nextHint(
         level: PrototypeLevel,
         state: NineBoardState
@@ -329,4 +327,223 @@ struct NineGameplayIntent: Equatable, Sendable {
     let kind: NineGameplayIntentKind
     let levelID: String
     let coordinate: BoardCoordinate?
+}
+
+// MARK: - Deterministic replay
+
+struct NineReplayEvent: Codable, Equatable, Sendable {
+    let sequence: Int
+    let kind: String
+    let coordinate: BoardCoordinate?
+}
+
+struct NineReplay: Codable, Equatable, Sendable {
+    static let currentSchemaVersion = 1
+
+    let schemaVersion: Int
+    let replayID: UUID
+    let appVersion: String
+    let buildVersion: String
+    let levelID: String
+    let levelSchemaVersion: Int
+    let mode: String
+    let dayKey: String?
+    let initialMarkers: [BoardCoordinate]
+    var events: [NineReplayEvent]
+}
+
+enum NineReplayError: Error, Equatable, Sendable {
+    case unsupportedSchemaVersion(Int)
+    case levelMismatch(expected: String, actual: String)
+    case levelSchemaMismatch(expected: Int, actual: Int)
+    case malformedEvent(sequence: Int)
+}
+
+struct NineReplayRecorder: Sendable {
+    private(set) var replay: NineReplay
+
+    init(
+        level: PrototypeLevel,
+        mode: NinePlayMode,
+        dayKey: String?,
+        initialMarkers: Set<BoardCoordinate>,
+        appVersion: String,
+        buildVersion: String,
+        replayID: UUID = UUID()
+    ) {
+        replay = NineReplay(
+            schemaVersion: NineReplay.currentSchemaVersion,
+            replayID: replayID,
+            appVersion: appVersion,
+            buildVersion: buildVersion,
+            levelID: level.definition.id,
+            levelSchemaVersion: level.definition.schemaVersion,
+            mode: mode.rawValue,
+            dayKey: dayKey,
+            initialMarkers: initialMarkers.sorted(),
+            events: []
+        )
+    }
+
+    mutating func record(_ intent: NineGameplayIntent) {
+        guard intent.levelID == replay.levelID else { return }
+        replay.events.append(
+            NineReplayEvent(
+                sequence: replay.events.count,
+                kind: intent.kind.rawValue,
+                coordinate: intent.coordinate
+            )
+        )
+    }
+}
+
+enum NineReplayPlayer {
+    static func finalState(
+        replay: NineReplay,
+        level: PrototypeLevel
+    ) throws -> NineBoardState {
+        guard replay.schemaVersion == NineReplay.currentSchemaVersion else {
+            throw NineReplayError.unsupportedSchemaVersion(replay.schemaVersion)
+        }
+        guard replay.levelID == level.definition.id else {
+            throw NineReplayError.levelMismatch(
+                expected: level.definition.id,
+                actual: replay.levelID
+            )
+        }
+        guard replay.levelSchemaVersion == level.definition.schemaVersion else {
+            throw NineReplayError.levelSchemaMismatch(
+                expected: level.definition.schemaVersion,
+                actual: replay.levelSchemaVersion
+            )
+        }
+
+        var state = NineBoardState(
+            level: level.definition,
+            markers: Set(replay.initialMarkers)
+        )
+        var history = NineMoveHistory()
+        history.reset(to: state.markers)
+
+        for (index, event) in replay.events.enumerated() {
+            guard event.sequence == index,
+                  let kind = NineGameplayIntentKind(rawValue: event.kind) else {
+                throw NineReplayError.malformedEvent(sequence: event.sequence)
+            }
+
+            switch kind {
+            case .place:
+                guard let coordinate = event.coordinate,
+                      state.placeMarker(at: coordinate, level: level.definition) else {
+                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                }
+                history.record(state.markers)
+            case .remove:
+                guard let coordinate = event.coordinate,
+                      state.removeMarker(at: coordinate) else {
+                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                }
+                history.record(state.markers)
+            case .undo:
+                guard let markers = history.undo() else {
+                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                }
+                state = NineBoardState(level: level.definition, markers: markers)
+            case .reset:
+                state = NineBoardState(
+                    level: level.definition,
+                    markers: level.initialMarkers
+                )
+                history.reset(to: state.markers)
+            case .hintPreview:
+                break
+            }
+        }
+
+        return state
+    }
+}
+
+enum NineReplayCodec {
+    static func encode(_ replay: NineReplay) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        return try encoder.encode(replay)
+    }
+
+    static func decode(_ data: Data) throws -> NineReplay {
+        try JSONDecoder().decode(NineReplay.self, from: data)
+    }
+}
+
+// MARK: - Diagnostics and support
+
+struct NineDiagnosticBreadcrumb: Codable, Equatable, Sendable {
+    let timestamp: Date
+    let category: String
+    let message: String
+}
+
+@MainActor
+final class NineDiagnosticsBuffer {
+    private let capacity: Int
+    private(set) var breadcrumbs: [NineDiagnosticBreadcrumb] = []
+
+    init(capacity: Int = 50) {
+        self.capacity = max(1, capacity)
+    }
+
+    func add(
+        _ category: String,
+        _ message: String,
+        at timestamp: Date = Date()
+    ) {
+        breadcrumbs.append(
+            NineDiagnosticBreadcrumb(
+                timestamp: timestamp,
+                category: category,
+                message: message
+            )
+        )
+        if breadcrumbs.count > capacity {
+            breadcrumbs.removeFirst(breadcrumbs.count - capacity)
+        }
+    }
+}
+
+struct NineSupportPackage: Codable, Equatable, Sendable {
+    static let currentSchemaVersion = 1
+
+    let schemaVersion: Int
+    let appVersion: String
+    let buildVersion: String
+    let deviceClass: String
+    let osClass: String
+    let levelID: String?
+    let levelSchemaVersion: Int?
+    let replay: NineReplay?
+    let breadcrumbs: [NineDiagnosticBreadcrumb]
+}
+
+@MainActor
+enum NineRuntimeMetadata {
+    static var appVersion: String {
+        Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleShortVersionString"
+        ) as? String ?? "unknown"
+    }
+
+    static var buildVersion: String {
+        Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleVersion"
+        ) as? String ?? "unknown"
+    }
+
+    static var deviceClass: String {
+        UIDevice.current.userInterfaceIdiom == .pad ? "iPad" : "iPhone"
+    }
+
+    static var osClass: String {
+        "iOS \(UIDevice.current.systemVersion)"
+    }
 }
