@@ -335,7 +335,8 @@ import Testing
         level: level.definition,
         markers: level.initialMarkers
     )
-    #expect(state.placeMarker(at: wrong, level: level.definition))
+    let placed = state.placeMarker(at: wrong, level: level.definition)
+    #expect(placed)
 
     let hint = try #require(
         NineHintEngine.nextHint(level: level, state: state)
