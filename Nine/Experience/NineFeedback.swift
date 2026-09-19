@@ -547,3 +547,143 @@ enum NineRuntimeMetadata {
         "iOS \(UIDevice.current.systemVersion)"
     }
 }
+
+// MARK: - Analytics
+
+enum NineAnalyticsEventName: String, CaseIterable, Sendable {
+    case firstOpen = "first_open"
+    case sessionStart = "session_start"
+    case sessionEnd = "session_end"
+    case tutorialStarted = "tutorial_started"
+    case tutorialCompleted = "tutorial_completed"
+    case levelStarted = "level_started"
+    case levelCompleted = "level_completed"
+    case levelAbandoned = "level_abandoned"
+    case invalidMove = "invalid_move"
+    case undo
+    case reset
+    case hint
+    case dailyStarted = "daily_started"
+    case dailyCompleted = "daily_completed"
+    case rewardOfferShown = "reward_offer_shown"
+    case rewardOfferAccepted = "reward_offer_accepted"
+    case rewardCompleted = "reward_completed"
+    case iapStarted = "iap_started"
+    case iapCompleted = "iap_completed"
+}
+
+struct NineAnalyticsEvent: Equatable, Sendable {
+    let name: NineAnalyticsEventName
+    let properties: [String: String]
+}
+
+protocol NineAnalyticsClient: AnyObject {
+    func track(_ event: NineAnalyticsEvent)
+}
+
+final class NineNoOpAnalyticsClient: NineAnalyticsClient {
+    func track(_ event: NineAnalyticsEvent) {}
+}
+
+@MainActor
+final class NineDebugAnalyticsClient: NineAnalyticsClient {
+    private let capacity: Int
+    private(set) var events: [NineAnalyticsEvent] = []
+
+    init(capacity: Int = 200) {
+        self.capacity = max(1, capacity)
+    }
+
+    func track(_ event: NineAnalyticsEvent) {
+        events.append(event)
+        if events.count > capacity {
+            events.removeFirst(events.count - capacity)
+        }
+        #if DEBUG
+        print("[NineAnalytics] \(event.name.rawValue) \(event.properties)")
+        #endif
+    }
+}
+
+@MainActor
+final class NineAnalyticsLifecycleStore {
+    private enum Key {
+        static let firstOpenSent = "nine.analytics.firstOpenSent"
+    }
+
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
+
+    var shouldSendFirstOpen: Bool {
+        !defaults.bool(forKey: Key.firstOpenSent)
+    }
+
+    func markFirstOpenSent() {
+        defaults.set(true, forKey: Key.firstOpenSent)
+    }
+}
+
+@MainActor
+final class NineAnalyticsTracker {
+    private let client: NineAnalyticsClient
+    private let lifecycleStore: NineAnalyticsLifecycleStore
+    private var criticalKeys: Set<String> = []
+
+    init(
+        client: NineAnalyticsClient = NineNoOpAnalyticsClient(),
+        lifecycleStore: NineAnalyticsLifecycleStore = .init()
+    ) {
+        self.client = client
+        self.lifecycleStore = lifecycleStore
+    }
+
+    func trackFirstOpenIfNeeded() {
+        guard lifecycleStore.shouldSendFirstOpen else { return }
+        track(.firstOpen, dedupeKey: "first_open")
+        lifecycleStore.markFirstOpenSent()
+    }
+
+    func track(
+        _ name: NineAnalyticsEventName,
+        level: PrototypeLevel? = nil,
+        mode: NinePlayMode? = nil,
+        durationSeconds: TimeInterval? = nil,
+        extra: [String: String] = [:],
+        dedupeKey: String? = nil
+    ) {
+        if let dedupeKey {
+            guard criticalKeys.insert(dedupeKey).inserted else { return }
+        }
+
+        var properties: [String: String] = [
+            "app_version": NineRuntimeMetadata.appVersion,
+            "build_version": NineRuntimeMetadata.buildVersion
+        ]
+
+        if let level {
+            properties["level_id"] = level.definition.id
+            properties["level_version"] = String(level.definition.schemaVersion)
+            properties["board_size"] = String(level.definition.size)
+        }
+        if let mode {
+            properties["mode"] = mode.rawValue
+        }
+        if let durationSeconds {
+            properties["duration_ms"] = String(Int(max(0, durationSeconds) * 1_000))
+        }
+        for (key, value) in extra {
+            properties[key] = value
+        }
+
+        client.track(
+            NineAnalyticsEvent(name: name, properties: properties)
+        )
+    }
+
+    func resetSessionDeduplication() {
+        criticalKeys = criticalKeys.filter { $0 == "first_open" }
+    }
+}

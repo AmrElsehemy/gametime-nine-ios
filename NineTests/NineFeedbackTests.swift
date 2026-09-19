@@ -210,3 +210,99 @@ import Testing
     #expect(!json.contains("deviceName"))
     #expect(decoded.breadcrumbs.count == 2)
 }
+
+@Test func analyticsSchemaIncludesRequiredLaunchFunnelAndCommerceHooks() {
+    let actual = Set(NineAnalyticsEventName.allCases.map(\.rawValue))
+    let required: Set<String> = [
+        "first_open",
+        "session_start",
+        "session_end",
+        "tutorial_started",
+        "tutorial_completed",
+        "level_started",
+        "level_completed",
+        "level_abandoned",
+        "invalid_move",
+        "undo",
+        "reset",
+        "hint",
+        "daily_started",
+        "daily_completed",
+        "reward_offer_shown",
+        "reward_offer_accepted",
+        "reward_completed",
+        "iap_started",
+        "iap_completed"
+    ]
+
+    #expect(required.isSubset(of: actual))
+}
+
+@MainActor
+@Test func analyticsFirstOpenAndCriticalLifecycleEventsAreDeduplicated() {
+    let suiteName = "NineAnalyticsTests.\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer { defaults.removePersistentDomain(forName: suiteName) }
+
+    let client = CapturingAnalyticsClient()
+    let lifecycle = NineAnalyticsLifecycleStore(defaults: defaults)
+    let tracker = NineAnalyticsTracker(client: client, lifecycleStore: lifecycle)
+
+    tracker.trackFirstOpenIfNeeded()
+    tracker.trackFirstOpenIfNeeded()
+    tracker.track(.sessionStart, dedupeKey: "session_start")
+    tracker.track(.sessionStart, dedupeKey: "session_start")
+
+    #expect(client.events.map(\.name) == [.firstOpen, .sessionStart])
+
+    let secondClient = CapturingAnalyticsClient()
+    let secondTracker = NineAnalyticsTracker(
+        client: secondClient,
+        lifecycleStore: NineAnalyticsLifecycleStore(defaults: defaults)
+    )
+    secondTracker.trackFirstOpenIfNeeded()
+    #expect(secondClient.events.isEmpty)
+}
+
+@MainActor
+@Test func analyticsAddsUsefulLevelDimensionsWithoutBoardCoordinates() {
+    let client = CapturingAnalyticsClient()
+    let tracker = NineAnalyticsTracker(client: client)
+    let level = PrototypeLevels.production[5]
+
+    tracker.track(
+        .levelCompleted,
+        level: level,
+        mode: .progression,
+        durationSeconds: 1.234,
+        extra: ["reason": "solved"],
+        dedupeKey: "attempt-1"
+    )
+    tracker.track(
+        .levelCompleted,
+        level: level,
+        mode: .progression,
+        durationSeconds: 9,
+        dedupeKey: "attempt-1"
+    )
+
+    #expect(client.events.count == 1)
+    let event = client.events[0]
+    #expect(event.name == .levelCompleted)
+    #expect(event.properties["level_id"] == level.definition.id)
+    #expect(event.properties["level_version"] == String(level.definition.schemaVersion))
+    #expect(event.properties["board_size"] == String(level.definition.size))
+    #expect(event.properties["mode"] == NinePlayMode.progression.rawValue)
+    #expect(event.properties["duration_ms"] == "1234")
+    #expect(event.properties["reason"] == "solved")
+    #expect(event.properties["row"] == nil)
+    #expect(event.properties["column"] == nil)
+}
+
+private final class CapturingAnalyticsClient: NineAnalyticsClient {
+    private(set) var events: [NineAnalyticsEvent] = []
+
+    func track(_ event: NineAnalyticsEvent) {
+        events.append(event)
+    }
+}

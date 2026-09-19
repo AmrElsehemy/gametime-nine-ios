@@ -56,6 +56,12 @@ final class GameScene: SKScene {
     private var replayRecorder: NineReplayRecorder?
     private var lastCompletedReplay: NineReplay?
 
+    private let analyticsClient = NineDebugAnalyticsClient()
+    private lazy var analytics = NineAnalyticsTracker(client: analyticsClient)
+    private var analyticsSessionStartedAt: TimeInterval?
+    private var analyticsAttemptID = UUID()
+    private var hasActiveAnalyticsLevel = false
+
     private var levelIndex = 0
     private var boardState: NineBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
@@ -85,6 +91,7 @@ final class GameScene: SKScene {
     override func didMove(to view: SKView) {
         backgroundColor = canvasColor
         view.ignoresSiblingOrder = true
+        beginAnalyticsSessionIfNeeded()
 
         if boardState == nil {
             restoreSavedSession()
@@ -92,6 +99,20 @@ final class GameScene: SKScene {
             renderScene()
         }
         hasPresentedScene = true
+    }
+
+    override func willMove(from view: SKView) {
+        trackCurrentLevelAbandonIfNeeded(reason: "scene_exit")
+
+        if let startedAt = analyticsSessionStartedAt {
+            analytics.track(
+                .sessionEnd,
+                durationSeconds: max(0, uptime - startedAt),
+                dedupeKey: "session_end"
+            )
+            analyticsSessionStartedAt = nil
+        }
+        super.willMove(from: view)
     }
 
     override func didChangeSize(_ oldSize: CGSize) {
@@ -185,6 +206,15 @@ final class GameScene: SKScene {
         let placedMarker = !markerWasPresent && state.markers.contains(coordinate)
         let invalidPlacement = placedMarker
             && latestEvaluation.conflictingCoordinates.contains(coordinate)
+
+        if invalidPlacement {
+            analytics.track(
+                .invalidMove,
+                level: currentLevel,
+                mode: playMode,
+                durationSeconds: max(0, uptime - levelStartedAt)
+            )
+        }
 
         if playMode == .progression,
            tutorialSession.isActive,
@@ -296,6 +326,25 @@ final class GameScene: SKScene {
         )
         diagnostics.add("level", "loaded:\(level.definition.id)")
 
+        analyticsAttemptID = UUID()
+        hasActiveAnalyticsLevel = true
+        analytics.track(
+            .levelStarted,
+            level: level,
+            mode: playMode,
+            extra: ["restored": restoredMarkers == nil ? "false" : "true"],
+            dedupeKey: "level_started:\(analyticsAttemptID.uuidString)"
+        )
+        if playMode == .daily {
+            analytics.track(
+                .dailyStarted,
+                level: level,
+                mode: playMode,
+                extra: ["day_key": activeDailyDayKey],
+                dedupeKey: "daily_started:\(activeDailyDayKey)"
+            )
+        }
+
         if playMode == .progression {
             progress.currentLevelID = level.definition.id
         }
@@ -343,6 +392,12 @@ final class GameScene: SKScene {
         )
         persistActiveSession(restored)
         recordGameplayIntent(kind: .undo)
+        analytics.track(
+            .undo,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: max(0, uptime - levelStartedAt)
+        )
         feedback.play(.undo)
         renderScene()
     }
@@ -361,6 +416,13 @@ final class GameScene: SKScene {
         recordGameplayIntent(
             kind: .hintPreview,
             coordinate: hint.coordinate
+        )
+        analytics.track(
+            .hint,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: max(0, uptime - levelStartedAt),
+            extra: ["hint_action": hint.action.rawValue]
         )
         feedback.play(.hint)
         renderScene()
@@ -383,6 +445,11 @@ final class GameScene: SKScene {
         levelStartedAt = uptime
         persistActiveSession(resetState)
         recordGameplayIntent(kind: .reset)
+        analytics.track(
+            .reset,
+            level: level,
+            mode: playMode
+        )
 
         if playMode == .progression,
            tutorialSession.isActive,
@@ -403,6 +470,15 @@ final class GameScene: SKScene {
         let elapsed = max(0, uptime - levelStartedAt)
         let levelID = currentLevel.definition.id
 
+        analytics.track(
+            .levelCompleted,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: elapsed,
+            dedupeKey: "level_completed:\(analyticsAttemptID.uuidString)"
+        )
+        hasActiveAnalyticsLevel = false
+
         switch playMode {
         case .progression:
             let nextLevelID = levels.indices.contains(levelIndex + 1)
@@ -415,6 +491,14 @@ final class GameScene: SKScene {
                 dayKey: todayDayKey
             )
         case .daily:
+            analytics.track(
+                .dailyCompleted,
+                level: currentLevel,
+                mode: playMode,
+                durationSeconds: elapsed,
+                extra: ["day_key": activeDailyDayKey],
+                dedupeKey: "daily_completed:\(activeDailyDayKey)"
+            )
             progress.recordDailyCompletion(
                 levelID: levelID,
                 durationSeconds: elapsed,
@@ -457,12 +541,14 @@ final class GameScene: SKScene {
             return
         }
 
+        trackCurrentLevelAbandonIfNeeded(reason: "daily_switch")
         playMode = .daily
         dailyChallengeDayKey = todayDayKey
         loadLevel(at: dailyIndex)
     }
 
     private func resumeProgression() {
+        trackCurrentLevelAbandonIfNeeded(reason: "progression_resume")
         playMode = .progression
         dailyChallengeDayKey = nil
         let targetID = progress.currentLevelID
@@ -1108,6 +1194,33 @@ final class GameScene: SKScene {
         }
     }
 
+    private func beginAnalyticsSessionIfNeeded() {
+        guard analyticsSessionStartedAt == nil else { return }
+        analytics.resetSessionDeduplication()
+        analytics.trackFirstOpenIfNeeded()
+        analytics.track(.sessionStart, dedupeKey: "session_start")
+        analyticsSessionStartedAt = uptime
+    }
+
+    private func trackCurrentLevelAbandonIfNeeded(reason: String) {
+        guard hasActiveAnalyticsLevel,
+              !isLevelComplete,
+              boardState != nil,
+              levels.indices.contains(levelIndex) else {
+            return
+        }
+
+        analytics.track(
+            .levelAbandoned,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: max(0, uptime - levelStartedAt),
+            extra: ["reason": reason],
+            dedupeKey: "level_abandoned:\(analyticsAttemptID.uuidString)"
+        )
+        hasActiveAnalyticsLevel = false
+    }
+
     private func recordGameplayIntent(
         kind: NineGameplayIntentKind,
         coordinate: BoardCoordinate? = nil
@@ -1180,11 +1293,32 @@ final class GameScene: SKScene {
             emittedTutorialEvents.removeFirst(emittedTutorialEvents.count - 100)
         }
 
-        #if DEBUG
         for event in events {
+            switch event.name {
+            case NineAnalyticsEventName.tutorialStarted.rawValue:
+                analytics.track(
+                    .tutorialStarted,
+                    level: currentLevel,
+                    mode: playMode,
+                    extra: event.properties,
+                    dedupeKey: "tutorial_started"
+                )
+            case NineAnalyticsEventName.tutorialCompleted.rawValue:
+                analytics.track(
+                    .tutorialCompleted,
+                    level: currentLevel,
+                    mode: playMode,
+                    extra: event.properties,
+                    dedupeKey: "tutorial_completed"
+                )
+            default:
+                break
+            }
+
+            #if DEBUG
             print("[NineTutorial] \(event.name) \(event.properties)")
+            #endif
         }
-        #endif
     }
 
     private func cellName(for coordinate: BoardCoordinate) -> String {
