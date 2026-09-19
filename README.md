@@ -1,19 +1,31 @@
-# Game Time — Nine (Game #001)
+# Exactly One — Game Time Game #001
 
+**Public product name:** Exactly One  
+**App Store title:** Exactly One: Logic Puzzle  
 **Internal codename:** Nine  
-**Public name:** TBD after the visual/brand pass  
 **Studio:** Knowlly Games  
 **Platform:** native iOS
 
-Nine is Game Time Game #001: a polished constraint-placement logic puzzle used to prove the full Knowlly Games pipeline from idea → build → TestFlight → App Store → marketing → learning.
+Exactly One is Game Time Game #001: a polished constraint-placement logic puzzle used to prove the full Knowlly Games pipeline from idea → build → TestFlight → App Store → marketing → learning.
+
+The player places exactly one pebble in every row, column, and territory. No two pebbles may touch.
 
 This repository owns everything specific to Game #001: app target, rules, levels, art/assets, visual identity, onboarding, game-specific tests, App Store assets, marketing capture configuration, and release work.
 
 Shared platform code belongs in [`AmrElsehemy/gametime-ios`](https://github.com/AmrElsehemy/gametime-ios) and is consumed as GameTimeKit. Shared control-plane work belongs in `gametime-backend`; public marketing/support/legal web work belongs in `gametime-web`.
 
+## Naming
+
+- **Exactly One** is the public product name.
+- **Exactly One: Logic Puzzle** is the App Store title.
+- **One pebble. Every territory.** is the App Store subtitle.
+- **Nine** remains the internal engineering codename for the repository, Xcode project, targets, schemes, modules, and internal identifiers unless a technical migration is explicitly approved.
+- Public-facing UI, metadata, screenshots, website copy, support copy, and marketing must use **Exactly One**, never **Nine**.
+
+See [`docs/BRAND.md`](docs/BRAND.md) for the canonical naming and messaging decision.
+
 ## Product rules
 
-- Nine is an **internal codename**, not yet the final App Store name.
 - Visual identity and asset production are first-class product work, not polish added at the end.
 - Native Apple stack: Swift + SpriteKit, with Core Haptics, AVFoundation, GameKit and StoreKit 2.
 - Core gameplay works offline.
@@ -39,4 +51,4 @@ See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full local-development/
 
 ## Documentation
 
-Start with [`docs/PRD.md`](docs/PRD.md). Visual identity work is tracked separately and should merge into this repo once the production direction is proven.
+Start with [`docs/PRD.md`](docs/PRD.md). The public naming and messaging contract is recorded in [`docs/BRAND.md`](docs/BRAND.md).
