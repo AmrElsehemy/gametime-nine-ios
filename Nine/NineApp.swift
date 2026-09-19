@@ -24,19 +24,25 @@ private struct NineRootView: View {
             SpriteView(scene: shell.scene)
                 .ignoresSafeArea()
 
-            Button {
-                showsSettings = true
-            } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(.primary.opacity(0.72))
-                    .frame(width: 44, height: 44)
-                    .background(.ultraThinMaterial, in: Circle())
+            if NineCapturePreset.current == nil {
+                Button {
+                    showsSettings = true
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.86))
+                        .frame(width: 42, height: 42)
+                        .background(.black.opacity(0.28), in: Circle())
+                        .overlay {
+                            Circle().stroke(.white.opacity(0.10), lineWidth: 1)
+                        }
+                }
+                .accessibilityLabel("Settings")
+                .padding(.top, 14)
+                .padding(.trailing, 14)
             }
-            .accessibilityLabel("Settings")
-            .padding(.top, 14)
-            .padding(.trailing, 14)
         }
+        .preferredColorScheme(.dark)
         .sheet(isPresented: $showsSettings) {
             NineSettingsView(
                 onResetGameplay: {

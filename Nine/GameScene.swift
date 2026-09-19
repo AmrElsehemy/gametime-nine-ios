@@ -37,19 +37,22 @@ final class GameScene: SKScene {
         static let cellPrefix = "cell:"
     }
 
-    private let canvasColor = SKColor.nine(hex: 0xF5F2EA)
-    private let inkColor = SKColor.nine(hex: 0x262624)
-    private let warningColor = SKColor.nine(hex: 0xC95555)
-    private let hintColor = SKColor.nine(hex: 0x2F766E)
+    private let canvasColor = SKColor.nine(hex: 0x0E1617)
+    private let inkColor = SKColor.nine(hex: 0xF5F1E8)
+    private let pebbleColor = SKColor.nine(hex: 0x171A1B)
+    private let boardPlateColor = SKColor.nine(hex: 0x152124)
+    private let warningColor = SKColor.nine(hex: 0xFF796B)
+    private let hintColor = SKColor.nine(hex: 0x7AD6C3)
+    private let accentColor = SKColor.nine(hex: 0x54BDD0)
     private let regionPalette: [SKColor] = [
-        .nine(hex: 0xF58E7E),
-        .nine(hex: 0xF3B46D),
-        .nine(hex: 0xEBCF72),
-        .nine(hex: 0x8DC7A5),
-        .nine(hex: 0x78C6C8),
-        .nine(hex: 0x7EA9E1),
-        .nine(hex: 0xA58AD8),
-        .nine(hex: 0xD98EBC)
+        .nine(hex: 0xC97062),
+        .nine(hex: 0xD79A59),
+        .nine(hex: 0xCEB453),
+        .nine(hex: 0x68AA82),
+        .nine(hex: 0x58A9AB),
+        .nine(hex: 0x648FC4),
+        .nine(hex: 0x826CB8),
+        .nine(hex: 0xAE6C92)
     ]
 
     private let levels = PrototypeLevels.production
@@ -739,6 +742,7 @@ final class GameScene: SKScene {
 
         removeAllChildren()
         backgroundColor = canvasColor
+        addBackdrop()
 
         addHeader()
 
@@ -757,6 +761,23 @@ final class GameScene: SKScene {
         addFooter()
     }
 
+    private func addBackdrop() {
+        let haze: [(CGPoint, CGFloat, SKColor)] = [
+            (CGPoint(x: size.width * 0.10, y: size.height * 0.88), size.width * 0.78, SKColor.nine(hex: 0x18342F)),
+            (CGPoint(x: size.width * 0.94, y: size.height * 0.66), size.width * 0.70, SKColor.nine(hex: 0x173044)),
+            (CGPoint(x: size.width * 0.50, y: size.height * 0.18), size.width * 0.85, SKColor.nine(hex: 0x2A241B))
+        ]
+
+        for (position, diameter, color) in haze {
+            let glow = SKShapeNode(ellipseOf: CGSize(width: diameter, height: diameter))
+            glow.position = position
+            glow.fillColor = color.withAlphaComponent(0.23)
+            glow.strokeColor = .clear
+            glow.zPosition = -100
+            addChild(glow)
+        }
+    }
+
     private func addHeader() {
         let eyebrow = SKLabelNode(fontNamed: "AvenirNext-Medium")
         if playMode == .daily {
@@ -767,7 +788,7 @@ final class GameScene: SKScene {
             eyebrow.text = "PUZZLE  \(levelIndex + 1) / \(levels.count)"
         }
         eyebrow.fontSize = 12
-        eyebrow.fontColor = inkColor.withAlphaComponent(0.48)
+        eyebrow.fontColor = inkColor.withAlphaComponent(0.46)
         eyebrow.horizontalAlignmentMode = .center
         eyebrow.position = CGPoint(x: size.width / 2, y: size.height - 78)
         addChild(eyebrow)
@@ -776,7 +797,7 @@ final class GameScene: SKScene {
 
         let title = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         title.text = copy.title
-        title.fontSize = min(22, size.width * 0.055)
+        title.fontSize = min(21, size.width * 0.052)
         title.fontColor = inkColor
         title.horizontalAlignmentMode = .center
         title.position = CGPoint(x: size.width / 2, y: size.height - 112)
@@ -785,7 +806,7 @@ final class GameScene: SKScene {
         let subtitle = SKLabelNode(fontNamed: "AvenirNext-Regular")
         subtitle.text = copy.subtitle
         subtitle.fontSize = 13
-        subtitle.fontColor = inkColor.withAlphaComponent(0.56)
+        subtitle.fontColor = inkColor.withAlphaComponent(0.58)
         subtitle.horizontalAlignmentMode = .center
         subtitle.position = CGPoint(x: size.width / 2, y: size.height - 140)
         addChild(subtitle)
@@ -807,8 +828,8 @@ final class GameScene: SKScene {
 
         guard tutorialSession.isActive && levelIndex < tutorialLevelCount else {
             return (
-                "Place one pebble in every territory",
-                "One per row. One per column. No touching."
+                "One pebble in every territory",
+                "One per row  ·  One per column  ·  No touching"
             )
         }
 
@@ -837,7 +858,7 @@ final class GameScene: SKScene {
             rectOf: CGSize(width: side + 10, height: side + 10),
             cornerRadius: 24
         )
-        shadow.fillColor = inkColor.withAlphaComponent(0.10)
+        shadow.fillColor = SKColor.black.withAlphaComponent(0.42)
         shadow.strokeColor = .clear
         shadow.position = CGPoint(x: 0, y: -7)
         shadow.zPosition = -3
@@ -847,15 +868,15 @@ final class GameScene: SKScene {
             rectOf: CGSize(width: side + 10, height: side + 10),
             cornerRadius: 24
         )
-        plate.fillColor = SKColor.white.withAlphaComponent(0.58)
-        plate.strokeColor = SKColor.white.withAlphaComponent(0.72)
+        plate.fillColor = boardPlateColor.withAlphaComponent(0.98)
+        plate.strokeColor = SKColor.white.withAlphaComponent(0.10)
         plate.lineWidth = 1
         plate.zPosition = -2
         container.addChild(plate)
 
         let dimension = currentLevel.definition.size
         let cellSide = side / CGFloat(dimension)
-        let visualCellSide = max(8, cellSide - 2.2)
+        let visualCellSide = max(8, cellSide - 4.0)
         let half = CGFloat(dimension - 1) / 2
         let conflicts = latestEvaluation.conflictingCoordinates
 
@@ -869,18 +890,41 @@ final class GameScene: SKScene {
                     half: half
                 )
 
+                let cellShadow = SKShapeNode(
+                    rectOf: CGSize(width: visualCellSide, height: visualCellSide),
+                    cornerRadius: max(6, cellSide * 0.14)
+                )
+                cellShadow.position = CGPoint(x: position.x, y: position.y - 3)
+                cellShadow.fillColor = SKColor.black.withAlphaComponent(0.30)
+                cellShadow.strokeColor = .clear
+                cellShadow.zPosition = -0.2
+                container.addChild(cellShadow)
+
                 let cell = SKShapeNode(
                     rectOf: CGSize(width: visualCellSide, height: visualCellSide),
-                    cornerRadius: max(5, cellSide * 0.12)
+                    cornerRadius: max(6, cellSide * 0.14)
                 )
                 cell.name = cellName(for: coordinate)
                 cell.position = position
                 cell.fillColor = regionPalette[regionID % regionPalette.count]
-                    .withAlphaComponent(0.78)
-                cell.strokeColor = SKColor.white.withAlphaComponent(0.42)
-                cell.lineWidth = 1
+                    .withAlphaComponent(0.96)
+                cell.strokeColor = SKColor.white.withAlphaComponent(0.13)
+                cell.lineWidth = 1.2
                 cell.zPosition = 0
                 container.addChild(cell)
+
+                let sheen = SKShapeNode(
+                    rectOf: CGSize(width: visualCellSide * 0.78, height: 1.2),
+                    cornerRadius: 0.6
+                )
+                sheen.position = CGPoint(
+                    x: position.x,
+                    y: position.y + visualCellSide * 0.34
+                )
+                sheen.fillColor = SKColor.white.withAlphaComponent(0.13)
+                sheen.strokeColor = .clear
+                sheen.zPosition = 0.5
+                container.addChild(sheen)
 
                 if state.markers.contains(coordinate) {
                     let pebble = makePebble(
@@ -1132,24 +1176,24 @@ final class GameScene: SKScene {
         let contactShadow = SKShapeNode(
             ellipseOf: CGSize(width: diameter * 0.74, height: diameter * 0.32)
         )
-        contactShadow.fillColor = inkColor.withAlphaComponent(0.18)
+        contactShadow.fillColor = SKColor.black.withAlphaComponent(0.48)
         contactShadow.strokeColor = .clear
         contactShadow.position = CGPoint(x: 0, y: -diameter * 0.27)
         contactShadow.zPosition = -1
         root.addChild(contactShadow)
 
         let body = SKShapeNode(path: pebblePath(diameter: diameter))
-        body.fillColor = inkColor
+        body.fillColor = pebbleColor
         body.strokeColor = isConflicting
             ? warningColor
-            : SKColor.white.withAlphaComponent(0.16)
+            : SKColor.white.withAlphaComponent(0.22)
         body.lineWidth = isConflicting ? 3.2 : 1
         root.addChild(body)
 
         let highlight = SKShapeNode(
             ellipseOf: CGSize(width: diameter * 0.18, height: diameter * 0.12)
         )
-        highlight.fillColor = SKColor.white.withAlphaComponent(0.42)
+        highlight.fillColor = SKColor.white.withAlphaComponent(0.55)
         highlight.strokeColor = .clear
         highlight.position = CGPoint(
             x: -diameter * 0.12,
@@ -1202,54 +1246,40 @@ final class GameScene: SKScene {
     }
 
     private func addFooter() {
-        let footerY = max(68, size.height * 0.12)
-        let settings = feedbackPreferences.current
+        guard !isLevelComplete else { return }
+
+        let footerY = max(72, size.height * 0.115)
 
         if !tutorialSession.isActive || playMode == .daily {
             let dailyTitle = playMode == .daily
                 ? "Back to levels"
-                : "Daily · \(progress.streak.currentCount)"
+                : "Daily  ·  \(progress.streak.currentCount)"
             let daily = makeButton(
                 title: dailyTitle,
                 name: NodeName.daily,
-                width: 126
+                width: 150
             )
-            daily.position = CGPoint(x: size.width / 2, y: footerY + 52)
+            daily.position = CGPoint(x: size.width / 2, y: footerY + 62)
             addChild(daily)
         }
 
-        let controls: [(String, String, CGFloat, CGFloat)] = [
-            (settings.soundEnabled ? "Sound" : "Muted", NodeName.sound, 72, 0.10),
-            (moveHistory.canUndo ? "Undo" : "Undo —", NodeName.undo, 68, 0.30),
-            ("Reset", NodeName.reset, 68, 0.50),
-            (activeHint == nil ? "Hint" : "Hint ✓", NodeName.hint, 68, 0.70),
-            (settings.hapticsEnabled ? "Haptic" : "No Hap", NodeName.haptics, 72, 0.90)
+        let controls: [(String, String, CGFloat)] = [
+            (moveHistory.canUndo ? "↶  Undo" : "↶  Undo —", NodeName.undo, 0.24),
+            (activeHint == nil ? "◇  Hint" : "◇  Hint ✓", NodeName.hint, 0.50),
+            ("↻  Reset", NodeName.reset, 0.76)
         ]
 
         for control in controls {
             let button = makeButton(
                 title: control.0,
                 name: control.1,
-                width: control.2
+                width: 100
             )
-            button.position = CGPoint(
-                x: size.width * control.3,
-                y: footerY
-            )
+            button.position = CGPoint(x: size.width * control.2, y: footerY)
             if control.1 == NodeName.undo && !moveHistory.canUndo {
-                button.alpha = 0.38
+                button.alpha = 0.34
             }
             addChild(button)
-        }
-
-        if capturePreset == nil {
-            let kit = SKLabelNode(fontNamed: "AvenirNext-Medium")
-            kit.text = "GameTimeKit \(GameTimeKit.version)"
-            kit.fontSize = 10
-            kit.fontColor = inkColor.withAlphaComponent(0.28)
-            kit.horizontalAlignmentMode = .center
-            kit.position = CGPoint(x: size.width / 2, y: 26)
-            addChild(kit)
         }
     }
 
@@ -1266,8 +1296,8 @@ final class GameScene: SKScene {
             cornerRadius: 21
         )
         shape.name = name
-        shape.fillColor = inkColor.withAlphaComponent(0.07)
-        shape.strokeColor = inkColor.withAlphaComponent(0.10)
+        shape.fillColor = SKColor.white.withAlphaComponent(0.075)
+        shape.strokeColor = SKColor.white.withAlphaComponent(0.12)
         shape.lineWidth = 1
         root.addChild(shape)
 
@@ -1275,7 +1305,7 @@ final class GameScene: SKScene {
         label.name = name
         label.text = title
         label.fontSize = 12
-        label.fontColor = inkColor.withAlphaComponent(0.78)
+        label.fontColor = inkColor.withAlphaComponent(0.88)
         label.verticalAlignmentMode = .center
         label.horizontalAlignmentMode = .center
         root.addChild(label)
@@ -1308,8 +1338,8 @@ final class GameScene: SKScene {
             rectOf: CGSize(width: min(280, size.width - 56), height: 118),
             cornerRadius: 28
         )
-        badge.fillColor = canvasColor.withAlphaComponent(0.97)
-        badge.strokeColor = SKColor.white.withAlphaComponent(0.8)
+        badge.fillColor = SKColor.nine(hex: 0x17332E).withAlphaComponent(0.98)
+        badge.strokeColor = accentColor.withAlphaComponent(0.55)
         badge.lineWidth = 1
         badge.position = CGPoint(x: size.width / 2, y: size.height * 0.51)
         badge.zPosition = 20
@@ -1319,11 +1349,11 @@ final class GameScene: SKScene {
 
         let solved = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         if playMode == .daily {
-            solved.text = "Daily complete · Streak \(progress.streak.currentCount)"
+            solved.text = "Daily solved · \(progress.streak.currentCount)-day streak"
         } else {
             solved.text = levelIndex == levels.count - 1
-                ? "Pack complete"
-                : "Beautiful."
+                ? "Pack complete!"
+                : "Puzzle solved!"
         }
         solved.fontSize = playMode == .daily ? 18 : 23
         solved.fontColor = inkColor
@@ -1339,9 +1369,16 @@ final class GameScene: SKScene {
         } else {
             nextTitle = "Next puzzle"
         }
-        let next = makeButton(title: nextTitle, name: NodeName.next)
+        let next = makeButton(title: nextTitle, name: NodeName.next, width: 142)
         next.position = CGPoint(x: 0, y: -30)
         next.setScale(0.88)
+        if let shape = next.children.compactMap({ $0 as? SKShapeNode }).first {
+            shape.fillColor = accentColor.withAlphaComponent(0.92)
+            shape.strokeColor = SKColor.white.withAlphaComponent(0.18)
+        }
+        if let label = next.children.compactMap({ $0 as? SKLabelNode }).first {
+            label.fontColor = SKColor.nine(hex: 0x0C1A1D)
+        }
         badge.addChild(next)
 
         if !reduceMotion {
