@@ -1,0 +1,32 @@
+name: Install Capture Mode
+
+on:
+  push:
+    branches: [feat/capture-assets-18]
+    paths:
+      - Tools/install_capture_mode.py
+      - .github/workflows/install-capture-mode.yml
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/capture-assets-18
+          fetch-depth: 0
+      - name: Patch capture mode
+        run: python3 Tools/install_capture_mode.py
+      - name: Remove one-time installer
+        run: rm -f Tools/install_capture_mode.py .github/workflows/install-capture-mode.yml
+      - name: Commit capture mode
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Add deterministic App Store capture mode'
+          git push origin HEAD:feat/capture-assets-18
