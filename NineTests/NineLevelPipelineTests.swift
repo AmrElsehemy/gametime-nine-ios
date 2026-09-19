@@ -485,8 +485,10 @@ import Testing
         level: level.definition,
         markers: initial
     )
-    #expect(state.placeMarker(at: correct, level: level.definition))
-    #expect(state.placeMarker(at: wrong, level: level.definition))
+    let placedCorrect = state.placeMarker(at: correct, level: level.definition)
+    let placedWrong = state.placeMarker(at: wrong, level: level.definition)
+    #expect(placedCorrect)
+    #expect(placedWrong)
 
     let evaluation = NineConstraintEngine.evaluate(
         state,
