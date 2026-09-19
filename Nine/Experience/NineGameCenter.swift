@@ -172,10 +172,10 @@ final class NineGameCenterService {
 extension NineGameCenterAchievement {
     var artworkAssetName: String {
         switch self {
-        case .firstSolve: return "Achievements.FirstSolve"
-        case .tutorialComplete: return "Achievements.TutorialComplete"
-        case .firstDaily: return "Achievements.FirstDaily"
-        case .streakSeven: return "Achievements.Streak7"
+        case .firstSolve: return "Achievements/FirstSolve"
+        case .tutorialComplete: return "Achievements/TutorialComplete"
+        case .firstDaily: return "Achievements/FirstDaily"
+        case .streakSeven: return "Achievements/Streak7"
         }
     }
 }
