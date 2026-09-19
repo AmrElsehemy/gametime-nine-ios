@@ -352,8 +352,6 @@ private final class CapturingAnalyticsClient: NineAnalyticsClient {
         #expect(UIImage(named: achievement.artworkAssetName) != nil)
     }
 }
-
-
 @Test func capturePresetParserIsDeterministic() {
     #expect(NineCapturePreset.parse(arguments: ["Nine"]) == nil)
     #expect(NineCapturePreset.parse(arguments: ["Nine", "--nine-capture", "simple"]) == .simple)
