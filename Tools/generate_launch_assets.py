@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import json
 import math
-import shutil
+import random
+from io import BytesIO
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
@@ -36,7 +37,12 @@ def mkdirs() -> None:
 
 
 def textured(base: tuple[int, int, int], sigma: float = 9.0) -> Image.Image:
-    noise = Image.effect_noise((SIZE, SIZE), sigma).convert("L")
+    seed = sum((index + 1) * component for index, component in enumerate(base)) + int(sigma * 100)
+    noise = Image.frombytes(
+        "L",
+        (SIZE, SIZE),
+        random.Random(seed).randbytes(SIZE * SIZE),
+    )
     noise = ImageOps.autocontrast(noise)
     tint = ImageOps.colorize(noise, tuple(max(0, c - 16) for c in base),
                              tuple(min(255, c + 18) for c in base))
@@ -171,7 +177,9 @@ def generate_streak() -> Image.Image:
 
 def save_png(image: Image.Image, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    image.save(path, "PNG", optimize=True)
+    output = BytesIO()
+    image.copy().save(output, "PNG", optimize=True)
+    path.write_bytes(output.getvalue())
 
 
 def write_catalog(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
@@ -277,14 +285,17 @@ def patch_game_center_code() -> None:
 extension NineGameCenterAchievement {
     var artworkAssetName: String {
         switch self {
-        case .firstSolve: return "Achievements.FirstSolve"
-        case .tutorialComplete: return "Achievements.TutorialComplete"
-        case .firstDaily: return "Achievements.FirstDaily"
-        case .streakSeven: return "Achievements.Streak7"
+        case .firstSolve: return "Achievements/FirstSolve"
+        case .tutorialComplete: return "Achievements/TutorialComplete"
+        case .firstDaily: return "Achievements/FirstDaily"
+        case .streakSeven: return "Achievements/Streak7"
         }
     }
 }
 """
+        path.write_text(s)
+    else:
+        s = s.replace('"Achievements.', '"Achievements/')
         path.write_text(s)
 
 

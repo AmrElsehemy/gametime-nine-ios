@@ -21,7 +21,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: gametime-nine-ios
-          ref: feat/capture-assets-18
           fetch-depth: 0
       - name: Checkout real GameTimeKit
         uses: actions/checkout@v4

@@ -51,12 +51,21 @@ def cover(image: Image.Image, target: tuple[int, int]) -> Image.Image:
     return image.crop((left, top, left + tw, top + th))
 
 
-def centered_multiline(draw, text: str, y: int, fnt, fill, max_width: int, spacing: int = 10):
+def centered_multiline(
+    draw,
+    text: str,
+    y: int,
+    fnt,
+    fill,
+    max_width: int,
+    spacing: int = 10,
+    stroke_width: int = 2,
+):
     words = text.split()
     lines, current = [], []
     for word in words:
         trial = " ".join(current + [word])
-        box = draw.textbbox((0, 0), trial, font=fnt)
+        box = draw.textbbox((0, 0), trial, font=fnt, stroke_width=stroke_width)
         if box[2] - box[0] <= max_width or not current:
             current.append(word)
         else:
@@ -65,9 +74,16 @@ def centered_multiline(draw, text: str, y: int, fnt, fill, max_width: int, spaci
     if current:
         lines.append(" ".join(current))
     for line in lines:
-        box = draw.textbbox((0, 0), line, font=fnt)
+        box = draw.textbbox((0, 0), line, font=fnt, stroke_width=stroke_width)
         width = box[2] - box[0]
-        draw.text(((TARGET[0] - width) / 2, y), line, font=fnt, fill=fill)
+        draw.text(
+            ((TARGET[0] - width) / 2, y),
+            line,
+            font=fnt,
+            fill=fill,
+            stroke_width=stroke_width,
+            stroke_fill=(0, 0, 0, 150),
+        )
         y += (box[3] - box[1]) + spacing
     return y
 

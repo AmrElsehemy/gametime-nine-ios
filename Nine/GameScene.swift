@@ -66,7 +66,9 @@ final class GameScene: SKScene {
     private lazy var feedback = NineFeedbackEngine(preferences: feedbackPreferences)
 
     private let progressStore = NineProgressStore()
-    private lazy var progress = progressStore.load(levels: levels)
+    private lazy var progress = capturePreset == nil
+        ? progressStore.load(levels: levels)
+        : NineSaveState.fresh(levels: levels)
     private var playMode: NinePlayMode = .progression
     private var dailyChallengeDayKey: String?
     private var levelStartedAt: TimeInterval = 0
@@ -292,7 +294,9 @@ final class GameScene: SKScene {
     }
 
     private func applyCapturePreset(_ preset: NineCapturePreset) {
-        guard !levels.isEmpty else { return }
+        guard !levels.isEmpty else {
+            preconditionFailure("Nine capture requires at least one validated bundled level")
+        }
 
         // Capture mode is deterministic, offline, and side-effect free: no analytics,
         // persistence, ads, Game Center auth, or debug chrome.
