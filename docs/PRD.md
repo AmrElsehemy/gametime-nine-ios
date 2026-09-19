@@ -1,15 +1,19 @@
-# Game #001 — Nine PRD
+# Game #001 — Exactly One PRD
 
 ## Status
+Public product name: **Exactly One**  
+App Store title: **Exactly One: Logic Puzzle**  
+App Store subtitle: **One pebble. Every territory.**  
 Internal codename: **Nine**  
-Public product name: **TBD after the visual/brand pass**  
 Platform: iOS  
 Studio: Knowlly Games  
 Internal platform: Game Time  
 Release target: App Store submission by Day 10
 
+The canonical public naming and messaging contract is recorded in [`BRAND.md`](BRAND.md).
+
 ## 1. Purpose
-Nine is the first public Game Time title and the first production proof of the Knowlly Games studio pipeline.
+Exactly One is the first public Game Time title and the first production proof of the Knowlly Games studio pipeline.
 
 The mechanic is intentionally simple so engineering effort can validate the reusable horizontal systems: native rendering, onboarding, haptics/audio, persistence, replay, analytics, diagnostics, Game Center, rewarded monetization, StoreKit where justified, TestFlight/App Store release, support, visual/asset production, and marketing capture.
 
@@ -26,13 +30,12 @@ The player should:
 ## 3. Core mechanic
 The board is divided into rows, columns, and colored/visual regions.
 
-The player places or removes markers on cells while satisfying constraints.
+The player places or removes pebbles on cells while satisfying four constraints:
 
-Initial rule family:
-- exactly one marker per row
-- exactly one marker per column
-- exactly one marker per region
-- markers may not touch where adjacency rules apply
+- exactly one pebble per row
+- exactly one pebble per column
+- exactly one pebble per territory
+- pebbles may not touch where adjacency rules apply
 
 The exact final rule set may be tuned during implementation, but it must stay easy to explain through interaction and deterministic to validate.
 
@@ -40,7 +43,7 @@ Every ordinary shipped production puzzle must have **exactly one valid solution*
 
 ## 4. Core loop
 1. Open a level.
-2. Tap cells to place/remove markers.
+2. Tap cells to place/remove pebbles.
 3. Show immediate feedback for valid/invalid/conflicting state.
 4. Player reasons and iterates.
 5. Board satisfies all constraints.
@@ -60,9 +63,9 @@ Initial direction:
 - solved states should create visually satisfying capture moments
 - art direction must produce assets usable in-game, App Store screenshots, website and social creative
 
-The current production-capable fallback is **Tactile Territories**: a procedural SpriteKit/Core Graphics visual system with material-like territories and a distinctive Pebble marker. Bespoke illustration must not become a release blocker.
+The production direction is **Tactile Territories**: a procedural SpriteKit/Core Graphics visual system with material-like territories and a distinctive Pebble marker. Bespoke illustration must not become a release blocker.
 
-The public product name should be locked only after the visual system is strong enough to judge the name in context.
+The public product name is locked as **Exactly One**. Public-facing assets and copy must use that name; **Nine** remains an internal engineering codename only.
 
 ## 6. Onboarding
 The first levels are the tutorial.
@@ -78,7 +81,7 @@ The first levels are the tutorial.
 - introduce row/column uniqueness
 
 ### Level 3
-- introduce region uniqueness
+- introduce territory uniqueness
 
 ### Level 4
 - introduce adjacency restriction
@@ -129,7 +132,7 @@ The production content pipeline must distinguish:
 The v1 solver uses deterministic backtracking with:
 - MRV (minimum remaining values)
 - forward checking
-- immediate pruning for row/column/region/adjacency conflicts
+- immediate pruning for row/column/territory/adjacency conflicts
 - deterministic candidate ordering
 - bounded solution counting that stops after the second solution
 
@@ -228,6 +231,7 @@ Before submission:
 - replay reproduces representative sessions
 - acceptable performance on supported devices
 - final visual identity is coherent across gameplay, app icon, App Store and web/social surfaces
+- all public-facing surfaces consistently use **Exactly One**
 - release build is validated against the real GameTimeKit dependency rather than only a CI contract stub
 - live support/privacy URLs match the actual shipped SDK/data behavior
 
@@ -242,6 +246,6 @@ Before submission:
 - server-authoritative gameplay
 
 ## 16. Definition of done
-Game #001 v1.0 is done when it is submitted to App Review with production-ready gameplay, visual identity/assets, onboarding, telemetry, justified monetization, support/privacy surfaces, App Store assets, launch creatives, and a tested release build.
+Exactly One v1.0 is done when it is submitted to App Review with production-ready gameplay, visual identity/assets, onboarding, telemetry, justified monetization, support/privacy surfaces, App Store assets, launch creatives, and a tested release build.
 
 A framework build or TestFlight-only state is not considered shipped.
