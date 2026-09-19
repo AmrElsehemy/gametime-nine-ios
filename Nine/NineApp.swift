@@ -123,7 +123,7 @@ private struct NineSettingsView: View {
 
                     Button("Open Game Center") {
                         if GKLocalPlayer.local.isAuthenticated {
-                            GKAccessPoint.shared.trigger(state: .dashboard)
+                            GKAccessPoint.shared.trigger(state: .dashboard) {}
                         } else {
                             NineGameCenterService.shared.authenticateIfNeeded()
                         }
