@@ -1,0 +1,49 @@
+name: Generate Nine Launch Assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/launch-assets-44
+      - master
+    paths:
+      - Tools/generate_launch_assets.py
+      - .github/workflows/generate-launch-assets.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+      - name: Generate icon and achievement artwork
+        run: python Tools/generate_launch_assets.py
+      - name: Verify required outputs
+        run: |
+          test -f Nine/Assets.xcassets/AppIcon.appiconset/Nine-AppIcon-1024.png
+          test -f Nine/Assets.xcassets/Achievements/FirstSolve.imageset/FirstSolve-1024.png
+          test -f Nine/Assets.xcassets/Achievements/TutorialComplete.imageset/TutorialComplete-1024.png
+          test -f Nine/Assets.xcassets/Achievements/FirstDaily.imageset/FirstDaily-1024.png
+          test -f Nine/Assets.xcassets/Achievements/Streak7.imageset/Streak7-1024.png
+          test -f Marketing/AppStore/ASSET_MANIFEST.md
+      - name: Commit generated assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Nine/Assets.xcassets Nine.xcodeproj/project.pbxproj Nine/Experience/NineGameCenter.swift NineTests/NineFeedbackTests.swift Marketing
+          if git diff --cached --quiet; then
+            echo 'Assets already up to date.'
+            exit 0
+          fi
+          git commit -m 'Generate approved Nine launch asset pack'
+          git push
