@@ -299,6 +299,43 @@ import Testing
     #expect(event.properties["column"] == nil)
 }
 
+@Test func gameCenterScoreConvertsToClampedMilliseconds() {
+    #expect(NineGameCenterScore.milliseconds(durationSeconds: 1.234) == 1_234)
+    #expect(NineGameCenterScore.milliseconds(durationSeconds: 0) == 1)
+    #expect(NineGameCenterScore.milliseconds(durationSeconds: -4) == 1)
+    #expect(
+        NineGameCenterScore.milliseconds(durationSeconds: 100_000)
+            == NineGameCenterScore.maximumDailyMilliseconds
+    )
+}
+
+@Test func gameCenterAchievementLedgerSuppressesDuplicatesAndRetriesFailures() {
+    var ledger = NineAchievementLedger()
+
+    let first = ledger.beginReport(.firstSolve)
+    #expect(first)
+    let duplicate = ledger.beginReport(.firstSolve)
+    #expect(!duplicate)
+
+    ledger.hydrate([NineGameCenterAchievement.tutorialComplete.rawValue])
+    let hydratedDuplicate = ledger.beginReport(.tutorialComplete)
+    #expect(!hydratedDuplicate)
+
+    let dailyFirst = ledger.beginReport(.firstDaily)
+    #expect(dailyFirst)
+    ledger.markReportFailed(.firstDaily)
+    let dailyRetry = ledger.beginReport(.firstDaily)
+    #expect(dailyRetry)
+}
+
+@Test func gameCenterIdentifiersStayStable() {
+    #expect(NineGameCenterIDs.dailyLeaderboard == "ai.knowlly.nine.daily.time")
+    #expect(
+        Set(NineGameCenterAchievement.allCases.map(\.rawValue)).count
+            == NineGameCenterAchievement.allCases.count
+    )
+}
+
 private final class CapturingAnalyticsClient: NineAnalyticsClient {
     private(set) var events: [NineAnalyticsEvent] = []
 
