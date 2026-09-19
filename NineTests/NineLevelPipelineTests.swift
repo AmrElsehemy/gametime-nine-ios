@@ -41,15 +41,17 @@ import Testing
     #expect(result.firstSolution == nil)
 }
 
-@Test func bundledDay3CatalogIsValidUniqueAndDeterministic() throws {
+@Test func bundledV1CatalogIsValidUniqueAndDeterministic() throws {
     let pack = try NineLevelCatalog.loadBundled()
     let firstPass = try NineLevelPackValidator.validate(pack)
     let secondPass = try NineLevelPackValidator.validate(pack)
 
     #expect(pack.schemaVersion == 1)
-    #expect(pack.levels.count == 20)
+    #expect(pack.levels.count == 100)
     #expect(NineContentGate.day3.isSatisfied(by: pack.levels.count))
-    #expect(!NineContentGate.testFlight.isSatisfied(by: pack.levels.count))
+    #expect(NineContentGate.testFlight.isSatisfied(by: pack.levels.count))
+    #expect(NineContentGate.submission.isSatisfied(by: pack.levels.count))
+    #expect(NineContentGate.v1Target.isSatisfied(by: pack.levels.count))
 
     #expect(Array(pack.levels.prefix(5)).allSatisfy { $0.kind == .onboarding })
     #expect(Array(pack.levels.dropFirst(5)).allSatisfy { $0.kind == .standard })
