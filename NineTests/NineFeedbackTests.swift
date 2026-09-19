@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Testing
 @testable import Nine
 
@@ -341,5 +342,13 @@ private final class CapturingAnalyticsClient: NineAnalyticsClient {
 
     func track(_ event: NineAnalyticsEvent) {
         events.append(event)
+    }
+}
+
+
+@MainActor
+@Test func bundledAchievementArtworkExists() {
+    for achievement in NineGameCenterAchievement.allCases {
+        #expect(UIImage(named: achievement.artworkAssetName) != nil)
     }
 }
