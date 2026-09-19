@@ -1,1 +1,10423 @@
-{"schemaVersion":1,"levels":[{"id":"v1-001","order":1,"kind":"onboarding","size":6,"regionIDs":[1,0,0,0,0,0,1,1,1,0,0,0,2,1,1,0,0,0,2,4,5,3,0,3,2,4,5,3,3,3,4,4,5,5,3,3],"adjacencyRule":"noTouching","initialMarkers":[{"row":0,"column":4},{"row":1,"column":2},{"row":2,"column":0},{"row":3,"column":5},{"row":4,"column":1}],"solution":[{"row":0,"column":4},{"row":1,"column":2},{"row":2,"column":0},{"row":3,"column":5},{"row":4,"column":1},{"row":5,"column":3}],"difficulty":1,"authoringSeed":2273},{"id":"v1-002","order":2,"kind":"onboarding","size":6,"regionIDs":[1,1,1,0,0,0,1,1,2,2,0,0,1,1,2,2,2,0,4,4,3,3,2,2,4,3,3,5,2,2,4,4,3,5,2,2],"adjacencyRule":"noTouching","initialMarkers":[{"row":0,"column":5},{"row":1,"column":1},{"row":2,"column":4}],"solution":[{"row":0,"column":5},{"row":1,"column":1},{"row":2,"column":4},{"row":3,"column":2},{"row":4,"column":0},{"row":5,"column":3}],"difficulty":1,"authoringSeed":2339},{"id":"v1-003","order":3,"kind":"onboarding","size":6,"regionIDs":[2,2,1,1,0,0,2,2,3,1,1,1,2,2,3,1,1,1,2,2,3,3,3,3,2,3,3,3,4,4,5,5,5,5,4,4],"adjacencyRule":"noTouching","initialMarkers":[{"row":0,"column":5},{"row":1,"column":3}],"solution":[{"row":0,"column":5},{"row":1,"column":3},{"row":2,"column":0},{"row":3,"column":2},{"row":4,"column":4},{"row":5,"column":1}],"difficulty":1,"authoringSeed":3497},{"id":"v1-004","order":4,"kind":"onboarding","size":6,"regionIDs":[0,0,0,0,2,2,0,1,1,1,1,2,4,4,1,3,5,2,4,4,4,3,5,2,4,4,4,5,5,5,4,4,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[{"row":0,"column":0}],"solution":[{"row":0,"column":0},{"row":1,"column":2},{"row":2,"column":5},{"row":3,"column":3},{"row":4,"column":1},{"row":5,"column":4}],"difficulty":1,"authoringSeed":3557},{"id":"v1-005","order":5,"kind":"onboarding","size":6,"regionIDs":[1,1,0,0,2,2,1,1,1,1,2,2,4,4,4,2,2,2,4,4,4,3,3,2,4,4,4,5,5,5,4,4,4,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":2},{"row":1,"column":0},{"row":2,"column":5},{"row":3,"column":3},{"row":4,"column":1},{"row":5,"column":4}],"difficulty":2,"authoringSeed":3633},{"id":"v1-006","order":6,"kind":"standard","size":6,"regionIDs":[1,1,1,1,0,0,1,1,1,2,0,0,1,1,1,2,2,3,1,1,1,2,2,3,5,5,4,4,4,3,5,5,5,4,4,3],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":4},{"row":1,"column":1},{"row":2,"column":3},{"row":3,"column":5},{"row":4,"column":2},{"row":5,"column":0}],"difficulty":2,"authoringSeed":3723},{"id":"v1-007","order":7,"kind":"standard","size":6,"regionIDs":[1,1,0,0,0,0,1,1,0,0,2,2,1,1,0,2,2,2,1,1,2,2,3,3,1,4,4,4,5,3,4,4,4,4,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":2},{"row":1,"column":0},{"row":2,"column":3},{"row":3,"column":5},{"row":4,"column":1},{"row":5,"column":4}],"difficulty":2,"authoringSeed":3746},{"id":"v1-008","order":8,"kind":"standard","size":6,"regionIDs":[0,0,1,1,1,2,3,3,1,1,2,2,3,3,3,3,2,2,3,3,3,3,2,4,3,3,5,5,2,4,3,5,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":0},{"row":1,"column":2},{"row":2,"column":4},{"row":3,"column":1},{"row":4,"column":5},{"row":5,"column":3}],"difficulty":2,"authoringSeed":4767},{"id":"v1-009","order":9,"kind":"standard","size":6,"regionIDs":[2,0,1,1,1,3,2,0,1,1,1,3,2,2,4,3,3,3,4,4,4,5,5,3,4,4,4,5,5,5,4,4,4,4,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":1},{"row":1,"column":3},{"row":2,"column":0},{"row":3,"column":5},{"row":4,"column":2},{"row":5,"column":4}],"difficulty":3,"authoringSeed":5198},{"id":"v1-010","order":10,"kind":"standard","size":6,"regionIDs":[3,0,0,1,1,1,3,3,0,1,1,1,3,3,2,2,2,1,3,3,2,4,4,4,3,3,4,4,4,4,4,4,4,4,4,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":1},{"row":1,"column":4},{"row":2,"column":2},{"row":3,"column":0},{"row":4,"column":3},{"row":5,"column":5}],"difficulty":3,"authoringSeed":6235},{"id":"v1-011","order":11,"kind":"standard","size":6,"regionIDs":[1,1,1,1,0,0,1,1,1,1,1,2,4,1,5,3,3,2,4,4,5,3,3,3,4,4,5,5,3,3,4,5,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":4},{"row":1,"column":1},{"row":2,"column":5},{"row":3,"column":3},{"row":4,"column":0},{"row":5,"column":2}],"difficulty":3,"authoringSeed":6596},{"id":"v1-012","order":12,"kind":"standard","size":6,"regionIDs":[1,1,0,0,0,0,1,1,0,0,0,0,4,4,2,2,2,5,4,4,4,3,3,5,4,4,4,4,5,5,4,4,4,4,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":3},{"row":1,"column":0},{"row":2,"column":2},{"row":3,"column":4},{"row":4,"column":1},{"row":5,"column":5}],"difficulty":3,"authoringSeed":6997},{"id":"v1-013","order":13,"kind":"standard","size":6,"regionIDs":[0,0,0,1,1,1,0,0,0,1,1,1,0,2,2,1,1,1,2,2,2,4,3,5,2,2,4,4,3,5,4,4,4,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":0},{"row":1,"column":3},{"row":2,"column":1},{"row":3,"column":4},{"row":4,"column":2},{"row":5,"column":5}],"difficulty":4,"authoringSeed":8741},{"id":"v1-014","order":14,"kind":"standard","size":6,"regionIDs":[3,1,1,2,2,0,3,3,1,1,2,0,3,3,3,1,2,2,5,3,3,4,4,2,5,5,3,4,4,2,5,5,3,4,4,4],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":5},{"row":1,"column":2},{"row":2,"column":4},{"row":3,"column":1},{"row":4,"column":3},{"row":5,"column":0}],"difficulty":4,"authoringSeed":8751},{"id":"v1-015","order":15,"kind":"standard","size":6,"regionIDs":[1,1,2,0,0,0,1,1,2,2,0,3,1,1,2,2,0,3,4,1,2,0,0,3,4,4,4,3,3,3,5,4,4,3,3,3],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":4},{"row":1,"column":1},{"row":2,"column":3},{"row":3,"column":5},{"row":4,"column":2},{"row":5,"column":0}],"difficulty":4,"authoringSeed":8988},{"id":"v1-016","order":16,"kind":"standard","size":6,"regionIDs":[1,0,0,2,2,2,1,0,3,2,2,2,3,3,3,4,2,5,3,3,3,4,4,5,3,4,4,4,5,5,4,4,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":2},{"row":1,"column":0},{"row":2,"column":4},{"row":3,"column":1},{"row":4,"column":3},{"row":5,"column":5}],"difficulty":4,"authoringSeed":9005},{"id":"v1-017","order":17,"kind":"standard","size":6,"regionIDs":[3,1,1,0,0,2,3,1,1,0,0,2,3,1,1,2,2,2,3,3,1,4,2,2,5,3,4,4,4,2,5,3,4,4,4,4],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":4},{"row":1,"column":2},{"row":2,"column":5},{"row":3,"column":1},{"row":4,"column":3},{"row":5,"column":0}],"difficulty":5,"authoringSeed":9586},{"id":"v1-018","order":18,"kind":"standard","size":6,"regionIDs":[2,0,0,0,0,1,2,2,2,0,0,1,2,4,4,3,3,1,4,4,4,4,3,3,4,4,4,5,5,3,4,4,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":2},{"row":1,"column":5},{"row":2,"column":0},{"row":3,"column":4},{"row":4,"column":1},{"row":5,"column":3}],"difficulty":5,"authoringSeed":9852},{"id":"v1-019","order":19,"kind":"standard","size":6,"regionIDs":[1,1,1,3,2,0,1,1,3,3,2,0,1,1,3,3,2,2,4,4,3,3,5,2,4,4,4,5,5,5,4,4,4,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":5},{"row":1,"column":1},{"row":2,"column":4},{"row":3,"column":2},{"row":4,"column":0},{"row":5,"column":3}],"difficulty":5,"authoringSeed":10340},{"id":"v1-020","order":20,"kind":"standard","size":6,"regionIDs":[4,0,0,0,0,1,4,4,2,2,1,1,4,4,2,2,1,1,4,4,2,2,3,1,4,4,5,5,5,5,4,5,5,5,5,5],"adjacencyRule":"noTouching","initialMarkers":[],"solution":[{"row":0,"column":1},{"row":1,"column":5},{"row":2,"column":2},{"row":3,"column":4},{"row":4,"column":0},{"row":5,"column":3}],"difficulty":5,"authoringSeed":10640}]}
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "id": "v1-001",
+      "order": 1,
+      "kind": "onboarding",
+      "size": 6,
+      "regionIDs": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        0,
+        2,
+        4,
+        5,
+        3,
+        0,
+        3,
+        2,
+        4,
+        5,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        }
+      ],
+      "difficulty": 1,
+      "authoringSeed": 2273
+    },
+    {
+      "id": "v1-002",
+      "order": 2,
+      "kind": "onboarding",
+      "size": 6,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        2,
+        0,
+        4,
+        4,
+        3,
+        3,
+        2,
+        2,
+        4,
+        3,
+        3,
+        5,
+        2,
+        2,
+        4,
+        4,
+        3,
+        5,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 3
+        }
+      ],
+      "difficulty": 1,
+      "authoringSeed": 2339
+    },
+    {
+      "id": "v1-003",
+      "order": 3,
+      "kind": "onboarding",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        2,
+        2,
+        3,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "difficulty": 1,
+      "authoringSeed": 3497
+    },
+    {
+      "id": "v1-004",
+      "order": 4,
+      "kind": "onboarding",
+      "size": 6,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4,
+        4,
+        1,
+        3,
+        5,
+        2,
+        4,
+        4,
+        4,
+        3,
+        5,
+        2,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "difficulty": 1,
+      "authoringSeed": 3557
+    },
+    {
+      "id": "v1-005",
+      "order": 5,
+      "kind": "onboarding",
+      "size": 6,
+      "regionIDs": [
+        1,
+        1,
+        0,
+        0,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        3,
+        3,
+        2,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 3633
+    },
+    {
+      "id": "v1-006",
+      "order": 6,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        4,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        1,
+        0,
+        0,
+        4,
+        4,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        3,
+        0,
+        5,
+        2,
+        2,
+        2,
+        3,
+        5,
+        5,
+        5,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092444
+    },
+    {
+      "id": "v1-007",
+      "order": 7,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        3,
+        0,
+        0,
+        2,
+        2,
+        2,
+        3,
+        5,
+        5,
+        1,
+        2,
+        4,
+        3,
+        3,
+        5,
+        1,
+        2,
+        2,
+        3,
+        3,
+        5,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092078
+    },
+    {
+      "id": "v1-008",
+      "order": 8,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        2,
+        5,
+        2,
+        2,
+        5,
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        1,
+        5,
+        3,
+        0,
+        0,
+        0,
+        1,
+        1,
+        3,
+        3,
+        0,
+        0,
+        4,
+        4,
+        4,
+        3,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092347
+    },
+    {
+      "id": "v1-009",
+      "order": 9,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        5,
+        0,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        2,
+        2,
+        2,
+        4,
+        0,
+        0,
+        3,
+        1,
+        1,
+        4,
+        4,
+        4,
+        3,
+        1,
+        1,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026091917
+    },
+    {
+      "id": "v1-010",
+      "order": 10,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        3,
+        3,
+        5,
+        3,
+        4,
+        4,
+        2,
+        0,
+        5,
+        3,
+        4,
+        2,
+        2,
+        0,
+        5,
+        3,
+        4,
+        2,
+        1,
+        1,
+        1,
+        3,
+        4,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092166
+    },
+    {
+      "id": "v1-011",
+      "order": 11,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        2,
+        2,
+        1,
+        4,
+        4,
+        2,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        2,
+        2,
+        1,
+        3,
+        4,
+        4,
+        0,
+        5,
+        1,
+        3,
+        4,
+        4,
+        4,
+        5,
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092447
+    },
+    {
+      "id": "v1-012",
+      "order": 12,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        4,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        2,
+        4,
+        4,
+        5,
+        5,
+        4,
+        2,
+        2,
+        5,
+        5,
+        5,
+        4,
+        2,
+        3,
+        5,
+        3,
+        3,
+        3,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092031
+    },
+    {
+      "id": "v1-013",
+      "order": 13,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        4,
+        4,
+        2,
+        1,
+        1,
+        4,
+        4,
+        4,
+        5,
+        5,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 2
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092345
+    },
+    {
+      "id": "v1-014",
+      "order": 14,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        0,
+        1,
+        1,
+        5,
+        5,
+        4,
+        0,
+        1,
+        1,
+        5,
+        2,
+        2,
+        0,
+        1,
+        1,
+        5,
+        3,
+        3,
+        0,
+        1,
+        1,
+        3,
+        3,
+        3,
+        0,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092219
+    },
+    {
+      "id": "v1-015",
+      "order": 15,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        3,
+        5,
+        5,
+        3,
+        5,
+        1,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        3,
+        4,
+        4,
+        4,
+        4,
+        1,
+        4,
+        4,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        2,
+        2,
+        2,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092322
+    },
+    {
+      "id": "v1-016",
+      "order": 16,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        2,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092420
+    },
+    {
+      "id": "v1-017",
+      "order": 17,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        5,
+        0,
+        2,
+        2,
+        5,
+        1,
+        0,
+        0,
+        2,
+        2,
+        5,
+        1,
+        1,
+        0,
+        2,
+        2,
+        2,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092020
+    },
+    {
+      "id": "v1-018",
+      "order": 18,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        0,
+        5,
+        5,
+        5,
+        1,
+        1,
+        0,
+        5,
+        5,
+        5,
+        5,
+        1,
+        2,
+        2,
+        4,
+        1,
+        1,
+        1,
+        2,
+        2,
+        4,
+        1,
+        1,
+        3,
+        4,
+        4,
+        4,
+        3,
+        1,
+        3,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092157
+    },
+    {
+      "id": "v1-019",
+      "order": 19,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        3,
+        4,
+        2,
+        2,
+        2,
+        2,
+        0,
+        4,
+        2,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026091938
+    },
+    {
+      "id": "v1-020",
+      "order": 20,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        4,
+        4,
+        4,
+        4,
+        1,
+        2,
+        2,
+        2,
+        4,
+        4,
+        1,
+        2,
+        2,
+        2,
+        4,
+        1,
+        1,
+        3,
+        3,
+        3,
+        4,
+        4,
+        1,
+        3,
+        3,
+        3,
+        0,
+        0,
+        1,
+        3,
+        3,
+        0,
+        0,
+        0,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092299
+    },
+    {
+      "id": "v1-021",
+      "order": 21,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        2,
+        2,
+        0,
+        5,
+        5,
+        0,
+        0,
+        0,
+        0,
+        5,
+        5,
+        1,
+        1,
+        4,
+        0,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092479
+    },
+    {
+      "id": "v1-022",
+      "order": 22,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        3,
+        4,
+        4,
+        2,
+        2,
+        2,
+        3,
+        4,
+        4,
+        5,
+        0,
+        0,
+        3,
+        3,
+        4,
+        5,
+        5,
+        3,
+        3,
+        4,
+        4,
+        5,
+        1,
+        1,
+        3,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026091953
+    },
+    {
+      "id": "v1-023",
+      "order": 23,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        5,
+        5,
+        3,
+        3,
+        4,
+        4,
+        5,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        1,
+        1,
+        4,
+        5,
+        5,
+        0,
+        0,
+        1,
+        4,
+        5,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 2
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092351
+    },
+    {
+      "id": "v1-024",
+      "order": 24,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        0,
+        0,
+        1,
+        4,
+        4,
+        3,
+        0,
+        0,
+        1,
+        2,
+        2,
+        3,
+        3,
+        0,
+        1,
+        2,
+        2,
+        3,
+        0,
+        0,
+        1,
+        1,
+        5,
+        0,
+        0,
+        0,
+        1,
+        1,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026091963
+    },
+    {
+      "id": "v1-025",
+      "order": 25,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        5,
+        2,
+        2,
+        2,
+        4,
+        3,
+        5,
+        2,
+        2,
+        2,
+        4,
+        3,
+        5,
+        0,
+        0,
+        1,
+        4,
+        4,
+        4,
+        0,
+        0,
+        1,
+        1,
+        1,
+        4,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 2
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092062
+    },
+    {
+      "id": "v1-026",
+      "order": 26,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        4,
+        4,
+        3,
+        3,
+        3,
+        5,
+        4,
+        4,
+        3,
+        3,
+        3,
+        1,
+        0,
+        4,
+        2,
+        2,
+        2,
+        1,
+        0,
+        0,
+        0,
+        2,
+        2,
+        1,
+        0,
+        0,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 2
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092061
+    },
+    {
+      "id": "v1-027",
+      "order": 27,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        2,
+        2,
+        5,
+        4,
+        1,
+        2,
+        2,
+        2,
+        5,
+        0,
+        3,
+        3,
+        2,
+        0,
+        0,
+        0,
+        3,
+        3,
+        2,
+        2,
+        2,
+        0,
+        3,
+        3,
+        3,
+        2,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092430
+    },
+    {
+      "id": "v1-028",
+      "order": 28,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        4,
+        2,
+        2,
+        5,
+        5,
+        3,
+        4,
+        0,
+        0,
+        3,
+        3,
+        3,
+        4,
+        0,
+        3,
+        3,
+        1,
+        1,
+        4,
+        0,
+        0,
+        1,
+        1,
+        4,
+        4,
+        0,
+        0,
+        1,
+        1,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092224
+    },
+    {
+      "id": "v1-029",
+      "order": 29,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        2,
+        3,
+        5,
+        4,
+        1,
+        4,
+        2,
+        3,
+        5,
+        4,
+        1,
+        1,
+        2,
+        5,
+        5,
+        4,
+        1,
+        1,
+        0,
+        0,
+        5,
+        5,
+        1,
+        1,
+        0,
+        0,
+        5,
+        5,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        }
+      ],
+      "difficulty": 2,
+      "authoringSeed": 2026092098
+    },
+    {
+      "id": "v1-030",
+      "order": 30,
+      "kind": "standard",
+      "size": 6,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        0,
+        0,
+        1,
+        3,
+        5,
+        5,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        2,
+        3,
+        2,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026091924
+    },
+    {
+      "id": "v1-031",
+      "order": 31,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        5,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        1,
+        6,
+        6,
+        6,
+        6,
+        6,
+        2,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        1,
+        2,
+        2,
+        2,
+        0,
+        0,
+        3,
+        3,
+        3,
+        2,
+        2,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092577
+    },
+    {
+      "id": "v1-032",
+      "order": 32,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        3,
+        3,
+        2,
+        2,
+        0,
+        0,
+        0,
+        3,
+        3,
+        4,
+        5,
+        5,
+        0,
+        6,
+        6,
+        6,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        1,
+        4,
+        5,
+        5,
+        6,
+        1,
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092552
+    },
+    {
+      "id": "v1-033",
+      "order": 33,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        1,
+        1,
+        3,
+        0,
+        3,
+        3,
+        0,
+        2,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        0,
+        6,
+        6,
+        2,
+        5,
+        5,
+        0,
+        0,
+        6,
+        6,
+        5,
+        5,
+        5,
+        4,
+        4,
+        6,
+        6,
+        5,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092532
+    },
+    {
+      "id": "v1-034",
+      "order": 34,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        1,
+        6,
+        6,
+        6,
+        1,
+        4,
+        1,
+        1,
+        6,
+        5,
+        2,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        2,
+        2,
+        2,
+        1,
+        1,
+        5,
+        5,
+        2,
+        0,
+        0,
+        3,
+        3,
+        5,
+        5,
+        2,
+        2,
+        0,
+        0,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092580
+    },
+    {
+      "id": "v1-035",
+      "order": 35,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        1,
+        5,
+        5,
+        2,
+        2,
+        6,
+        6,
+        1,
+        5,
+        2,
+        2,
+        2,
+        6,
+        6,
+        1,
+        5,
+        2,
+        2,
+        4,
+        4,
+        6,
+        1,
+        5,
+        5,
+        2,
+        4,
+        4,
+        6,
+        1,
+        1,
+        5,
+        5,
+        5,
+        4,
+        6,
+        1,
+        1,
+        5,
+        5,
+        5,
+        3,
+        0,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 3
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092490
+    },
+    {
+      "id": "v1-036",
+      "order": 36,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        0,
+        5,
+        5,
+        3,
+        3,
+        3,
+        0,
+        0,
+        5,
+        5,
+        3,
+        3,
+        3,
+        4,
+        0,
+        5,
+        5,
+        5,
+        3,
+        3,
+        4,
+        0,
+        5,
+        5,
+        6,
+        6,
+        6,
+        4,
+        4,
+        2,
+        5,
+        2,
+        6,
+        1,
+        4,
+        4,
+        2,
+        2,
+        2,
+        6,
+        1,
+        1,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092489
+    },
+    {
+      "id": "v1-037",
+      "order": 37,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        3,
+        5,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        5,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        5,
+        1,
+        1,
+        6,
+        6,
+        2,
+        2,
+        5,
+        1,
+        1,
+        1,
+        6,
+        2,
+        2,
+        5,
+        5,
+        1,
+        6,
+        6,
+        6,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092530
+    },
+    {
+      "id": "v1-038",
+      "order": 38,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        6,
+        2,
+        2,
+        2,
+        1,
+        0,
+        0,
+        6,
+        5,
+        2,
+        2,
+        1,
+        1,
+        6,
+        6,
+        5,
+        2,
+        3,
+        3,
+        1,
+        1,
+        1,
+        5,
+        5,
+        3,
+        3,
+        3,
+        1,
+        1,
+        5,
+        5,
+        5,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 3
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092548
+    },
+    {
+      "id": "v1-039",
+      "order": 39,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        4,
+        6,
+        6,
+        2,
+        2,
+        2,
+        2,
+        4,
+        6,
+        6,
+        6,
+        6,
+        1,
+        2,
+        4,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092572
+    },
+    {
+      "id": "v1-040",
+      "order": 40,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        2,
+        1,
+        1,
+        1,
+        5,
+        5,
+        3,
+        1,
+        1,
+        1,
+        4,
+        4,
+        5,
+        3,
+        1,
+        0,
+        1,
+        4,
+        4,
+        6,
+        3,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 6
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092534
+    },
+    {
+      "id": "v1-041",
+      "order": 41,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        5,
+        6,
+        4,
+        4,
+        6,
+        3,
+        3,
+        5,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        5,
+        1,
+        1,
+        1,
+        4,
+        5,
+        5,
+        5,
+        0,
+        1,
+        1,
+        4,
+        5,
+        5,
+        5,
+        0,
+        1,
+        1,
+        2,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092595
+    },
+    {
+      "id": "v1-042",
+      "order": 42,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        6,
+        1,
+        1,
+        1,
+        0,
+        6,
+        6,
+        6,
+        1,
+        1,
+        1,
+        0,
+        0,
+        2,
+        2,
+        5,
+        1,
+        1,
+        0,
+        0,
+        0,
+        2,
+        5,
+        3,
+        3,
+        3,
+        0,
+        2,
+        2,
+        5,
+        4,
+        4,
+        4,
+        0,
+        2,
+        2,
+        5,
+        5,
+        5,
+        4,
+        4,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092579
+    },
+    {
+      "id": "v1-043",
+      "order": 43,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        5,
+        5,
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        5,
+        5,
+        5,
+        2,
+        2,
+        2,
+        3,
+        5,
+        4,
+        0,
+        0,
+        0,
+        3,
+        3,
+        5,
+        4,
+        4,
+        4,
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092492
+    },
+    {
+      "id": "v1-044",
+      "order": 44,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        5,
+        5,
+        2,
+        2,
+        2,
+        2,
+        6,
+        6,
+        5,
+        3,
+        3,
+        2,
+        2,
+        5,
+        5,
+        5,
+        3,
+        2,
+        2,
+        2,
+        5,
+        5,
+        1,
+        3,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        3,
+        3,
+        4,
+        4,
+        1,
+        4,
+        0,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 6
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092591
+    },
+    {
+      "id": "v1-045",
+      "order": 45,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        6,
+        0,
+        1,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        1,
+        1,
+        4,
+        5,
+        4,
+        6,
+        6,
+        1,
+        1,
+        5,
+        5,
+        4,
+        6,
+        3,
+        1,
+        5,
+        5,
+        5,
+        4,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092564
+    },
+    {
+      "id": "v1-046",
+      "order": 46,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        6,
+        6,
+        2,
+        3,
+        2,
+        6,
+        6,
+        6,
+        0,
+        2,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        1,
+        3,
+        4,
+        4,
+        4,
+        0,
+        0,
+        1,
+        3,
+        3,
+        4,
+        4,
+        4,
+        0,
+        1,
+        3,
+        4,
+        4,
+        5,
+        4,
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092531
+    },
+    {
+      "id": "v1-047",
+      "order": 47,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        4,
+        4,
+        4,
+        5,
+        5,
+        3,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        3,
+        1,
+        0,
+        0,
+        4,
+        4,
+        4,
+        3,
+        0,
+        0,
+        2,
+        2,
+        4,
+        4,
+        3,
+        0,
+        2,
+        2,
+        6,
+        6,
+        6,
+        3,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 3
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092523
+    },
+    {
+      "id": "v1-048",
+      "order": 48,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        0,
+        6,
+        1,
+        1,
+        4,
+        4,
+        5,
+        6,
+        6,
+        1,
+        1,
+        4,
+        5,
+        5,
+        5,
+        6,
+        1,
+        1,
+        4,
+        2,
+        2,
+        5,
+        6,
+        1,
+        1,
+        3,
+        2,
+        2,
+        5,
+        6,
+        1,
+        1,
+        3,
+        2,
+        2,
+        2,
+        6,
+        6,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092501
+    },
+    {
+      "id": "v1-049",
+      "order": 49,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        3,
+        2,
+        2,
+        6,
+        6,
+        6,
+        6,
+        3,
+        2,
+        6,
+        6,
+        6,
+        0,
+        0,
+        3,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        3,
+        2,
+        1,
+        1,
+        0,
+        0,
+        3,
+        3,
+        2,
+        1,
+        1,
+        0,
+        5,
+        3,
+        3,
+        2,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 4
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092503
+    },
+    {
+      "id": "v1-050",
+      "order": 50,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        4,
+        0,
+        0,
+        1,
+        4,
+        1,
+        4,
+        4,
+        4,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092522
+    },
+    {
+      "id": "v1-051",
+      "order": 51,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        0,
+        0,
+        1,
+        1,
+        3,
+        3,
+        0,
+        0,
+        0,
+        1,
+        1,
+        3,
+        3,
+        0,
+        0,
+        0,
+        6,
+        1,
+        3,
+        2,
+        2,
+        0,
+        6,
+        6,
+        6,
+        2,
+        2,
+        2,
+        4,
+        4,
+        6,
+        5,
+        2,
+        2,
+        2,
+        4,
+        5,
+        6,
+        5,
+        2,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092560
+    },
+    {
+      "id": "v1-052",
+      "order": 52,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        4,
+        5,
+        5,
+        3,
+        3,
+        6,
+        6,
+        4,
+        5,
+        3,
+        3,
+        3,
+        6,
+        6,
+        4,
+        5,
+        5,
+        3,
+        3,
+        6,
+        6,
+        4,
+        1,
+        1,
+        0,
+        3,
+        6,
+        6,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        6,
+        1,
+        1,
+        0,
+        2,
+        2,
+        2,
+        6,
+        1,
+        1,
+        2,
+        2,
+        2,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092541
+    },
+    {
+      "id": "v1-053",
+      "order": 53,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        6,
+        2,
+        2,
+        2,
+        1,
+        6,
+        6,
+        6,
+        6,
+        6,
+        2,
+        0,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        0,
+        5,
+        3,
+        3,
+        4,
+        2,
+        2,
+        0,
+        5,
+        5,
+        3,
+        4,
+        2,
+        2,
+        0,
+        0,
+        5,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        5,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 3,
+      "authoringSeed": 2026092574
+    },
+    {
+      "id": "v1-054",
+      "order": 54,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        4,
+        6,
+        6,
+        6,
+        6,
+        2,
+        2,
+        4,
+        4,
+        6,
+        5,
+        2,
+        2,
+        2,
+        4,
+        3,
+        5,
+        5,
+        0,
+        0,
+        2,
+        3,
+        3,
+        5,
+        5,
+        0,
+        0,
+        0,
+        3,
+        3,
+        1,
+        1,
+        1,
+        0,
+        0,
+        3,
+        3,
+        3,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092496
+    },
+    {
+      "id": "v1-055",
+      "order": 55,
+      "kind": "standard",
+      "size": 7,
+      "regionIDs": [
+        0,
+        6,
+        6,
+        6,
+        2,
+        2,
+        2,
+        6,
+        6,
+        1,
+        6,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        4,
+        4,
+        4,
+        1,
+        1,
+        2,
+        2,
+        4,
+        3,
+        3,
+        1,
+        5,
+        5,
+        5,
+        4,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        4,
+        4,
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092539
+    },
+    {
+      "id": "v1-056",
+      "order": 56,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        7,
+        4,
+        2,
+        2,
+        2,
+        6,
+        6,
+        7,
+        7,
+        4,
+        4,
+        4,
+        2,
+        6,
+        5,
+        7,
+        7,
+        4,
+        4,
+        2,
+        2,
+        1,
+        5,
+        5,
+        7,
+        4,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        3,
+        0,
+        3,
+        0,
+        0,
+        1,
+        1,
+        3,
+        3,
+        0,
+        3,
+        3,
+        0,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 1
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092629
+    },
+    {
+      "id": "v1-057",
+      "order": 57,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        7,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        7,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        5,
+        5,
+        6,
+        0,
+        2,
+        2,
+        2,
+        2,
+        3,
+        5,
+        6,
+        6,
+        2,
+        1,
+        2,
+        2,
+        3,
+        3,
+        3,
+        6,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        6,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 2
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092603
+    },
+    {
+      "id": "v1-058",
+      "order": 58,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        4,
+        5,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        5,
+        5,
+        2,
+        0,
+        5,
+        0,
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        7,
+        7,
+        6,
+        1,
+        1,
+        3,
+        3,
+        3,
+        7,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        7,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092607
+    },
+    {
+      "id": "v1-059",
+      "order": 59,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        0,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        0,
+        0,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        3,
+        0,
+        5,
+        0,
+        5,
+        2,
+        6,
+        6,
+        3,
+        0,
+        0,
+        0,
+        0,
+        2,
+        6,
+        2,
+        3,
+        3,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7,
+        1,
+        1,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092632
+    },
+    {
+      "id": "v1-060",
+      "order": 60,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        5,
+        5,
+        0,
+        0,
+        0,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        4,
+        4,
+        1,
+        6,
+        6,
+        0,
+        0,
+        0,
+        3,
+        1,
+        1,
+        6,
+        6,
+        6,
+        0,
+        7,
+        3,
+        3,
+        3,
+        2,
+        6,
+        6,
+        6,
+        7,
+        2,
+        2,
+        2,
+        2,
+        2,
+        7,
+        6,
+        7,
+        2,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092601
+    },
+    {
+      "id": "v1-061",
+      "order": 61,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        7,
+        0,
+        2,
+        2,
+        7,
+        7,
+        3,
+        7,
+        7,
+        0,
+        5,
+        5,
+        1,
+        7,
+        7,
+        7,
+        4,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        6,
+        4,
+        5,
+        5,
+        5,
+        1,
+        1,
+        6,
+        6,
+        4,
+        4,
+        4,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 5
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092604
+    },
+    {
+      "id": "v1-062",
+      "order": 62,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        7,
+        7,
+        2,
+        2,
+        2,
+        3,
+        4,
+        2,
+        7,
+        7,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        7,
+        7,
+        7,
+        0,
+        0,
+        3,
+        4,
+        4,
+        7,
+        7,
+        0,
+        0,
+        0,
+        3,
+        4,
+        4,
+        7,
+        1,
+        1,
+        6,
+        0,
+        4,
+        4,
+        5,
+        1,
+        1,
+        1,
+        6,
+        0,
+        6,
+        5,
+        5,
+        1,
+        1,
+        6,
+        6,
+        6,
+        6,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092613
+    },
+    {
+      "id": "v1-063",
+      "order": 63,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        7,
+        6,
+        6,
+        6,
+        0,
+        0,
+        2,
+        7,
+        7,
+        6,
+        1,
+        6,
+        6,
+        2,
+        2,
+        7,
+        7,
+        7,
+        1,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        1,
+        1,
+        2,
+        2,
+        3,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092646
+    },
+    {
+      "id": "v1-064",
+      "order": 64,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        3,
+        3,
+        7,
+        7,
+        7,
+        7,
+        0,
+        0,
+        3,
+        3,
+        3,
+        6,
+        7,
+        7,
+        0,
+        0,
+        3,
+        3,
+        3,
+        6,
+        6,
+        0,
+        0,
+        0,
+        5,
+        5,
+        6,
+        6,
+        6,
+        5,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        4,
+        4,
+        1,
+        1,
+        5,
+        5,
+        1,
+        2,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 1
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092626
+    },
+    {
+      "id": "v1-065",
+      "order": 65,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        2,
+        2,
+        5,
+        6,
+        6,
+        6,
+        4,
+        5,
+        2,
+        2,
+        5,
+        3,
+        3,
+        6,
+        7,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        6,
+        7,
+        5,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092617
+    },
+    {
+      "id": "v1-066",
+      "order": 66,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        3,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        5,
+        5,
+        2,
+        7,
+        7,
+        7,
+        7,
+        7,
+        5,
+        5,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        1,
+        1,
+        4,
+        4,
+        0,
+        4,
+        2,
+        2,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        2,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092638
+    },
+    {
+      "id": "v1-067",
+      "order": 67,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        3,
+        3,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        3,
+        6,
+        4,
+        4,
+        1,
+        7,
+        7,
+        7,
+        3,
+        6,
+        4,
+        4,
+        1,
+        1,
+        7,
+        7,
+        5,
+        6,
+        4,
+        1,
+        1,
+        1,
+        1,
+        2,
+        5,
+        6,
+        4,
+        0,
+        0,
+        0,
+        1,
+        2,
+        5,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092606
+    },
+    {
+      "id": "v1-068",
+      "order": 68,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        3,
+        3,
+        7,
+        6,
+        3,
+        3,
+        0,
+        0,
+        0,
+        3,
+        7,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        3,
+        7,
+        7,
+        5,
+        1,
+        1,
+        5,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        5,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        5,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092633
+    },
+    {
+      "id": "v1-069",
+      "order": 69,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        3,
+        3,
+        6,
+        5,
+        6,
+        5,
+        0,
+        1,
+        3,
+        1,
+        6,
+        6,
+        6,
+        6,
+        0,
+        1,
+        1,
+        1,
+        2,
+        6,
+        6,
+        0,
+        0,
+        1,
+        7,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        7,
+        7,
+        1,
+        2,
+        2,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        7,
+        7,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092641
+    },
+    {
+      "id": "v1-070",
+      "order": 70,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4,
+        1,
+        6,
+        0,
+        0,
+        4,
+        4,
+        4,
+        7,
+        7,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        7,
+        6,
+        6,
+        5,
+        5,
+        7,
+        7,
+        7,
+        5,
+        6,
+        6,
+        5,
+        5,
+        7,
+        7,
+        7,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 7
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092624
+    },
+    {
+      "id": "v1-071",
+      "order": 71,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        4,
+        4,
+        0,
+        5,
+        5,
+        7,
+        4,
+        4,
+        4,
+        0,
+        0,
+        5,
+        6,
+        6,
+        6,
+        4,
+        4,
+        0,
+        0,
+        5,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        5,
+        1,
+        6,
+        6,
+        6,
+        1,
+        0,
+        2,
+        5,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        5,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        1,
+        1,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 2
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092614
+    },
+    {
+      "id": "v1-072",
+      "order": 72,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        7,
+        1,
+        6,
+        6,
+        5,
+        1,
+        3,
+        3,
+        7,
+        7,
+        6,
+        6,
+        5,
+        2,
+        3,
+        3,
+        3,
+        7,
+        7,
+        6,
+        5,
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        6,
+        5,
+        2,
+        3,
+        0,
+        4,
+        4,
+        4,
+        6,
+        5,
+        2,
+        3,
+        0,
+        0,
+        4,
+        4,
+        6,
+        5,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 1
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092628
+    },
+    {
+      "id": "v1-073",
+      "order": 73,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4,
+        6,
+        0,
+        1,
+        0,
+        0,
+        2,
+        2,
+        4,
+        6,
+        6,
+        1,
+        1,
+        0,
+        2,
+        4,
+        4,
+        6,
+        1,
+        1,
+        5,
+        5,
+        2,
+        2,
+        4,
+        7,
+        1,
+        1,
+        5,
+        5,
+        7,
+        4,
+        4,
+        7,
+        3,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 5
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092622
+    },
+    {
+      "id": "v1-074",
+      "order": 74,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        2,
+        5,
+        5,
+        5,
+        1,
+        1,
+        3,
+        6,
+        2,
+        2,
+        5,
+        5,
+        1,
+        7,
+        7,
+        6,
+        2,
+        2,
+        2,
+        0,
+        7,
+        7,
+        6,
+        6,
+        2,
+        0,
+        2,
+        0,
+        4,
+        4,
+        4,
+        4,
+        2,
+        0,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092612
+    },
+    {
+      "id": "v1-075",
+      "order": 75,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        6,
+        6,
+        1,
+        5,
+        5,
+        7,
+        7,
+        6,
+        6,
+        6,
+        1,
+        1,
+        5,
+        2,
+        2,
+        2,
+        2,
+        6,
+        1,
+        1,
+        5,
+        2,
+        3,
+        0,
+        0,
+        6,
+        1,
+        5,
+        5,
+        3,
+        3,
+        0,
+        0,
+        0,
+        1,
+        4,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        4,
+        4,
+        3,
+        3,
+        3,
+        0,
+        3,
+        0,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 2
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092618
+    },
+    {
+      "id": "v1-076",
+      "order": 76,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        4,
+        4,
+        6,
+        6,
+        6,
+        2,
+        2,
+        4,
+        4,
+        4,
+        6,
+        6,
+        7,
+        7,
+        2,
+        2,
+        4,
+        4,
+        0,
+        6,
+        7,
+        7,
+        2,
+        2,
+        3,
+        4,
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        3,
+        4,
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        3,
+        4,
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092645
+    },
+    {
+      "id": "v1-077",
+      "order": 77,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        6,
+        3,
+        3,
+        3,
+        3,
+        0,
+        6,
+        6,
+        6,
+        6,
+        3,
+        5,
+        5,
+        0,
+        6,
+        6,
+        5,
+        5,
+        5,
+        5,
+        7,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        4,
+        4,
+        5,
+        7,
+        7,
+        7,
+        7,
+        1,
+        4,
+        4,
+        4,
+        7,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026092600
+    },
+    {
+      "id": "v1-078",
+      "order": 78,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        2,
+        5,
+        5,
+        1,
+        1,
+        1,
+        4,
+        2,
+        2,
+        5,
+        5,
+        3,
+        1,
+        1,
+        4,
+        2,
+        2,
+        5,
+        3,
+        3,
+        1,
+        4,
+        4,
+        2,
+        7,
+        5,
+        5,
+        6,
+        0,
+        0,
+        4,
+        2,
+        7,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        7,
+        7,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        7,
+        7,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        7,
+        7,
+        7,
+        6,
+        6,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092648
+    },
+    {
+      "id": "v1-079",
+      "order": 79,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        5,
+        6,
+        6,
+        6,
+        5,
+        1,
+        1,
+        4,
+        6,
+        6,
+        6,
+        6,
+        5,
+        1,
+        1,
+        4,
+        6,
+        6,
+        7,
+        7,
+        7,
+        3,
+        3,
+        4,
+        4,
+        6,
+        6,
+        7,
+        7,
+        3,
+        4,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        3,
+        2,
+        4,
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        2,
+        0,
+        0,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 4,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092610
+    },
+    {
+      "id": "v1-080",
+      "order": 80,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        7,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        0,
+        0,
+        1,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        0,
+        1,
+        3,
+        6,
+        6,
+        3,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        4,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092636
+    },
+    {
+      "id": "v1-081",
+      "order": 81,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        1,
+        6,
+        6,
+        3,
+        7,
+        7,
+        7,
+        5,
+        5,
+        1,
+        1,
+        3,
+        3,
+        7,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        3,
+        3,
+        7,
+        7,
+        0,
+        5,
+        5,
+        1,
+        1,
+        3,
+        3,
+        0,
+        0,
+        0,
+        5,
+        5,
+        1,
+        1,
+        3,
+        0,
+        0,
+        0,
+        4,
+        4,
+        4,
+        1,
+        1,
+        3,
+        3,
+        4,
+        4,
+        4,
+        8,
+        4,
+        1,
+        1,
+        8,
+        3,
+        8,
+        8,
+        4,
+        8,
+        4,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092674
+    },
+    {
+      "id": "v1-082",
+      "order": 82,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        5,
+        5,
+        7,
+        0,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        0,
+        0,
+        0,
+        3,
+        6,
+        6,
+        6,
+        6,
+        5,
+        0,
+        0,
+        0,
+        0,
+        6,
+        4,
+        6,
+        6,
+        5,
+        0,
+        0,
+        1,
+        2,
+        4,
+        4,
+        4,
+        4,
+        5,
+        0,
+        0,
+        1,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        8,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        8,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092675
+    },
+    {
+      "id": "v1-083",
+      "order": 83,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        4,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        4,
+        2,
+        2,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        2,
+        2,
+        2,
+        4,
+        5,
+        6,
+        6,
+        5,
+        7,
+        2,
+        7,
+        7,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        1,
+        8,
+        8,
+        5,
+        8,
+        5,
+        7,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        5,
+        1,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        5,
+        5,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092686
+    },
+    {
+      "id": "v1-084",
+      "order": 84,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        6,
+        8,
+        8,
+        8,
+        0,
+        3,
+        0,
+        0,
+        4,
+        6,
+        5,
+        8,
+        8,
+        3,
+        3,
+        4,
+        4,
+        4,
+        6,
+        5,
+        8,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        6,
+        5,
+        8,
+        3,
+        7,
+        3,
+        3,
+        4,
+        4,
+        6,
+        5,
+        8,
+        7,
+        7,
+        7,
+        2,
+        4,
+        1,
+        6,
+        5,
+        8,
+        7,
+        7,
+        7,
+        2,
+        1,
+        1,
+        6,
+        5,
+        5,
+        7,
+        2,
+        2,
+        2,
+        1,
+        1,
+        6,
+        6,
+        5,
+        5,
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092708
+    },
+    {
+      "id": "v1-085",
+      "order": 85,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        0,
+        0,
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        8,
+        0,
+        0,
+        7,
+        7,
+        8,
+        8,
+        6,
+        1,
+        1,
+        0,
+        0,
+        0,
+        7,
+        8,
+        8,
+        6,
+        1,
+        1,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        4,
+        4,
+        6,
+        6,
+        6,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        4,
+        3,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 7
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092669
+    },
+    {
+      "id": "v1-086",
+      "order": 86,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        8,
+        4,
+        4,
+        4,
+        1,
+        7,
+        7,
+        7,
+        7,
+        8,
+        4,
+        0,
+        4,
+        1,
+        1,
+        7,
+        8,
+        8,
+        8,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        0,
+        0,
+        0,
+        2,
+        1,
+        1,
+        1,
+        1,
+        8,
+        0,
+        3,
+        0,
+        2,
+        1,
+        1,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        6,
+        2,
+        2,
+        3,
+        3,
+        3,
+        6,
+        3,
+        6,
+        6,
+        2,
+        2,
+        2,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092709
+    },
+    {
+      "id": "v1-087",
+      "order": 87,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        7,
+        7,
+        7,
+        7,
+        8,
+        2,
+        2,
+        2,
+        0,
+        7,
+        7,
+        7,
+        7,
+        8,
+        2,
+        2,
+        2,
+        0,
+        0,
+        7,
+        3,
+        7,
+        8,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        3,
+        3,
+        8,
+        4,
+        2,
+        2,
+        5,
+        5,
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        1,
+        5,
+        5,
+        5,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        5,
+        0,
+        0,
+        0,
+        0,
+        6,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        0,
+        6,
+        6,
+        6,
+        6,
+        1,
+        5,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 0
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092710
+    },
+    {
+      "id": "v1-088",
+      "order": 88,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        5,
+        1,
+        1,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        0,
+        7,
+        7,
+        2,
+        2,
+        2,
+        4,
+        4,
+        5,
+        0,
+        7,
+        7,
+        2,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        7,
+        7,
+        2,
+        6,
+        6,
+        4,
+        4,
+        0,
+        0,
+        7,
+        7,
+        2,
+        6,
+        6,
+        6,
+        6,
+        6,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 7
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092664
+    },
+    {
+      "id": "v1-089",
+      "order": 89,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        6,
+        6,
+        6,
+        1,
+        1,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        6,
+        1,
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        0,
+        6,
+        1,
+        3,
+        2,
+        2,
+        2,
+        7,
+        7,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        2,
+        7,
+        7,
+        0,
+        0,
+        0,
+        4,
+        2,
+        8,
+        2,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4,
+        4,
+        8,
+        8,
+        4,
+        4,
+        4,
+        4,
+        5,
+        4,
+        8,
+        8,
+        8,
+        5,
+        4,
+        5,
+        5,
+        5,
+        5,
+        8,
+        8,
+        8,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092677
+    },
+    {
+      "id": "v1-090",
+      "order": 90,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        8,
+        6,
+        8,
+        8,
+        6,
+        6,
+        0,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        0,
+        0,
+        0,
+        1,
+        1,
+        5,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        2,
+        0,
+        0,
+        7,
+        1,
+        1,
+        1,
+        5,
+        5,
+        2,
+        0,
+        0,
+        7,
+        1,
+        1,
+        1,
+        4,
+        4,
+        2,
+        7,
+        7,
+        7,
+        1,
+        3,
+        1,
+        4,
+        4,
+        2,
+        7,
+        7,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092693
+    },
+    {
+      "id": "v1-091",
+      "order": 91,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        0,
+        0,
+        6,
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        4,
+        7,
+        1,
+        1,
+        5,
+        5,
+        5,
+        8,
+        4,
+        4,
+        7,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        4,
+        4,
+        7,
+        3,
+        2,
+        8,
+        8,
+        8,
+        8,
+        4,
+        7,
+        7,
+        3,
+        2,
+        8,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7,
+        3,
+        2,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092673
+    },
+    {
+      "id": "v1-092",
+      "order": 92,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        1,
+        4,
+        7,
+        4,
+        7,
+        7,
+        7,
+        7,
+        5,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        2,
+        5,
+        1,
+        4,
+        6,
+        6,
+        6,
+        6,
+        6,
+        2,
+        5,
+        5,
+        0,
+        0,
+        6,
+        0,
+        6,
+        6,
+        2,
+        2,
+        5,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        5,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        8,
+        8,
+        5,
+        0,
+        0,
+        0,
+        8,
+        8,
+        8,
+        8,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092690
+    },
+    {
+      "id": "v1-093",
+      "order": 93,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        3,
+        6,
+        6,
+        5,
+        5,
+        5,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        2,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        2,
+        2,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        2,
+        1,
+        3,
+        3,
+        7,
+        7,
+        6,
+        6,
+        0,
+        2,
+        1,
+        8,
+        8,
+        8,
+        7,
+        7,
+        7,
+        4,
+        2,
+        1,
+        8,
+        1,
+        1,
+        7,
+        7,
+        7,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092713
+    },
+    {
+      "id": "v1-094",
+      "order": 94,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        3,
+        3,
+        3,
+        3,
+        4,
+        0,
+        0,
+        0,
+        8,
+        3,
+        4,
+        3,
+        3,
+        4,
+        0,
+        2,
+        8,
+        8,
+        3,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        8,
+        8,
+        1,
+        1,
+        4,
+        1,
+        4,
+        6,
+        2,
+        8,
+        8,
+        1,
+        1,
+        1,
+        1,
+        6,
+        6,
+        6,
+        7,
+        7,
+        1,
+        1,
+        5,
+        1,
+        1,
+        5,
+        7,
+        7,
+        7,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        1,
+        1,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092681
+    },
+    {
+      "id": "v1-095",
+      "order": 95,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        8,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        8,
+        4,
+        4,
+        0,
+        5,
+        5,
+        0,
+        0,
+        1,
+        8,
+        8,
+        8,
+        0,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        1,
+        3,
+        3,
+        3,
+        3,
+        2,
+        6,
+        6,
+        5,
+        1,
+        1,
+        3,
+        2,
+        2,
+        2,
+        2,
+        6,
+        6,
+        1,
+        7,
+        3,
+        2,
+        2,
+        2,
+        6,
+        6,
+        6,
+        7,
+        7,
+        3,
+        3,
+        2,
+        2,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        7,
+        2,
+        6,
+        6,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 8
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092689
+    },
+    {
+      "id": "v1-096",
+      "order": 96,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        2,
+        2,
+        0,
+        3,
+        3,
+        3,
+        6,
+        5,
+        5,
+        4,
+        2,
+        8,
+        8,
+        3,
+        6,
+        6,
+        5,
+        5,
+        4,
+        2,
+        2,
+        8,
+        3,
+        3,
+        6,
+        5,
+        5,
+        4,
+        7,
+        7,
+        8,
+        3,
+        3,
+        6,
+        5,
+        5,
+        4,
+        7,
+        7,
+        8,
+        1,
+        1,
+        1,
+        5,
+        5,
+        4,
+        7,
+        7,
+        8,
+        1,
+        1,
+        1,
+        5,
+        5,
+        7,
+        7,
+        7,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092694
+    },
+    {
+      "id": "v1-097",
+      "order": 97,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        0,
+        0,
+        8,
+        8,
+        8,
+        8,
+        5,
+        5,
+        5,
+        4,
+        4,
+        8,
+        8,
+        8,
+        8,
+        6,
+        5,
+        5,
+        4,
+        4,
+        8,
+        3,
+        3,
+        8,
+        6,
+        6,
+        5,
+        1,
+        1,
+        1,
+        1,
+        3,
+        6,
+        6,
+        6,
+        5,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        2,
+        6,
+        6,
+        7,
+        7,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 8
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 7
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092684
+    },
+    {
+      "id": "v1-098",
+      "order": 98,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        4,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        4,
+        1,
+        1,
+        3,
+        3,
+        8,
+        8,
+        0,
+        2,
+        4,
+        1,
+        3,
+        3,
+        3,
+        8,
+        8,
+        8,
+        8,
+        3,
+        3,
+        3,
+        3,
+        6,
+        8,
+        8,
+        7,
+        8,
+        5,
+        5,
+        5,
+        3,
+        6,
+        6,
+        7,
+        7,
+        8,
+        5,
+        5,
+        5,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092665
+    },
+    {
+      "id": "v1-099",
+      "order": 99,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        2,
+        8,
+        8,
+        8,
+        8,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        2,
+        2,
+        8,
+        8,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        5,
+        0,
+        5,
+        6,
+        1,
+        1,
+        1,
+        6,
+        4,
+        5,
+        0,
+        0,
+        3,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        0,
+        0,
+        3,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        0,
+        0,
+        3,
+        1,
+        1,
+        7,
+        4,
+        4,
+        4,
+        0,
+        0,
+        3,
+        3,
+        7,
+        7,
+        7,
+        4,
+        4,
+        0,
+        0,
+        3,
+        3,
+        7,
+        7,
+        7,
+        4,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092659
+    },
+    {
+      "id": "v1-100",
+      "order": 100,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        7,
+        7,
+        1,
+        1,
+        4,
+        4,
+        8,
+        0,
+        0,
+        7,
+        7,
+        1,
+        1,
+        4,
+        8,
+        8,
+        0,
+        0,
+        7,
+        7,
+        1,
+        1,
+        4,
+        4,
+        8,
+        5,
+        0,
+        7,
+        7,
+        1,
+        1,
+        4,
+        4,
+        8,
+        5,
+        0,
+        0,
+        6,
+        1,
+        4,
+        4,
+        8,
+        8,
+        5,
+        5,
+        5,
+        6,
+        1,
+        4,
+        4,
+        8,
+        8,
+        5,
+        2,
+        3,
+        6,
+        6,
+        4,
+        4,
+        8,
+        8,
+        5,
+        2,
+        3,
+        3,
+        6,
+        6,
+        6,
+        8,
+        8,
+        5,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026092698
+    }
+  ]
+}

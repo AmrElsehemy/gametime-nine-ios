@@ -268,7 +268,7 @@ final class GameScene: SKScene {
             preconditionFailure("Nine requires at least one validated bundled level")
         }
 
-        if let session = progress.activeSession,
+        if let session = progress.session(for: progress.lastPlayMode),
            let index = levels.firstIndex(where: {
                $0.definition.id == session.levelID
            }) {
@@ -363,16 +363,42 @@ final class GameScene: SKScene {
             )
         }
         renderScene()
+
+        if restoredMarkers != nil && latestEvaluation.isSolved {
+            recognizeRestoredSolvedLevel()
+        }
     }
 
     private func persistActiveSession(_ state: NineBoardState) {
-        progress.activeSession = NineSavedSession(
-            mode: playMode,
-            levelID: currentLevel.definition.id,
-            dayKey: playMode == .daily ? activeDailyDayKey : nil,
-            markers: state.markers.sorted()
+        progress.setSession(
+            NineSavedSession(
+                mode: playMode,
+                levelID: currentLevel.definition.id,
+                dayKey: playMode == .daily ? activeDailyDayKey : nil,
+                markers: state.markers.sorted()
+            )
         )
         progressStore.save(progress)
+    }
+
+    private func recognizeRestoredSolvedLevel() {
+        guard !isLevelComplete, latestEvaluation.isSolved else { return }
+
+        isLevelComplete = true
+
+        if playMode == .progression,
+           levelIndex == tutorialLevelCount - 1,
+           tutorialSession.isActive {
+            tutorialStore.markComplete()
+            emitTutorialEvents(
+                tutorialSession.complete(levelID: currentLevel.definition.id)
+            )
+        }
+
+        recordCompletion(restored: true)
+        lastCompletedReplay = replayRecorder?.replay
+        diagnostics.add("level", "restored_completed:\(currentLevel.definition.id)")
+        presentCompletion()
     }
 
     private func undoCurrentMove() {
@@ -467,8 +493,10 @@ final class GameScene: SKScene {
         renderScene()
     }
 
-    private func recordCompletion() {
-        let elapsed = max(0, uptime - levelStartedAt)
+    private func recordCompletion(restored: Bool = false) {
+        let elapsed: TimeInterval? = restored
+            ? nil
+            : max(0, uptime - levelStartedAt)
         let levelID = currentLevel.definition.id
         let gameCenter = NineGameCenterService.shared
 
@@ -510,7 +538,9 @@ final class GameScene: SKScene {
                 durationSeconds: elapsed,
                 dayKey: activeDailyDayKey
             )
-            gameCenter.submitDailySolve(durationSeconds: elapsed)
+            if let elapsed {
+                gameCenter.submitDailySolve(durationSeconds: elapsed)
+            }
             gameCenter.report(.firstDaily)
             if progress.streak.currentCount >= 7 {
                 gameCenter.report(.streakSeven)
@@ -552,16 +582,38 @@ final class GameScene: SKScene {
             return
         }
 
+        if !isLevelComplete, let state = boardState {
+            persistActiveSession(state)
+        }
         trackCurrentLevelAbandonIfNeeded(reason: "daily_switch")
         playMode = .daily
         dailyChallengeDayKey = todayDayKey
-        loadLevel(at: dailyIndex)
+
+        if let session = progress.dailySession,
+           session.dayKey == todayDayKey,
+           session.levelID == levels[dailyIndex].definition.id {
+            loadLevel(at: dailyIndex, restoring: Set(session.markers))
+        } else {
+            loadLevel(at: dailyIndex)
+        }
     }
 
     private func resumeProgression() {
+        if !isLevelComplete, let state = boardState {
+            persistActiveSession(state)
+        }
         trackCurrentLevelAbandonIfNeeded(reason: "progression_resume")
         playMode = .progression
         dailyChallengeDayKey = nil
+
+        if let session = progress.progressionSession,
+           let targetIndex = levels.firstIndex(where: {
+               $0.definition.id == session.levelID
+           }) {
+            loadLevel(at: targetIndex, restoring: Set(session.markers))
+            return
+        }
+
         let targetID = progress.currentLevelID
         let targetIndex = levels.firstIndex(where: {
             $0.definition.id == targetID
@@ -1073,7 +1125,7 @@ final class GameScene: SKScene {
 
         let controls: [(String, String, CGFloat, CGFloat)] = [
             (settings.soundEnabled ? "Sound" : "Muted", NodeName.sound, 72, 0.10),
-            ("Undo", NodeName.undo, 68, 0.30),
+            (moveHistory.canUndo ? "Undo" : "Undo —", NodeName.undo, 68, 0.30),
             ("Reset", NodeName.reset, 68, 0.50),
             (activeHint == nil ? "Hint" : "Hint ✓", NodeName.hint, 68, 0.70),
             (settings.hapticsEnabled ? "Haptic" : "No Hap", NodeName.haptics, 72, 0.90)

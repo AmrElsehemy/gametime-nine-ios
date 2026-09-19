@@ -8,168 +8,24 @@ on:
 jobs:
   test:
     runs-on: macos-latest
-    env:
-      GAMETIMEKIT_READ_TOKEN: ${{ secrets.GAMETIMEKIT_READ_TOKEN }}
     steps:
       - name: Checkout Nine
         uses: actions/checkout@v4
         with:
           path: gametime-nine-ios
 
-      - name: Checkout real GameTimeKit when cross-repo token is configured
-        if: ${{ env.GAMETIMEKIT_READ_TOKEN != '' }}
+      - name: Checkout real GameTimeKit
         uses: actions/checkout@v4
         with:
           repository: AmrElsehemy/gametime-ios
-          token: ${{ env.GAMETIMEKIT_READ_TOKEN }}
           path: gametime-ios
 
-      - name: Create CI GameTimeKit contract stub when token is unavailable
-        if: ${{ env.GAMETIMEKIT_READ_TOKEN == '' }}
+      - name: Verify real GameTimeKit checkout
         shell: bash
         run: |
-          mkdir -p \
-            gametime-ios/Sources/GameTimeCore \
-            gametime-ios/Sources/GameTimeExperience \
-            gametime-ios/Sources/GameTimeServices \
-            gametime-ios/Sources/GameTimeCommerce
-          cat > gametime-ios/Package.swift <<'EOF'
-          // swift-tools-version: 6.0
-          import PackageDescription
-          let package = Package(
-              name: "GameTimeKitCIStub",
-              platforms: [.iOS(.v17)],
-              products: [
-                  .library(name: "GameTimeCore", targets: ["GameTimeCore"]),
-                  .library(name: "GameTimeExperience", targets: ["GameTimeExperience"]),
-                  .library(name: "GameTimeServices", targets: ["GameTimeServices"]),
-                  .library(name: "GameTimeCommerce", targets: ["GameTimeCommerce"])
-              ],
-              targets: [
-                  .target(name: "GameTimeCore"),
-                  .target(name: "GameTimeExperience", dependencies: ["GameTimeCore"]),
-                  .target(name: "GameTimeServices", dependencies: ["GameTimeCore"]),
-                  .target(
-                      name: "GameTimeCommerce",
-                      dependencies: ["GameTimeCore", "GameTimeServices"]
-                  )
-              ]
-          )
-          EOF
-          cat > gametime-ios/Sources/GameTimeCore/GameTimeCore.swift <<'EOF'
-          public enum GameTimeKit {
-              public static let version = "ci-contract-stub"
-          }
-          EOF
-          cat > gametime-ios/Sources/GameTimeExperience/GameTimeExperience.swift <<'EOF'
-          import GameTimeCore
-          public enum GameTimeExperienceContractStub {}
-          EOF
-          cat > gametime-ios/Sources/GameTimeServices/GameTimeServices.swift <<'EOF'
-          import GameTimeCore
-          public enum GameTimeServicesContractStub {}
-          EOF
-          cat > gametime-ios/Sources/GameTimeCommerce/GameTimeCommerce.swift <<'EOF'
-          import Foundation
-
-          public struct RewardOffer: Codable, Equatable, Sendable, Identifiable {
-              public let id: String
-              public let kind: String
-              public let amount: Int
-              public init(id: String, kind: String, amount: Int = 1) {
-                  self.id = id
-                  self.kind = kind
-                  self.amount = amount
-              }
-          }
-
-          public struct RewardRequest: Codable, Equatable, Sendable, Identifiable {
-              public let id: String
-              public let offer: RewardOffer
-              public init(id: String, offer: RewardOffer) {
-                  self.id = id
-                  self.offer = offer
-              }
-          }
-
-          public struct RewardTransaction: Codable, Equatable, Sendable, Identifiable {
-              public let id: UUID
-              public let rewardID: String
-              public let offerID: String
-              public let grantedAt: Date
-              public init(
-                  id: UUID = UUID(),
-                  rewardID: String,
-                  offerID: String,
-                  grantedAt: Date
-              ) {
-                  self.id = id
-                  self.rewardID = rewardID
-                  self.offerID = offerID
-                  self.grantedAt = grantedAt
-              }
-          }
-
-          public enum RewardedAdOutcome: Equatable, Sendable {
-              case unavailable
-              case notEarned
-              case alreadyGranted
-              case granted(RewardTransaction)
-          }
-
-          public protocol RewardedAdProviding: Sendable {
-              func isAvailable(for offer: RewardOffer) async -> Bool
-              func present(offer: RewardOffer) async throws -> Bool
-          }
-
-          public protocol RewardReceiptPersisting: Sendable {
-              func contains(rewardID: String) async -> Bool
-              func record(_ transaction: RewardTransaction) async throws -> Bool
-          }
-
-          public actor RewardedAdCoordinator {
-              private let provider: any RewardedAdProviding
-              private let receipts: any RewardReceiptPersisting
-
-              public init(
-                  provider: any RewardedAdProviding,
-                  receipts: any RewardReceiptPersisting
-              ) {
-                  self.provider = provider
-                  self.receipts = receipts
-              }
-
-              public func attempt(_ request: RewardRequest) async throws -> RewardedAdOutcome {
-                  if await receipts.contains(rewardID: request.id) {
-                      return .alreadyGranted
-                  }
-                  guard await provider.isAvailable(for: request.offer) else {
-                      return .unavailable
-                  }
-                  guard try await provider.present(offer: request.offer) else {
-                      return .notEarned
-                  }
-                  let transaction = RewardTransaction(
-                      rewardID: request.id,
-                      offerID: request.offer.id,
-                      grantedAt: Date()
-                  )
-                  guard try await receipts.record(transaction) else {
-                      return .alreadyGranted
-                  }
-                  return .granted(transaction)
-              }
-          }
-          EOF
-
-      - name: Explain dependency mode
-        run: |
-          if [ -d gametime-ios/.git ]; then
-            echo "Using real private GameTimeKit checkout."
-          else
-            echo "Using compile-contract stub because GAMETIMEKIT_READ_TOKEN is not configured."
-            echo "GameTimeKit itself is validated independently in AmrElsehemy/gametime-ios CI."
-          fi
+          test -d gametime-ios/.git
+          test -f gametime-ios/Package.swift
+          echo "Nine CI is using the real GameTimeKit checkout at $(git -C gametime-ios rev-parse --short HEAD)."
 
       - name: Select available iPhone simulator
         id: simulator

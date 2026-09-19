@@ -87,13 +87,15 @@ struct NineSavedSession: Codable, Equatable, Sendable {
 }
 
 struct NineSaveState: Codable, Equatable, Sendable {
-    static let currentSchemaVersion = 2
+    static let currentSchemaVersion = 3
 
     var schemaVersion: Int
     var currentLevelID: String?
     var unlockedLevelIDs: [String]
     var levelProgress: [String: NineLevelProgress]
-    var activeSession: NineSavedSession?
+    var progressionSession: NineSavedSession?
+    var dailySession: NineSavedSession?
+    var lastPlayMode: NinePlayMode
     var dailyCompletions: [String: String]
     var streak: NineStreakState
 
@@ -104,10 +106,40 @@ struct NineSaveState: Codable, Equatable, Sendable {
             currentLevelID: firstID,
             unlockedLevelIDs: firstID.map { [$0] } ?? [],
             levelProgress: [:],
-            activeSession: nil,
+            progressionSession: nil,
+            dailySession: nil,
+            lastPlayMode: .progression,
             dailyCompletions: [:],
             streak: .empty
         )
+    }
+
+    func session(for mode: NinePlayMode) -> NineSavedSession? {
+        switch mode {
+        case .progression:
+            return progressionSession
+        case .daily:
+            return dailySession
+        }
+    }
+
+    mutating func setSession(_ session: NineSavedSession) {
+        lastPlayMode = session.mode
+        switch session.mode {
+        case .progression:
+            progressionSession = session
+        case .daily:
+            dailySession = session
+        }
+    }
+
+    mutating func clearSession(for mode: NinePlayMode) {
+        switch mode {
+        case .progression:
+            progressionSession = nil
+        case .daily:
+            dailySession = nil
+        }
     }
 
     mutating func recordProgressionCompletion(
@@ -131,7 +163,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
             currentLevelID = levelID
         }
 
-        activeSession = nil
+        progressionSession = nil
     }
 
     mutating func recordDailyCompletion(
@@ -153,7 +185,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
             )
         }
 
-        activeSession = nil
+        dailySession = nil
     }
 
     private mutating func recordLevelCompletion(
@@ -201,28 +233,54 @@ struct NineSaveState: Codable, Equatable, Sendable {
             validIDs.contains($0.value)
         }
 
-        if let session = activeSession,
-           let level = levels.first(where: { $0.definition.id == session.levelID }) {
-            let dailySessionIsCurrent = session.mode != .daily
-                || session.dayKey == todayDayKey
-            if dailySessionIsCurrent {
-                let validMarkers = session.markers
-                    .filter(level.definition.contains)
-                    .sorted()
-                cleaned.activeSession = NineSavedSession(
-                    mode: session.mode,
-                    levelID: session.levelID,
-                    dayKey: session.mode == .daily ? session.dayKey : nil,
-                    markers: validMarkers
-                )
-            } else {
-                cleaned.activeSession = nil
-            }
-        } else {
-            cleaned.activeSession = nil
+        cleaned.progressionSession = sanitizedSession(
+            progressionSession,
+            expectedMode: .progression,
+            levels: levels,
+            todayDayKey: todayDayKey
+        )
+        cleaned.dailySession = sanitizedSession(
+            dailySession,
+            expectedMode: .daily,
+            levels: levels,
+            todayDayKey: todayDayKey
+        )
+
+        if cleaned.lastPlayMode == .daily && cleaned.dailySession == nil {
+            cleaned.lastPlayMode = .progression
         }
 
         return cleaned
+    }
+
+    private func sanitizedSession(
+        _ session: NineSavedSession?,
+        expectedMode: NinePlayMode,
+        levels: [PrototypeLevel],
+        todayDayKey: String
+    ) -> NineSavedSession? {
+        guard let session,
+              session.mode == expectedMode,
+              let level = levels.first(where: {
+                  $0.definition.id == session.levelID
+              }) else {
+            return nil
+        }
+
+        if expectedMode == .daily && session.dayKey != todayDayKey {
+            return nil
+        }
+
+        let validMarkers = session.markers
+            .filter(level.definition.contains)
+            .sorted()
+
+        return NineSavedSession(
+            mode: expectedMode,
+            levelID: session.levelID,
+            dayKey: expectedMode == .daily ? session.dayKey : nil,
+            markers: validMarkers
+        )
     }
 }
 
@@ -243,6 +301,16 @@ enum NineSaveCodec {
         let completedLevelIDs: [String]
     }
 
+    private struct LegacyV2: Codable {
+        let schemaVersion: Int
+        let currentLevelID: String?
+        let unlockedLevelIDs: [String]
+        let levelProgress: [String: NineLevelProgress]
+        let activeSession: NineSavedSession?
+        let dailyCompletions: [String: String]
+        let streak: NineStreakState
+    }
+
     static func encode(_ state: NineSaveState) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
@@ -261,6 +329,23 @@ enum NineSaveCodec {
         switch probe.schemaVersion {
         case NineSaveState.currentSchemaVersion:
             return try decoder.decode(NineSaveState.self, from: data)
+        case 2:
+            let legacy = try decoder.decode(LegacyV2.self, from: data)
+            return NineSaveState(
+                schemaVersion: NineSaveState.currentSchemaVersion,
+                currentLevelID: legacy.currentLevelID,
+                unlockedLevelIDs: legacy.unlockedLevelIDs,
+                levelProgress: legacy.levelProgress,
+                progressionSession: legacy.activeSession?.mode == .progression
+                    ? legacy.activeSession
+                    : nil,
+                dailySession: legacy.activeSession?.mode == .daily
+                    ? legacy.activeSession
+                    : nil,
+                lastPlayMode: legacy.activeSession?.mode ?? .progression,
+                dailyCompletions: legacy.dailyCompletions,
+                streak: legacy.streak
+            )
         case 1:
             let legacy = try decoder.decode(LegacyV1.self, from: data)
             var progress: [String: NineLevelProgress] = [:]
@@ -272,7 +357,9 @@ enum NineSaveCodec {
                 currentLevelID: legacy.currentLevelID,
                 unlockedLevelIDs: legacy.unlockedLevelIDs,
                 levelProgress: progress,
-                activeSession: nil,
+                progressionSession: nil,
+                dailySession: nil,
+                lastPlayMode: .progression,
                 dailyCompletions: [:],
                 streak: .empty
             )
@@ -284,6 +371,7 @@ enum NineSaveCodec {
 
 @MainActor
 final class NineProgressStore {
+    // Keep the existing storage key stable so v1/v2 installs migrate in place.
     private static let defaultKey = "nine.progress.save.v2"
 
     private let defaults: UserDefaults
