@@ -1,0 +1,55 @@
+name: Bootstrap Commerce Test Target
+
+on:
+  push:
+    branches: [feat/commerce-14]
+    paths:
+      - .github/workflows/bootstrap-commerce-test-target.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/commerce-14
+      - name: Add commerce tests to Xcode target
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('Nine.xcodeproj/project.pbxproj')
+          s = p.read_text()
+          s = s.replace(
+              '\t\tD10000000000000000000012 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000004 /* GoogleMobileAds */; };',
+              '\t\tD10000000000000000000012 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000004 /* GoogleMobileAds */; };\n\t\tD10000000000000000000013 /* NineCommerceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000010 /* NineCommerceTests.swift */; };'
+          )
+          s = s.replace(
+              '\t\tD2000000000000000000000F /* NineCommerce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineCommerce.swift; sourceTree = "<group>"; };',
+              '\t\tD2000000000000000000000F /* NineCommerce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineCommerce.swift; sourceTree = "<group>"; };\n\t\tD20000000000000000000010 /* NineCommerceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineCommerceTests.swift; sourceTree = "<group>"; };'
+          )
+          s = s.replace(
+              '\t\t\t\tD2000000000000000000000D /* NineFeedbackTests.swift */,\n\t\t\t);\n\t\t\tpath = NineTests;',
+              '\t\t\t\tD2000000000000000000000D /* NineFeedbackTests.swift */,\n\t\t\t\tD20000000000000000000010 /* NineCommerceTests.swift */,\n\t\t\t);\n\t\t\tpath = NineTests;'
+          )
+          source_marker = '\t\t\t\tD1000000000000000000000E /* NineFeedbackTests.swift in Sources */,\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = 0;'
+          if source_marker not in s:
+              raise SystemExit('test Sources marker missing')
+          s = s.replace(
+              source_marker,
+              '\t\t\t\tD1000000000000000000000E /* NineFeedbackTests.swift in Sources */,\n\t\t\t\tD10000000000000000000013 /* NineCommerceTests.swift in Sources */,\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = 0;',
+              1
+          )
+          p.write_text(s)
+          PY
+      - name: Remove bootstrap workflow and commit
+        run: |
+          rm .github/workflows/bootstrap-commerce-test-target.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Add rewarded hint policy tests to test target'
+          git push origin HEAD:feat/commerce-14
