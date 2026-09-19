@@ -585,7 +585,6 @@ final class NineNoOpAnalyticsClient: NineAnalyticsClient {
     func track(_ event: NineAnalyticsEvent) {}
 }
 
-@MainActor
 final class NineDebugAnalyticsClient: NineAnalyticsClient {
     private let capacity: Int
     private(set) var events: [NineAnalyticsEvent] = []
