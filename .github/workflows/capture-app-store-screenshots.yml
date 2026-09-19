@@ -112,6 +112,12 @@ jobs:
           name: nine-real-build-capture-masters
           path: gametime-nine-ios/Marketing/Capture/raw/*.png
           retention-days: 90
+      - name: Upload composed App Store masters
+        uses: actions/upload-artifact@v4
+        with:
+          name: nine-app-store-screenshot-masters
+          path: gametime-nine-ios/Marketing/AppStore/Screenshots/0*.png
+          retention-days: 90
       - name: Commit final App Store screenshots
         working-directory: gametime-nine-ios
         run: |
@@ -123,4 +129,6 @@ jobs:
             exit 0
           fi
           git commit -m 'Capture five real-build App Store screenshot masters'
-          git push origin HEAD:feat/capture-assets-18
+          git fetch origin "$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
