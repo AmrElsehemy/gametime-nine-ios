@@ -231,3 +231,102 @@ final class NineFeedbackEngine {
         }
     }
 }
+
+// MARK: - Puzzle assistance primitives
+
+enum NineHintAction: String, Equatable, Sendable {
+    case place
+    case remove
+}
+
+struct NineHint: Equatable, Sendable {
+    let action: NineHintAction
+    let coordinate: BoardCoordinate
+    let reason: String
+}
+
+enum NineHintEngine {
+    /// Returns one deterministic preview action without mutating the board.
+    /// Wrong/conflicting player markers are removed before a solution cell is revealed.
+    static func nextHint(
+        level: PrototypeLevel,
+        state: NineBoardState
+    ) -> NineHint? {
+        let authoredSolution = Set(level.solution)
+        let initial = level.initialMarkers
+        let evaluation = NineConstraintEngine.evaluate(
+            state,
+            level: level.definition
+        )
+
+        if let conflict = evaluation.conflictingCoordinates
+            .subtracting(initial)
+            .sorted()
+            .first {
+            return NineHint(
+                action: .remove,
+                coordinate: conflict,
+                reason: "This pebble conflicts with another rule."
+            )
+        }
+
+        if let wrong = state.markers
+            .subtracting(authoredSolution)
+            .subtracting(initial)
+            .sorted()
+            .first {
+            return NineHint(
+                action: .remove,
+                coordinate: wrong,
+                reason: "This placement leads away from the unique solution."
+            )
+        }
+
+        if let missing = level.solution.first(where: {
+            !state.markers.contains($0)
+        }) {
+            return NineHint(
+                action: .place,
+                coordinate: missing,
+                reason: "A useful next placement is highlighted."
+            )
+        }
+
+        return nil
+    }
+}
+
+struct NineMoveHistory: Equatable, Sendable {
+    private(set) var states: [Set<BoardCoordinate>] = []
+
+    var canUndo: Bool { states.count > 1 }
+
+    mutating func reset(to markers: Set<BoardCoordinate>) {
+        states = [markers]
+    }
+
+    mutating func record(_ markers: Set<BoardCoordinate>) {
+        guard states.last != markers else { return }
+        states.append(markers)
+    }
+
+    mutating func undo() -> Set<BoardCoordinate>? {
+        guard states.count > 1 else { return nil }
+        states.removeLast()
+        return states.last
+    }
+}
+
+enum NineGameplayIntentKind: String, Equatable, Sendable {
+    case place
+    case remove
+    case undo
+    case reset
+    case hintPreview = "hint_preview"
+}
+
+struct NineGameplayIntent: Equatable, Sendable {
+    let kind: NineGameplayIntentKind
+    let levelID: String
+    let coordinate: BoardCoordinate?
+}

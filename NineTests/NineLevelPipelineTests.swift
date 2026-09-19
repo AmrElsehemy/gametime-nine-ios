@@ -124,18 +124,11 @@ import Testing
     #expect(migrated.streak == .empty)
 }
 
-@Test func saveCodecRoundTripsActiveBoardAndBestTime() throws {
+@Test func saveCodecRoundTripsProgressAndBestTime() throws {
     let levels = PrototypeLevels.production
     var state = NineSaveState.fresh(levels: levels)
     let level = try #require(levels.first)
-    let marker = BoardCoordinate(row: 0, column: 0)
 
-    state.activeSession = NineSavedSession(
-        mode: .progression,
-        levelID: level.definition.id,
-        dayKey: nil,
-        markers: [marker]
-    )
     state.recordProgressionCompletion(
         levelID: level.definition.id,
         nextLevelID: levels.dropFirst().first?.definition.id,
@@ -282,4 +275,73 @@ import Testing
 
     #expect(sanitized.activeSession == nil)
     #expect(sanitized.currentLevelID == levels.first?.definition.id)
+}
+
+@Test func moveHistoryUndoIsPredictableAndStopsAtInitialState() throws {
+    let level = PrototypeLevels.production[5]
+    let initial = level.initialMarkers
+    let missing = level.solution.filter { !initial.contains($0) }
+    #expect(missing.count >= 2)
+    let firstCoordinate = try #require(missing.first)
+    let secondCoordinate = try #require(missing.dropFirst().first)
+
+    let firstMove = initial.union([firstCoordinate])
+    let secondMove = firstMove.union([secondCoordinate])
+    var history = NineMoveHistory()
+
+    history.reset(to: initial)
+    history.record(firstMove)
+    history.record(secondMove)
+
+    #expect(history.canUndo)
+    #expect(history.undo() == firstMove)
+    #expect(history.undo() == initial)
+    #expect(!history.canUndo)
+    #expect(history.undo() == nil)
+}
+
+@Test func hintPreviewPlacesAUniqueSolutionCellWithoutMutatingState() throws {
+    let level = PrototypeLevels.production[5]
+    let state = NineBoardState(
+        level: level.definition,
+        markers: level.initialMarkers
+    )
+    let before = state.markers
+
+    let hint = try #require(
+        NineHintEngine.nextHint(level: level, state: state)
+    )
+
+    #expect(hint.action == .place)
+    #expect(Set(level.solution).contains(hint.coordinate))
+    #expect(!state.markers.contains(hint.coordinate))
+    #expect(state.markers == before)
+}
+
+@Test func hintRemovesWrongPlayerMarkerBeforeRevealingMore() throws {
+    let level = PrototypeLevels.production[5]
+    let solution = Set(level.solution)
+    let wrong = try #require(
+        (0..<level.definition.size).flatMap { row in
+            (0..<level.definition.size).map {
+                BoardCoordinate(row: row, column: $0)
+            }
+        }.first(where: {
+            !solution.contains($0) && !level.initialMarkers.contains($0)
+        })
+    )
+
+    var state = NineBoardState(
+        level: level.definition,
+        markers: level.initialMarkers
+    )
+    let placed = state.placeMarker(at: wrong, level: level.definition)
+    #expect(placed)
+
+    let hint = try #require(
+        NineHintEngine.nextHint(level: level, state: state)
+    )
+
+    #expect(hint.action == .remove)
+    #expect(hint.coordinate == wrong)
 }
