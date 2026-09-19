@@ -52,6 +52,10 @@ final class GameScene: SKScene {
     private var activeHint: NineHint?
     private var emittedGameplayIntents: [NineGameplayIntent] = []
 
+    private let diagnostics = NineDiagnosticsBuffer()
+    private var replayRecorder: NineReplayRecorder?
+    private var lastCompletedReplay: NineReplay?
+
     private var levelIndex = 0
     private var boardState: NineBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
@@ -219,6 +223,8 @@ final class GameScene: SKScene {
         if latestEvaluation.isSolved {
             isLevelComplete = true
             recordCompletion()
+            lastCompletedReplay = replayRecorder?.replay
+            diagnostics.add("level", "completed:\(currentLevel.definition.id)")
             let isMilestone = playMode == .daily
                 || (levelIndex + 1).isMultiple(of: 5)
             feedback.play(isMilestone ? .milestone : .solved)
@@ -239,6 +245,7 @@ final class GameScene: SKScene {
             dailyChallengeDayKey = session.mode == .daily
                 ? (session.dayKey ?? todayDayKey)
                 : nil
+            diagnostics.add("save", "restored:\(session.levelID)")
             loadLevel(
                 at: index,
                 restoring: Set(session.markers)
@@ -279,6 +286,15 @@ final class GameScene: SKScene {
         )
         isLevelComplete = false
         levelStartedAt = uptime
+        replayRecorder = NineReplayRecorder(
+            level: level,
+            mode: playMode,
+            dayKey: playMode == .daily ? activeDailyDayKey : nil,
+            initialMarkers: state.markers,
+            appVersion: NineRuntimeMetadata.appVersion,
+            buildVersion: NineRuntimeMetadata.buildVersion
+        )
+        diagnostics.add("level", "loaded:\(level.definition.id)")
 
         if playMode == .progression {
             progress.currentLevelID = level.definition.id
@@ -960,7 +976,7 @@ final class GameScene: SKScene {
 
         let controls: [(String, String, CGFloat, CGFloat)] = [
             (settings.soundEnabled ? "Sound" : "Muted", NodeName.sound, 72, 0.10),
-            (moveHistory.canUndo ? "Undo" : "Undo", NodeName.undo, 68, 0.30),
+            ("Undo", NodeName.undo, 68, 0.30),
             ("Reset", NodeName.reset, 68, 0.50),
             (activeHint == nil ? "Hint" : "Hint ✓", NodeName.hint, 68, 0.70),
             (settings.hapticsEnabled ? "Haptic" : "No Hap", NodeName.haptics, 72, 0.90)
@@ -1096,13 +1112,14 @@ final class GameScene: SKScene {
         kind: NineGameplayIntentKind,
         coordinate: BoardCoordinate? = nil
     ) {
-        emittedGameplayIntents.append(
-            NineGameplayIntent(
-                kind: kind,
-                levelID: currentLevel.definition.id,
-                coordinate: coordinate
-            )
+        let intent = NineGameplayIntent(
+            kind: kind,
+            levelID: currentLevel.definition.id,
+            coordinate: coordinate
         )
+        emittedGameplayIntents.append(intent)
+        replayRecorder?.record(intent)
+
         if emittedGameplayIntents.count > 200 {
             emittedGameplayIntents.removeFirst(
                 emittedGameplayIntents.count - 200
@@ -1110,9 +1127,50 @@ final class GameScene: SKScene {
         }
 
         #if DEBUG
-        print("[NineIntent] \(kind.rawValue) \(coordinate.map(String.init(describing:)) ?? "-")")
+        let coordinateText = coordinate.map {
+            "\($0.row),\($0.column)"
+        } ?? "-"
+        print("[NineIntent] \(kind.rawValue) \(coordinateText)")
         #endif
     }
+
+    private func makeSupportPackage() -> NineSupportPackage {
+        NineSupportPackage(
+            schemaVersion: NineSupportPackage.currentSchemaVersion,
+            appVersion: NineRuntimeMetadata.appVersion,
+            buildVersion: NineRuntimeMetadata.buildVersion,
+            deviceClass: NineRuntimeMetadata.deviceClass,
+            osClass: NineRuntimeMetadata.osClass,
+            levelID: levels.indices.contains(levelIndex)
+                ? currentLevel.definition.id
+                : nil,
+            levelSchemaVersion: levels.indices.contains(levelIndex)
+                ? currentLevel.definition.schemaVersion
+                : nil,
+            replay: lastCompletedReplay ?? replayRecorder?.replay,
+            breadcrumbs: diagnostics.breadcrumbs
+        )
+    }
+
+    #if DEBUG
+    private func exportCurrentReplay() throws -> URL? {
+        guard let replay = lastCompletedReplay ?? replayRecorder?.replay else {
+            return nil
+        }
+        let data = try NineReplayCodec.encode(replay)
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("nine-replay-\(replay.replayID.uuidString).json")
+        try data.write(to: url, options: .atomic)
+        diagnostics.add("replay", "exported:\(replay.replayID.uuidString)")
+        return url
+    }
+
+    private func importReplay(from url: URL) throws -> NineReplay {
+        let replay = try NineReplayCodec.decode(Data(contentsOf: url))
+        diagnostics.add("replay", "imported:\(replay.replayID.uuidString)")
+        return replay
+    }
+    #endif
 
     private func emitTutorialEvents(_ events: [NineTutorialEvent]) {
         guard !events.isEmpty else { return }
