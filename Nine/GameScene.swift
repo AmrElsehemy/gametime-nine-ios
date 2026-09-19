@@ -14,6 +14,8 @@ final class GameScene: SKScene {
         static let sound = "action:sound"
         static let haptics = "action:haptics"
         static let daily = "action:daily"
+        static let rewardAccept = "action:rewardAccept"
+        static let rewardDecline = "action:rewardDecline"
         static let cellPrefix = "cell:"
     }
 
@@ -51,6 +53,9 @@ final class GameScene: SKScene {
     private var moveHistory = NineMoveHistory()
     private var activeHint: NineHint?
     private var emittedGameplayIntents: [NineGameplayIntent] = []
+    private let rewardedHintService = NineRewardedHintService()
+    private var isRewardOfferVisible = false
+    private var isRewardRequestInFlight = false
 
     private let diagnostics = NineDiagnosticsBuffer()
     private var replayRecorder: NineReplayRecorder?
@@ -163,8 +168,22 @@ final class GameScene: SKScene {
             return
         }
 
+        if hitNodes.contains(where: { $0.name == NodeName.rewardAccept }) {
+            acceptRewardedHintOffer()
+            return
+        }
+
+        if hitNodes.contains(where: { $0.name == NodeName.rewardDecline }) {
+            declineRewardedHintOffer()
+            return
+        }
+
+        if isRewardOfferVisible || isRewardRequestInFlight {
+            return
+        }
+
         if hitNodes.contains(where: { $0.name == NodeName.hint }) {
-            previewHint()
+            requestHint()
             return
         }
 
@@ -429,6 +448,96 @@ final class GameScene: SKScene {
         renderScene()
     }
 
+    private var isInitialTeaching: Bool {
+        playMode == .progression
+            && tutorialSession.isActive
+            && levelIndex < tutorialLevelCount
+    }
+
+    private func requestHint() {
+        guard !isLevelComplete, activeHint == nil else { return }
+
+        if isInitialTeaching {
+            previewHint()
+            return
+        }
+
+        guard NineRewardedHintPolicy.isEligible(
+            isTutorial: isInitialTeaching,
+            isLevelComplete: isLevelComplete,
+            hasActiveHint: activeHint != nil
+        ) else {
+            return
+        }
+
+        isRewardOfferVisible = true
+        analytics.track(
+            .rewardOfferShown,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: max(0, uptime - levelStartedAt),
+            extra: ["reward_kind": "hint"]
+        )
+        diagnostics.add("commerce", "rewarded_hint_offer_shown")
+        renderScene()
+    }
+
+    private func declineRewardedHintOffer() {
+        guard isRewardOfferVisible, !isRewardRequestInFlight else { return }
+        isRewardOfferVisible = false
+        diagnostics.add("commerce", "rewarded_hint_offer_declined")
+        renderScene()
+    }
+
+    private func acceptRewardedHintOffer() {
+        guard isRewardOfferVisible, !isRewardRequestInFlight else { return }
+        isRewardOfferVisible = false
+        isRewardRequestInFlight = true
+
+        analytics.track(
+            .rewardOfferAccepted,
+            level: currentLevel,
+            mode: playMode,
+            durationSeconds: max(0, uptime - levelStartedAt),
+            extra: ["reward_kind": "hint"]
+        )
+        diagnostics.add("commerce", "rewarded_hint_offer_accepted")
+        renderScene()
+
+        let rewardID = "nine.hint.\(analyticsAttemptID.uuidString)"
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let outcome = await rewardedHintService.earnHint(rewardID: rewardID)
+            isRewardRequestInFlight = false
+
+            switch outcome {
+            case .granted, .alreadyGranted:
+                analytics.track(
+                    .rewardCompleted,
+                    level: currentLevel,
+                    mode: playMode,
+                    durationSeconds: max(0, uptime - levelStartedAt),
+                    extra: [
+                        "reward_kind": "hint",
+                        "outcome": outcome == .granted ? "granted" : "already_granted"
+                    ],
+                    dedupeKey: "reward_completed:\(rewardID)"
+                )
+                diagnostics.add("commerce", "rewarded_hint_granted")
+                previewHint()
+            case .unavailable:
+                diagnostics.add("commerce", "rewarded_hint_unavailable")
+                renderScene()
+            case .notEarned:
+                diagnostics.add("commerce", "rewarded_hint_not_earned")
+                renderScene()
+            case .failed:
+                diagnostics.add("commerce", "rewarded_hint_failed")
+                renderScene()
+            }
+        }
+    }
+
     private func previewHint() {
         guard !isLevelComplete,
               let state = boardState,
@@ -660,6 +769,9 @@ final class GameScene: SKScene {
         addChild(board)
 
         addFooter()
+        if isRewardOfferVisible || isRewardRequestInFlight {
+            addRewardedHintOffer()
+        }
     }
 
     private func addHeader() {
@@ -1104,6 +1216,65 @@ final class GameScene: SKScene {
         )
         path.closeSubpath()
         return path
+    }
+
+    private func addRewardedHintOffer() {
+        let blocker = SKShapeNode(rectOf: size)
+        blocker.name = isRewardRequestInFlight ? nil : NodeName.rewardDecline
+        blocker.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        blocker.fillColor = inkColor.withAlphaComponent(0.22)
+        blocker.strokeColor = .clear
+        blocker.zPosition = 90
+        addChild(blocker)
+
+        let card = SKShapeNode(
+            rectOf: CGSize(width: min(320, size.width - 40), height: 190),
+            cornerRadius: 28
+        )
+        card.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        card.fillColor = canvasColor
+        card.strokeColor = inkColor.withAlphaComponent(0.12)
+        card.lineWidth = 1
+        card.zPosition = 91
+        addChild(card)
+
+        let title = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        title.text = isRewardRequestInFlight ? "Opening reward…" : "Need a clue?"
+        title.fontSize = 21
+        title.fontColor = inkColor
+        title.position = CGPoint(x: 0, y: 50)
+        title.zPosition = 1
+        card.addChild(title)
+
+        let copy = SKLabelNode(fontNamed: "AvenirNext-Medium")
+        copy.text = isRewardRequestInFlight
+            ? "Your puzzle stays exactly as it is."
+            : "Watch one optional rewarded ad to reveal a single hint."
+        copy.fontSize = 13
+        copy.fontColor = inkColor.withAlphaComponent(0.72)
+        copy.position = CGPoint(x: 0, y: 18)
+        copy.zPosition = 1
+        card.addChild(copy)
+
+        guard !isRewardRequestInFlight else { return }
+
+        let accept = makeButton(
+            title: "Watch & hint",
+            name: NodeName.rewardAccept,
+            width: 132
+        )
+        accept.position = CGPoint(x: -72, y: -48)
+        accept.zPosition = 2
+        card.addChild(accept)
+
+        let decline = makeButton(
+            title: "Not now",
+            name: NodeName.rewardDecline,
+            width: 112
+        )
+        decline.position = CGPoint(x: 72, y: -48)
+        decline.zPosition = 2
+        card.addChild(decline)
     }
 
     private func addFooter() {
