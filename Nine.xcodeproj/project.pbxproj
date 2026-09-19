@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A44000000000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A44000000000000000000002 /* Assets.xcassets */; };
 		D10000000000000000000001 /* NineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000001 /* NineApp.swift */; };
 		D10000000000000000000002 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000002 /* GameScene.swift */; };
 		D10000000000000000000003 /* NineSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000003 /* NineSmokeTests.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A44000000000000000000002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D20000000000000000000001 /* NineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineApp.swift; sourceTree = "<group>"; };
 		D20000000000000000000002 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D20000000000000000000003 /* NineSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineSmokeTests.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				D20000000000000000000001 /* NineApp.swift */,
+				A44000000000000000000002 /* Assets.xcassets */,
 				D20000000000000000000002 /* GameScene.swift */,
 				D20000000000000000000006 /* NineBoardModel.swift */,
 				D20000000000000000000008 /* NineLevelPipeline.swift */,
@@ -210,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1000000000000000000000C /* NineLevels-v1.json in Resources */,
+				A44000000000000000000001 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +296,7 @@
 		D13000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Nine/Nine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -318,6 +323,7 @@
 		D13000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Nine/Nine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
