@@ -92,6 +92,7 @@ final class GameScene: SKScene {
         backgroundColor = canvasColor
         view.ignoresSiblingOrder = true
         beginAnalyticsSessionIfNeeded()
+        beginGameCenterIfNeeded()
 
         if boardState == nil {
             restoreSavedSession()
@@ -469,6 +470,7 @@ final class GameScene: SKScene {
     private func recordCompletion() {
         let elapsed = max(0, uptime - levelStartedAt)
         let levelID = currentLevel.definition.id
+        let gameCenter = NineGameCenterService.shared
 
         analytics.track(
             .levelCompleted,
@@ -478,6 +480,7 @@ final class GameScene: SKScene {
             dedupeKey: "level_completed:\(analyticsAttemptID.uuidString)"
         )
         hasActiveAnalyticsLevel = false
+        gameCenter.report(.firstSolve)
 
         switch playMode {
         case .progression:
@@ -490,6 +493,9 @@ final class GameScene: SKScene {
                 durationSeconds: elapsed,
                 dayKey: todayDayKey
             )
+            if levelIndex == tutorialLevelCount - 1 {
+                gameCenter.report(.tutorialComplete)
+            }
         case .daily:
             analytics.track(
                 .dailyCompleted,
@@ -504,6 +510,11 @@ final class GameScene: SKScene {
                 durationSeconds: elapsed,
                 dayKey: activeDailyDayKey
             )
+            gameCenter.submitDailySolve(durationSeconds: elapsed)
+            gameCenter.report(.firstDaily)
+            if progress.streak.currentCount >= 7 {
+                gameCenter.report(.streakSeven)
+            }
         }
 
         progressStore.save(progress)
@@ -1200,6 +1211,14 @@ final class GameScene: SKScene {
         analytics.trackFirstOpenIfNeeded()
         analytics.track(.sessionStart, dedupeKey: "session_start")
         analyticsSessionStartedAt = uptime
+    }
+
+    private func beginGameCenterIfNeeded() {
+        let gameCenter = NineGameCenterService.shared
+        gameCenter.diagnosticHandler = { [weak self] message in
+            self?.diagnostics.add("game_center", message)
+        }
+        gameCenter.authenticateIfNeeded()
     }
 
     private func trackCurrentLevelAbandonIfNeeded(reason: String) {
