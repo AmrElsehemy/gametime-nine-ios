@@ -120,8 +120,42 @@ import Testing
     #expect(migrated.unlockedLevelIDs == ["v1-001", "v1-002", "v1-003"])
     #expect(migrated.levelProgress["v1-001"]?.completionCount == 1)
     #expect(migrated.levelProgress["v1-002"]?.completionCount == 1)
-    #expect(migrated.activeSession == nil)
+    #expect(migrated.progressionSession == nil)
+    #expect(migrated.dailySession == nil)
+    #expect(migrated.lastPlayMode == .progression)
     #expect(migrated.streak == .empty)
+}
+
+@Test func saveCodecMigratesV2ActiveSessionIntoItsModeSlot() throws {
+    let legacy = """
+    {
+      "schemaVersion": 2,
+      "currentLevelID": "v1-003",
+      "unlockedLevelIDs": ["v1-001", "v1-002", "v1-003"],
+      "levelProgress": {},
+      "activeSession": {
+        "mode": "daily",
+        "levelID": "v1-006",
+        "dayKey": "2026-09-18",
+        "markers": [{"row": 0, "column": 1}]
+      },
+      "dailyCompletions": {},
+      "streak": {
+        "currentCount": 0,
+        "longestCount": 0,
+        "lastCompletedDayKey": null
+      }
+    }
+    """
+
+    let migrated = try NineSaveCodec.decode(Data(legacy.utf8))
+
+    #expect(migrated.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(migrated.progressionSession == nil)
+    #expect(migrated.dailySession?.levelID == "v1-006")
+    #expect(migrated.dailySession?.dayKey == "2026-09-18")
+    #expect(migrated.dailySession?.markers == [BoardCoordinate(row: 0, column: 1)])
+    #expect(migrated.lastPlayMode == .daily)
 }
 
 @Test func saveCodecRoundTripsProgressAndBestTime() throws {
@@ -141,6 +175,36 @@ import Testing
 
     #expect(decoded == state)
     #expect(decoded.levelProgress[level.definition.id]?.bestDurationSeconds == 12.5)
+}
+
+@Test func saveCodecRoundTripsIndependentProgressionAndDailySessions() throws {
+    let levels = PrototypeLevels.production
+    var state = NineSaveState.fresh(levels: levels)
+    let progression = levels[0]
+    let daily = levels[5]
+
+    state.setSession(
+        NineSavedSession(
+            mode: .progression,
+            levelID: progression.definition.id,
+            dayKey: nil,
+            markers: progression.initialMarkers.sorted()
+        )
+    )
+    state.setSession(
+        NineSavedSession(
+            mode: .daily,
+            levelID: daily.definition.id,
+            dayKey: "2026-09-18",
+            markers: daily.initialMarkers.sorted()
+        )
+    )
+
+    let decoded = try NineSaveCodec.decode(NineSaveCodec.encode(state))
+
+    #expect(decoded.progressionSession == state.progressionSession)
+    #expect(decoded.dailySession == state.dailySession)
+    #expect(decoded.lastPlayMode == .daily)
 }
 
 @Test func dailyChallengeSelectionIsStableAndSupportsBundledOverride() throws {
@@ -257,15 +321,27 @@ import Testing
     #expect(defaults.data(forKey: key) == nil)
 }
 
-@Test func staleDailySessionIsDiscardedDuringSanitization() throws {
+@Test func staleDailySessionIsDiscardedWithoutDestroyingProgressionSession() throws {
     let levels = PrototypeLevels.production
     var state = NineSaveState.fresh(levels: levels)
+    let progressionLevel = levels[0]
     let dailyLevel = levels[5]
-    state.activeSession = NineSavedSession(
-        mode: .daily,
-        levelID: dailyLevel.definition.id,
-        dayKey: "2026-09-17",
-        markers: [BoardCoordinate(row: 0, column: 0)]
+
+    state.setSession(
+        NineSavedSession(
+            mode: .progression,
+            levelID: progressionLevel.definition.id,
+            dayKey: nil,
+            markers: progressionLevel.initialMarkers.sorted()
+        )
+    )
+    state.setSession(
+        NineSavedSession(
+            mode: .daily,
+            levelID: dailyLevel.definition.id,
+            dayKey: "2026-09-17",
+            markers: [BoardCoordinate(row: 0, column: 0)]
+        )
     )
 
     let sanitized = state.sanitized(
@@ -273,8 +349,52 @@ import Testing
         todayDayKey: "2026-09-18"
     )
 
-    #expect(sanitized.activeSession == nil)
-    #expect(sanitized.currentLevelID == levels.first?.definition.id)
+    #expect(sanitized.dailySession == nil)
+    #expect(sanitized.progressionSession?.levelID == progressionLevel.definition.id)
+    #expect(sanitized.lastPlayMode == .progression)
+    #expect(sanitized.currentLevelID == progressionLevel.definition.id)
+}
+
+@Test func completingOneModeDoesNotDiscardTheOtherModesSession() throws {
+    let levels = PrototypeLevels.production
+    var state = NineSaveState.fresh(levels: levels)
+    let progressionLevel = levels[0]
+    let dailyLevel = levels[5]
+
+    let progressionSession = NineSavedSession(
+        mode: .progression,
+        levelID: progressionLevel.definition.id,
+        dayKey: nil,
+        markers: progressionLevel.initialMarkers.sorted()
+    )
+    let dailySession = NineSavedSession(
+        mode: .daily,
+        levelID: dailyLevel.definition.id,
+        dayKey: "2026-09-18",
+        markers: dailyLevel.initialMarkers.sorted()
+    )
+
+    state.setSession(progressionSession)
+    state.setSession(dailySession)
+    state.recordDailyCompletion(
+        levelID: dailyLevel.definition.id,
+        durationSeconds: 20,
+        dayKey: "2026-09-18"
+    )
+
+    #expect(state.dailySession == nil)
+    #expect(state.progressionSession == progressionSession)
+
+    state.setSession(dailySession)
+    state.recordProgressionCompletion(
+        levelID: progressionLevel.definition.id,
+        nextLevelID: levels[1].definition.id,
+        durationSeconds: 15,
+        dayKey: "2026-09-18"
+    )
+
+    #expect(state.progressionSession == nil)
+    #expect(state.dailySession == dailySession)
 }
 
 @Test func moveHistoryUndoIsPredictableAndStopsAtInitialState() throws {
@@ -344,4 +464,45 @@ import Testing
 
     #expect(hint.action == .remove)
     #expect(hint.coordinate == wrong)
+}
+
+@Test func hintNeverRemovesCorrectMarkerWhenCorrectAndWrongMarkersConflict() throws {
+    let level = PrototypeLevels.production[5]
+    let solution = Set(level.solution)
+    let initial = level.initialMarkers
+    let correct = try #require(
+        level.solution.first(where: {
+            !initial.contains($0) && $0.column < level.definition.size - 1
+        })
+    )
+    let wrong = try #require(
+        ((correct.column + 1)..<level.definition.size)
+            .map { BoardCoordinate(row: correct.row, column: $0) }
+            .first(where: { !solution.contains($0) })
+    )
+
+    var state = NineBoardState(
+        level: level.definition,
+        markers: initial
+    )
+    let placedCorrect = state.placeMarker(at: correct, level: level.definition)
+    let placedWrong = state.placeMarker(at: wrong, level: level.definition)
+    #expect(placedCorrect)
+    #expect(placedWrong)
+
+    let evaluation = NineConstraintEngine.evaluate(
+        state,
+        level: level.definition
+    )
+    #expect(evaluation.conflictingCoordinates.contains(correct))
+    #expect(evaluation.conflictingCoordinates.contains(wrong))
+    #expect(correct < wrong)
+
+    let hint = try #require(
+        NineHintEngine.nextHint(level: level, state: state)
+    )
+
+    #expect(hint.action == .remove)
+    #expect(hint.coordinate == wrong)
+    #expect(hint.coordinate != correct)
 }
