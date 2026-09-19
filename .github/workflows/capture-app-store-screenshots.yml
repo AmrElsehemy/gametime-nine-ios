@@ -1,0 +1,127 @@
+name: Capture App Store Screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/capture-assets-18]
+    paths:
+      - Nine/GameScene.swift
+      - Tools/compose_app_store_screenshots.py
+      - .github/workflows/capture-app-store-screenshots.yml
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Nine
+        uses: actions/checkout@v4
+        with:
+          path: gametime-nine-ios
+          ref: feat/capture-assets-18
+          fetch-depth: 0
+      - name: Checkout real GameTimeKit
+        uses: actions/checkout@v4
+        with:
+          repository: AmrElsehemy/gametime-ios
+          path: gametime-ios
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install screenshot compositor dependency
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+      - name: Select large iPhone simulator
+        id: simulator
+        shell: bash
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c '
+          import json,sys
+          data=json.load(sys.stdin)["devices"]
+          phones=[d for devices in data.values() for d in devices if d.get("isAvailable") and d.get("name","").startswith("iPhone")]
+          def score(d):
+              n=d.get("name","")
+              return (4 if "17 Pro Max" in n else 3 if "16 Pro Max" in n else 2 if "Pro Max" in n else 1, n)
+          phones=sorted(phones,key=score,reverse=True)
+          print(phones[0]["udid"] if phones else "")')
+          test -n "$DEVICE_ID"
+          echo "id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+      - name: Build simulator app
+        working-directory: gametime-nine-ios
+        run: |
+          xcodebuild \
+            -project Nine.xcodeproj \
+            -scheme Nine \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}" \
+            -derivedDataPath "$RUNNER_TEMP/NineDerived" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+      - name: Install build
+        run: |
+          APP="$RUNNER_TEMP/NineDerived/Build/Products/Debug-iphonesimulator/Nine.app"
+          test -d "$APP"
+          xcrun simctl install "${{ steps.simulator.outputs.id }}" "$APP"
+      - name: Capture deterministic gameplay masters
+        working-directory: gametime-nine-ios
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEVICE="${{ steps.simulator.outputs.id }}"
+          BUNDLE="ai.knowlly.gametime.nine"
+          RAW="Marketing/Capture/raw"
+          rm -rf "$RAW"
+          mkdir -p "$RAW"
+
+          capture() {
+            preset="$1"
+            output="$2"
+            xcrun simctl terminate "$DEVICE" "$BUNDLE" >/dev/null 2>&1 || true
+            xcrun simctl launch "$DEVICE" "$BUNDLE" --nine-capture "$preset"
+            sleep 2
+            xcrun simctl io "$DEVICE" screenshot "$RAW/$output"
+          }
+
+          capture simple 01-simple.png
+          capture placement 02-placement.png
+          capture territories 03-territories.png
+          capture daily 04-daily.png
+          capture solved 05-solved.png
+      - name: Compose 6.9-inch App Store masters
+        working-directory: gametime-nine-ios
+        run: python Tools/compose_app_store_screenshots.py
+      - name: Verify final dimensions
+        working-directory: gametime-nine-ios
+        run: |
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          expected=(1320,2868)
+          paths=sorted(Path('Marketing/AppStore/Screenshots').glob('0*.png'))
+          assert len(paths)==5, paths
+          for p in paths:
+              assert Image.open(p).size==expected, (p,Image.open(p).size)
+              print(p, expected)
+          PY
+      - name: Upload clean capture masters
+        uses: actions/upload-artifact@v4
+        with:
+          name: nine-real-build-capture-masters
+          path: gametime-nine-ios/Marketing/Capture/raw/*.png
+          retention-days: 90
+      - name: Commit final App Store screenshots
+        working-directory: gametime-nine-ios
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Marketing/AppStore/Screenshots/0*.png
+          if git diff --cached --quiet; then
+            echo 'Screenshots already current.'
+            exit 0
+          fi
+          git commit -m 'Capture five real-build App Store screenshot masters'
+          git push origin HEAD:feat/capture-assets-18
