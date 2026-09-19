@@ -21,6 +21,7 @@
 		D1000000000000000000000C /* NineLevels-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000B /* NineLevels-v1.json */; };
 		D1000000000000000000000D /* NineFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000C /* NineFeedback.swift */; };
 		D1000000000000000000000E /* NineFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000D /* NineFeedbackTests.swift */; };
+		D1000000000000000000000F /* NineGameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000E /* NineGameCenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D2000000000000000000000B /* NineLevels-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Resources/NineLevels-v1.json"; sourceTree = "<group>"; };
 		D2000000000000000000000C /* NineFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineFeedback.swift; sourceTree = "<group>"; };
 		D2000000000000000000000D /* NineFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineFeedbackTests.swift; sourceTree = "<group>"; };
+		D2000000000000000000000E /* NineGameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineGameCenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				D20000000000000000000008 /* NineLevelPipeline.swift */,
 				D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */,
 				D2000000000000000000000C /* NineFeedback.swift */,
+				D2000000000000000000000E /* NineGameCenter.swift */,
 				D2000000000000000000000B /* NineLevels-v1.json */,
 			);
 			path = Nine;
@@ -230,6 +233,7 @@
 				D10000000000000000000009 /* NineLevelPipeline.swift in Sources */,
 				D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */,
 				D1000000000000000000000D /* NineFeedback.swift in Sources */,
+				D1000000000000000000000F /* NineGameCenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
