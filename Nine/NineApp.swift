@@ -31,7 +31,7 @@ private struct NineRootView: View {
                     Image(systemName: "gearshape.fill")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.86))
-                        .frame(width: 42, height: 42)
+                        .frame(width: 44, height: 44)
                         .background(.black.opacity(0.28), in: Circle())
                         .overlay {
                             Circle().stroke(.white.opacity(0.10), lineWidth: 1)
@@ -112,7 +112,7 @@ private struct NineSettingsView: View {
                             .foregroundStyle(.secondary)
                     }
 
-                    Text("Reduce Motion follows your iPhone accessibility setting. Nine keeps all puzzle states readable without requiring motion.")
+                    Text("Reduce Motion follows your iPhone accessibility setting. Exactly One keeps all puzzle states readable without requiring motion.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -142,7 +142,7 @@ private struct NineSettingsView: View {
                     }
                     .disabled(restoreState == .restoring)
 
-                    Text("Nine currently uses optional rewarded ads only. Restore Purchases is kept here for future entitlements and App Store consistency.")
+                    Text("Exactly One has no paid entitlements in this version.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -219,7 +219,7 @@ private struct NineSettingsView: View {
         case .restoring:
             return "Restoring…"
         case .restored:
-            return "Purchases Restored"
+            return "Restore Check Complete"
         case .failed:
             return "Restore Failed — Try Again"
         }
