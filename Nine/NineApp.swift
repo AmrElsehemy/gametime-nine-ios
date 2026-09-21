@@ -150,15 +150,15 @@ private struct NineSettingsView: View {
                 Section("Help & Privacy") {
                     Link(
                         "Support",
-                        destination: URL(string: "https://knowlly.games/support/nine")!
+                        destination: URL(string: "https://knowlly.games/support/exactly-one")!
                     )
                     Link(
                         "Report a Problem",
-                        destination: URL(string: "https://knowlly.games/support/nine?report=1")!
+                        destination: URL(string: "https://knowlly.games/support/exactly-one?report=1")!
                     )
                     Link(
                         "Privacy",
-                        destination: URL(string: "https://knowlly.games/privacy/nine")!
+                        destination: URL(string: "https://knowlly.games/privacy/exactly-one")!
                     )
                 }
 

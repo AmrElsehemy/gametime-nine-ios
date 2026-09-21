@@ -40,6 +40,6 @@ logic,puzzle,pebble,territory,brain,deduction,daily,grid,offline
 
 - Verify the title reservation and name-clearance checks before submission; do not replace the approved name silently.
 - Recheck this copy against the exact release build. It makes no claim that ads, purchases, or Game Center are configured for production.
-- Verify support and privacy URLs actually resolve and provide a verified contact and final policy. Existing app paths are `/support/nine` and `/privacy/nine`; these technical paths are not the public product name.
+- Verify support and privacy URLs actually resolve and provide a verified contact and final policy. Public app paths are `/support/exactly-one` and `/privacy/exactly-one`. The website preserves redirects from the previous `nine` paths for older builds.
 - Complete privacy answers, age rating, review contact, copyright/legal entity, signing, and build selection using verified account information. Do not invent those values.
 - No App Store URL is published until a real listing exists.
