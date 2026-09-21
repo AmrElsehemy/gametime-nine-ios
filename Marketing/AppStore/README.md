@@ -1,4 +1,4 @@
-# Nine App Store launch assets
+# Exactly One App Store launch assets
 
 Source of truth for the v1 visual pack.
 

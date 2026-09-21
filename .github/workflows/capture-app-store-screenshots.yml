@@ -3,7 +3,7 @@ name: Capture App Store Screenshots
 on:
   workflow_dispatch:
   push:
-    branches: [feat/capture-assets-18]
+    branches: [feat/capture-assets-18, feat/exactly-one-release-branding]
     paths:
       - Nine/GameScene.swift
       - Tools/compose_app_store_screenshots.py

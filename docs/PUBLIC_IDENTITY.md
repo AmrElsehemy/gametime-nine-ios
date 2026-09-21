@@ -1,11 +1,15 @@
-# Nine — public identity lock
+# Exactly One — public identity
 
 Status: **LOCKED for v1**
 
-- Public product name: **Nine**
+- Public product name: **Exactly One**
+- App Store title: **Exactly One: Logic Puzzle**
+- App Store subtitle: **One pebble. Every territory.**
 - Publisher / umbrella brand: **Knowlly Games**
 - Repository/internal identifier remains `gametime-nine-ios`
 - Bundle identifier remains `ai.knowlly.gametime.nine`
 - Visual language: **Tactile Territories / Pebble**
 
-The public-name gate is now satisfied by the approved icon/achievement/screenshot direction and the production gameplay treatment. If App Store Connect requires a unique listing-name suffix, use a descriptive suffix without changing the in-app product identity or repository name.
+The approved naming and messaging source of truth is [BRAND.md](BRAND.md). The name must communicate that this is a logic puzzle first. Internal identifiers do not change.
+
+Approval of the name is not evidence of App Store Connect reservation or trademark clearance. Those checks remain release gates; do not silently substitute another listing name if reservation fails.

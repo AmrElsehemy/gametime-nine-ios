@@ -126,7 +126,7 @@ def compose(raw_path: Path, out_path: Path, title: str, subtitle: str) -> None:
 
     draw = ImageDraw.Draw(canvas)
     brand_font = font(30, bold=True)
-    brand = "NINE   ·   KNOWLLY GAMES"
+    brand = "EXACTLY ONE   ·   KNOWLLY GAMES"
     b = draw.textbbox((0, 0), brand, font=brand_font)
     draw.text(((TARGET[0] - (b[2] - b[0])) / 2, 66), brand, font=brand_font, fill=(151, 205, 194, 220))
 

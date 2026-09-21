@@ -1,4 +1,4 @@
-# Nine v1 real-build capture plan
+# Exactly One v1 real-build capture plan
 
 Capture from the final iPhone build, portrait, with clean UI and no debug overlays.
 

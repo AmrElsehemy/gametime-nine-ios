@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Nine v1 artwork from the approved Tactile Territories / Pebble direction.
+"""Generate Exactly One v1 artwork from the approved Tactile Territories / Pebble direction.
 
 This is intentionally reproducible studio tooling: the shipping app icon and Game
 Center achievement art are generated in-repo instead of depending on an external
@@ -320,7 +320,7 @@ def patch_tests() -> None:
 def write_manifest() -> None:
     path = ROOT / "Marketing" / "AppStore" / "ASSET_MANIFEST.md"
     path.write_text(
-        "# Nine v1 launch asset manifest\n\n"
+        "# Exactly One v1 launch asset manifest\n\n"
         "Approved direction: **Tactile Territories / Pebble**. Generated reproducibly by `Tools/generate_launch_assets.py`.\n\n"
         "| Asset | Dimensions | Shipping use | Status |\n"
         "|---|---:|---|---|\n"
@@ -350,7 +350,7 @@ def main() -> None:
     patch_game_center_code()
     patch_tests()
     write_manifest()
-    print("Generated and integrated Nine launch artwork")
+    print("Generated and integrated Exactly One launch artwork")
 
 
 if __name__ == "__main__":
