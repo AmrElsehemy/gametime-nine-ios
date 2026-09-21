@@ -23,6 +23,10 @@
 		D1000000000000000000000D /* NineFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000C /* NineFeedback.swift */; };
 		D1000000000000000000000E /* NineFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000D /* NineFeedbackTests.swift */; };
 		D1000000000000000000000F /* NineGameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000E /* NineGameCenter.swift */; };
+		D10000000000000000000010 /* NineCommerce.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000F /* NineCommerce.swift */; };
+		D10000000000000000000011 /* GameTimeCommerce in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000003 /* GameTimeCommerce */; };
+		D10000000000000000000012 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000004 /* GoogleMobileAds */; };
+		D10000000000000000000013 /* NineCommerceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000010 /* NineCommerceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,8 @@
 		D2000000000000000000000C /* NineFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineFeedback.swift; sourceTree = "<group>"; };
 		D2000000000000000000000D /* NineFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineFeedbackTests.swift; sourceTree = "<group>"; };
 		D2000000000000000000000E /* NineGameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineGameCenter.swift; sourceTree = "<group>"; };
+		D2000000000000000000000F /* NineCommerce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineCommerce.swift; sourceTree = "<group>"; };
+		D20000000000000000000010 /* NineCommerceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineCommerceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,8 @@
 			files = (
 				D10000000000000000000004 /* GameTimeCore in Frameworks */,
 				D10000000000000000000005 /* GameTimeExperience in Frameworks */,
+				D10000000000000000000011 /* GameTimeCommerce in Frameworks */,
+				D10000000000000000000012 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +102,7 @@
 				D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */,
 				D2000000000000000000000C /* NineFeedback.swift */,
 				D2000000000000000000000E /* NineGameCenter.swift */,
+				D2000000000000000000000F /* NineCommerce.swift */,
 				D2000000000000000000000B /* NineLevels-v1.json */,
 			);
 			path = Nine;
@@ -106,6 +115,7 @@
 				D20000000000000000000007 /* NineBoardModelTests.swift */,
 				D2000000000000000000000A /* NineLevelPipelineTests.swift */,
 				D2000000000000000000000D /* NineFeedbackTests.swift */,
+				D20000000000000000000010 /* NineCommerceTests.swift */,
 			);
 			path = NineTests;
 			sourceTree = "<group>";
@@ -138,6 +148,8 @@
 			packageProductDependencies = (
 				D90000000000000000000001 /* GameTimeCore */,
 				D90000000000000000000002 /* GameTimeExperience */,
+				D90000000000000000000003 /* GameTimeCommerce */,
+				D90000000000000000000004 /* GoogleMobileAds */,
 			);
 			productName = Nine;
 			productReference = D20000000000000000000004 /* Nine.app */;
@@ -195,6 +207,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */,
+				D93000000000000000000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D40000000000000000000004 /* Products */;
@@ -238,6 +251,7 @@
 				D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */,
 				D1000000000000000000000D /* NineFeedback.swift in Sources */,
 				D1000000000000000000000F /* NineGameCenter.swift in Sources */,
+				D10000000000000000000010 /* NineCommerce.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +263,7 @@
 				D10000000000000000000008 /* NineBoardModelTests.swift in Sources */,
 				D1000000000000000000000B /* NineLevelPipelineTests.swift in Sources */,
 				D1000000000000000000000E /* NineFeedbackTests.swift in Sources */,
+				D10000000000000000000013 /* NineCommerceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,8 +318,10 @@
 				DEVELOPMENT_TEAM = 4XD74F27J2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Nine;
+				INFOPLIST_KEY_GADApplicationIdentifier = "ca-app-pub-3940256099942544~1458002511";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_NineRewardedAdUnitID = "ca-app-pub-3940256099942544/1712485313";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -330,6 +347,7 @@
 				DEVELOPMENT_TEAM = 4XD74F27J2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Nine;
+				INFOPLIST_KEY_GADApplicationIdentifier = "ca-app-pub-3940256099942544~1458002511";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -417,6 +435,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D93000000000000000000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		D90000000000000000000001 /* GameTimeCore */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -427,6 +456,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
 			productName = GameTimeExperience;
+		};
+		D90000000000000000000003 /* GameTimeCommerce */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
+			productName = GameTimeCommerce;
+		};
+		D90000000000000000000004 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D93000000000000000000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
