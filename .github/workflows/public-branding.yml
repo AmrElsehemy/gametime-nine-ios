@@ -1,0 +1,14 @@
+name: Public branding
+on:
+  pull_request:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  branding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check app and screenshot branding
+        run: python3 Tools/check_public_branding.py

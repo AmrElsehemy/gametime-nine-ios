@@ -1,6 +1,6 @@
 # Undo, Reset and Hints
 
-Nine gives players recovery and assistance tools without coupling puzzle rules to monetization or advertising.
+Exactly One gives players recovery and assistance tools without coupling puzzle rules to monetization or advertising.
 
 ## Undo
 

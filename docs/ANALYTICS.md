@@ -1,8 +1,8 @@
-# Nine analytics contract
+# Exactly One analytics contract
 
 Issue: #12
 
-Nine instruments the smallest event set needed to understand onboarding, puzzle health, daily engagement, and later monetization. Analytics is observability only: tracking is synchronous, non-throwing at the game boundary, and must never block input, saving, progression, or offline play.
+Exactly One instruments the smallest event set needed to understand onboarding, puzzle health, daily engagement, and later monetization. Analytics is observability only: tracking is synchronous, non-throwing at the game boundary, and must never block input, saving, progression, or offline play.
 
 ## Funnel
 
@@ -83,7 +83,7 @@ Entering the daily mode emits `daily_started` alongside the level start. Solving
 
 `NineAnalyticsClient` is injectable and intentionally tiny. The game currently uses a bounded debug client for local inspection; a production analytics SDK adapter can replace it without changing gameplay code or the event vocabulary.
 
-The adapter contract does not throw into gameplay. Any SDK/network failure must be swallowed or buffered inside the adapter. Nine remains fully playable with a no-op analytics client.
+The adapter contract does not throw into gameplay. Any SDK/network failure must be swallowed or buffered inside the adapter. Exactly One remains fully playable with a no-op analytics client.
 
 ## Debugging
 
@@ -101,4 +101,4 @@ Automated coverage verifies:
 
 ## Future provider integration
 
-When the production analytics provider is selected, prefer adapting the shared GameTime services layer rather than adding provider-specific calls throughout Nine. The event contract in this document remains the game-facing source of truth.
+When the production analytics provider is selected, prefer adapting the shared GameTime services layer rather than adding provider-specific calls throughout Exactly One. The event contract in this document remains the game-facing source of truth.

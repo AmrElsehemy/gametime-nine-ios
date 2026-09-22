@@ -1,10 +1,10 @@
-# Nine deterministic replay, diagnostics, and support payload
+# Exactly One deterministic replay, diagnostics, and support payload
 
 Issue: #11
 
 ## Purpose
 
-Nine records **player intent**, not rendered frames. A replay is a small, versioned, deterministic description of the logical session that can be used for regression tests, support reproduction, QA, and later marketing capture.
+Exactly One records **player intent**, not rendered frames. A replay is a small, versioned, deterministic description of the logical session that can be used for regression tests, support reproduction, QA, and later marketing capture.
 
 Replay and diagnostics are never required for core play. Failure to encode, export, import, or inspect diagnostic data must not block puzzle interaction.
 

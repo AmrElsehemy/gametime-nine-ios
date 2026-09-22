@@ -1,6 +1,6 @@
 # Progression, Persistence and Daily Challenge
 
-Nine is local-first. Progress, active puzzle state, daily completion and streak state are stored locally and must remain usable with no network connection.
+Exactly One is local-first. Progress, active puzzle state, daily completion and streak state are stored locally and must remain usable with no network connection.
 
 ## Save schema
 
@@ -28,7 +28,7 @@ On load, save data is sanitized against the current bundled catalog:
 - the first bundled level is always available as a recovery point
 - a stale daily session is discarded when its UTC day has ended
 
-If the saved JSON cannot be decoded, Nine removes that corrupt save payload and starts with fresh local progression. Tutorial completion and Sound/Haptics preferences already persist in their own small stores and are intentionally not duplicated into the progression payload.
+If the saved JSON cannot be decoded, Exactly One removes that corrupt save payload and starts with fresh local progression. Tutorial completion and Sound/Haptics preferences already persist in their own small stores and are intentionally not duplicated into the progression payload.
 
 ## Progression
 
