@@ -1,17 +1,17 @@
-# Nine Game Center
+# Exactly One Game Center
 
 Issue: #13
 
-Nine uses Apple's native Game Center layer for optional identity, achievements, and daily competition. Game Center is an enhancement only: authentication failure, cancellation, network failure, score submission failure, or achievement-reporting failure must never block puzzle play, saves, progression, daily selection, or completion.
+Exactly One uses Apple's native Game Center layer for optional identity, achievements, and daily competition. Game Center is an enhancement only: authentication failure, cancellation, network failure, score submission failure, or achievement-reporting failure must never block puzzle play, saves, progression, daily selection, or completion.
 
 ## Product contract
 
 - Authentication is requested opportunistically after the game scene becomes active.
-- Declining or failing authentication leaves Nine fully playable.
+- Declining or failing authentication leaves Exactly One fully playable.
 - Authenticated players get the native Game Center access point.
 - Daily results use solve duration in **milliseconds**; lower is better.
 - Game Center errors become diagnostic breadcrumbs only.
-- Nine does not create a proprietary account system.
+- Exactly One does not create a proprietary account system.
 
 ## Identifiers
 
@@ -29,7 +29,7 @@ Configuration intent:
 - recurring: daily
 - score range: 1 ... 86,400,000
 
-A recurring daily leaderboard gives each daily puzzle a fresh competitive surface while Nine keeps using the same stable identifier.
+A recurring daily leaderboard gives each daily puzzle a fresh competitive surface while Exactly One keeps using the same stable identifier.
 
 ### Achievements
 
@@ -50,7 +50,7 @@ Game Center remains the authority for cross-device achievement state.
 
 ## Daily score validity
 
-Nine submits only after the local deterministic puzzle engine has marked the daily puzzle solved. The score is derived from the same monotonic elapsed duration used by local completion tracking:
+Exactly One submits only after the local deterministic puzzle engine has marked the daily puzzle solved. The score is derived from the same monotonic elapsed duration used by local completion tracking:
 
 `milliseconds = max(1, round(durationSeconds * 1000))`
 
@@ -60,19 +60,19 @@ This is client-authoritative for v1. If leaderboard abuse becomes material later
 
 ## Native access UI
 
-When authenticated, `GKAccessPoint` is enabled so players can open the native Game Center surface without Nine building a parallel profile/social UI. It is disabled when the player is not authenticated.
+When authenticated, `GKAccessPoint` is enabled so players can open the native Game Center surface without Exactly One building a parallel profile/social UI. It is disabled when the player is not authenticated.
 
 ## App Store Connect checklist
 
 Before sandbox verification:
 
-- [ ] Enable the Game Center capability for the Nine App ID / Xcode target.
-- [ ] Confirm the app's bundle identifier is the production Nine bundle identifier.
+- [ ] Enable the Game Center capability for the Exactly One App ID / Xcode target.
+- [ ] Confirm the app's bundle identifier is the production Exactly One bundle identifier.
 - [ ] Enable Game Center for the app record in App Store Connect.
 - [ ] Create leaderboard `ai.knowlly.nine.daily.time` with low-to-high ordering and daily recurrence.
 - [ ] Create the four achievement identifiers exactly as documented above.
 - [ ] Add localized leaderboard/achievement names and descriptions.
-- [ ] Add achievement artwork that matches the final Nine visual language.
+- [ ] Add achievement artwork that matches the final Exactly One visual language.
 - [ ] Confirm sandbox tester / Game Center test account access.
 - [ ] Run on a signed physical device or suitable signed sandbox build.
 - [ ] Verify auth decline/cancel still leaves the game playable.

@@ -1,6 +1,6 @@
-# Nine Content Factory
+# Exactly One Content Factory
 
-Nine uses a deterministic **sidecar CLI**, not a second GUI app, for v1 content production.
+Exactly One uses a deterministic **sidecar CLI**, not a second GUI app, for v1 content production.
 
 ## Why a CLI first
 

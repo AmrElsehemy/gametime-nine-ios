@@ -1,6 +1,6 @@
-# Nine Feedback System
+# Exactly One Feedback System
 
-Nine uses a small semantic feedback layer so gameplay intent, not framework calls, defines the sensory response.
+Exactly One uses a small semantic feedback layer so gameplay intent, not framework calls, defines the sensory response.
 
 ## Semantic events
 
@@ -40,4 +40,4 @@ When iOS Reduce Motion is enabled, repeated/pulsing and shake/scale choreography
 
 ## Reuse policy
 
-This system remains local to Nine for now. GameTimeKit should absorb a shared semantic feedback abstraction only after Game #002 proves that the event vocabulary/engine boundary is genuinely reusable.
+This system remains local to Exactly One for now. GameTimeKit should absorb a shared semantic feedback abstraction only after Game #002 proves that the event vocabulary/engine boundary is genuinely reusable.

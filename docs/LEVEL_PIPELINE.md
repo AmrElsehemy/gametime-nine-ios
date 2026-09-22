@@ -1,6 +1,6 @@
-# Nine Level Pipeline
+# Exactly One Level Pipeline
 
-Nine's production puzzle content is data, not game logic.
+Exactly One's production puzzle content is data, not game logic.
 
 ## Source of truth
 
