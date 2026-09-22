@@ -1,4 +1,4 @@
-# Nine v1 App Store screenshot copy
+# Exactly One v1 App Store screenshot copy
 
 1. **A Surprisingly Simple Idea**
    - Place one Pebble in every row, column, and territory.

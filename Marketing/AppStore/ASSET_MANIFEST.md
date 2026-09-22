@@ -1,4 +1,4 @@
-# Nine v1 launch asset manifest
+# Exactly One v1 launch asset manifest
 
 Approved direction: **Tactile Territories / Pebble**. Generated reproducibly by `Tools/generate_launch_assets.py`.
 
