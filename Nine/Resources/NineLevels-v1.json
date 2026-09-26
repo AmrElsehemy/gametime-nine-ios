@@ -94,7 +94,17 @@
         }
       ],
       "difficulty": 1,
-      "authoringSeed": 2273
+      "authoringSeed": 2273,
+      "focusTuning": {
+        "threeStarTime": 25000,
+        "twoStarTime": 45000,
+        "oneStarTime": 70000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-002",
@@ -181,7 +191,17 @@
         }
       ],
       "difficulty": 1,
-      "authoringSeed": 2339
+      "authoringSeed": 2339,
+      "focusTuning": {
+        "threeStarTime": 25000,
+        "twoStarTime": 45000,
+        "oneStarTime": 70000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-003",
@@ -264,7 +284,17 @@
         }
       ],
       "difficulty": 1,
-      "authoringSeed": 3497
+      "authoringSeed": 3497,
+      "focusTuning": {
+        "threeStarTime": 25000,
+        "twoStarTime": 45000,
+        "oneStarTime": 70000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-004",
@@ -343,7 +373,17 @@
         }
       ],
       "difficulty": 1,
-      "authoringSeed": 3557
+      "authoringSeed": 3557,
+      "focusTuning": {
+        "threeStarTime": 25000,
+        "twoStarTime": 45000,
+        "oneStarTime": 70000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-005",
@@ -417,7 +457,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 3633
+      "authoringSeed": 3633,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-006",
@@ -491,7 +541,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092444
+      "authoringSeed": 2026092444,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-007",
@@ -565,7 +625,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092078
+      "authoringSeed": 2026092078,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-008",
@@ -639,7 +709,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092347
+      "authoringSeed": 2026092347,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-009",
@@ -713,7 +793,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026091917
+      "authoringSeed": 2026091917,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-010",
@@ -787,7 +877,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092166
+      "authoringSeed": 2026092166,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-011",
@@ -861,7 +961,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092447
+      "authoringSeed": 2026092447,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-012",
@@ -935,7 +1045,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092031
+      "authoringSeed": 2026092031,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-013",
@@ -1009,7 +1129,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092345
+      "authoringSeed": 2026092345,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-014",
@@ -1083,7 +1213,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092219
+      "authoringSeed": 2026092219,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-015",
@@ -1157,7 +1297,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092322
+      "authoringSeed": 2026092322,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-016",
@@ -1231,7 +1381,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092420
+      "authoringSeed": 2026092420,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-017",
@@ -1305,7 +1465,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092020
+      "authoringSeed": 2026092020,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-018",
@@ -1379,7 +1549,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092157
+      "authoringSeed": 2026092157,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-019",
@@ -1453,7 +1633,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026091938
+      "authoringSeed": 2026091938,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-020",
@@ -1527,7 +1717,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092299
+      "authoringSeed": 2026092299,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-021",
@@ -1601,7 +1801,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092479
+      "authoringSeed": 2026092479,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-022",
@@ -1675,7 +1885,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026091953
+      "authoringSeed": 2026091953,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-023",
@@ -1749,7 +1969,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092351
+      "authoringSeed": 2026092351,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-024",
@@ -1823,7 +2053,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026091963
+      "authoringSeed": 2026091963,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-025",
@@ -1897,7 +2137,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092062
+      "authoringSeed": 2026092062,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-026",
@@ -1971,7 +2221,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092061
+      "authoringSeed": 2026092061,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-027",
@@ -2045,7 +2305,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092430
+      "authoringSeed": 2026092430,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-028",
@@ -2119,7 +2389,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092224
+      "authoringSeed": 2026092224,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-029",
@@ -2193,7 +2473,17 @@
         }
       ],
       "difficulty": 2,
-      "authoringSeed": 2026092098
+      "authoringSeed": 2026092098,
+      "focusTuning": {
+        "threeStarTime": 30000,
+        "twoStarTime": 50000,
+        "oneStarTime": 75000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-030",
@@ -2267,7 +2557,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026091924
+      "authoringSeed": 2026091924,
+      "focusTuning": {
+        "threeStarTime": 35000,
+        "twoStarTime": 55000,
+        "oneStarTime": 80000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-031",
@@ -2363,7 +2663,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092577
+      "authoringSeed": 2026092577,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-032",
@@ -2459,7 +2769,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092552
+      "authoringSeed": 2026092552,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-033",
@@ -2555,7 +2875,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092532
+      "authoringSeed": 2026092532,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-034",
@@ -2651,7 +2981,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092580
+      "authoringSeed": 2026092580,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-035",
@@ -2747,7 +3087,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092490
+      "authoringSeed": 2026092490,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-036",
@@ -2843,7 +3193,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092489
+      "authoringSeed": 2026092489,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-037",
@@ -2939,7 +3299,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092530
+      "authoringSeed": 2026092530,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-038",
@@ -3035,7 +3405,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092548
+      "authoringSeed": 2026092548,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-039",
@@ -3131,7 +3511,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092572
+      "authoringSeed": 2026092572,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-040",
@@ -3227,7 +3617,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092534
+      "authoringSeed": 2026092534,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-041",
@@ -3323,7 +3723,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092595
+      "authoringSeed": 2026092595,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-042",
@@ -3419,7 +3829,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092579
+      "authoringSeed": 2026092579,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-043",
@@ -3515,7 +3935,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092492
+      "authoringSeed": 2026092492,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-044",
@@ -3611,7 +4041,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092591
+      "authoringSeed": 2026092591,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-045",
@@ -3707,7 +4147,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092564
+      "authoringSeed": 2026092564,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-046",
@@ -3803,7 +4253,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092531
+      "authoringSeed": 2026092531,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-047",
@@ -3899,7 +4359,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092523
+      "authoringSeed": 2026092523,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-048",
@@ -3995,7 +4465,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092501
+      "authoringSeed": 2026092501,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-049",
@@ -4091,7 +4571,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092503
+      "authoringSeed": 2026092503,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-050",
@@ -4187,7 +4677,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092522
+      "authoringSeed": 2026092522,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-051",
@@ -4283,7 +4783,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092560
+      "authoringSeed": 2026092560,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-052",
@@ -4379,7 +4889,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092541
+      "authoringSeed": 2026092541,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-053",
@@ -4475,7 +4995,17 @@
         }
       ],
       "difficulty": 3,
-      "authoringSeed": 2026092574
+      "authoringSeed": 2026092574,
+      "focusTuning": {
+        "threeStarTime": 45000,
+        "twoStarTime": 65000,
+        "oneStarTime": 90000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-054",
@@ -4571,7 +5101,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092496
+      "authoringSeed": 2026092496,
+      "focusTuning": {
+        "threeStarTime": 50000,
+        "twoStarTime": 70000,
+        "oneStarTime": 95000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-055",
@@ -4662,7 +5202,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092539
+      "authoringSeed": 2026092539,
+      "focusTuning": {
+        "threeStarTime": 50000,
+        "twoStarTime": 70000,
+        "oneStarTime": 95000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-056",
@@ -4781,7 +5331,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092629
+      "authoringSeed": 2026092629,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-057",
@@ -4900,7 +5460,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092603
+      "authoringSeed": 2026092603,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-058",
@@ -5019,7 +5589,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092607
+      "authoringSeed": 2026092607,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-059",
@@ -5138,7 +5718,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092632
+      "authoringSeed": 2026092632,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-060",
@@ -5257,7 +5847,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092601
+      "authoringSeed": 2026092601,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-061",
@@ -5376,7 +5976,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092604
+      "authoringSeed": 2026092604,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-062",
@@ -5495,7 +6105,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092613
+      "authoringSeed": 2026092613,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-063",
@@ -5614,7 +6234,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092646
+      "authoringSeed": 2026092646,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-064",
@@ -5733,7 +6363,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092626
+      "authoringSeed": 2026092626,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-065",
@@ -5852,7 +6492,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092617
+      "authoringSeed": 2026092617,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-066",
@@ -5971,7 +6621,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092638
+      "authoringSeed": 2026092638,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-067",
@@ -6090,7 +6750,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092606
+      "authoringSeed": 2026092606,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-068",
@@ -6209,7 +6879,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092633
+      "authoringSeed": 2026092633,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-069",
@@ -6328,7 +7008,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092641
+      "authoringSeed": 2026092641,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-070",
@@ -6447,7 +7137,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092624
+      "authoringSeed": 2026092624,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-071",
@@ -6566,7 +7266,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092614
+      "authoringSeed": 2026092614,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-072",
@@ -6685,7 +7395,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092628
+      "authoringSeed": 2026092628,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-073",
@@ -6804,7 +7524,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092622
+      "authoringSeed": 2026092622,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-074",
@@ -6923,7 +7653,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092612
+      "authoringSeed": 2026092612,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-075",
@@ -7042,7 +7782,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092618
+      "authoringSeed": 2026092618,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-076",
@@ -7161,7 +7911,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092645
+      "authoringSeed": 2026092645,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-077",
@@ -7276,7 +8036,17 @@
         }
       ],
       "difficulty": 4,
-      "authoringSeed": 2026092600
+      "authoringSeed": 2026092600,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-078",
@@ -7395,7 +8165,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092648
+      "authoringSeed": 2026092648,
+      "focusTuning": {
+        "threeStarTime": 65000,
+        "twoStarTime": 85000,
+        "oneStarTime": 110000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-079",
@@ -7510,7 +8290,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092610
+      "authoringSeed": 2026092610,
+      "focusTuning": {
+        "threeStarTime": 65000,
+        "twoStarTime": 85000,
+        "oneStarTime": 110000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-080",
@@ -7625,7 +8415,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092636
+      "authoringSeed": 2026092636,
+      "focusTuning": {
+        "threeStarTime": 65000,
+        "twoStarTime": 85000,
+        "oneStarTime": 110000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-081",
@@ -7765,7 +8565,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092674
+      "authoringSeed": 2026092674,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-082",
@@ -7905,7 +8715,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092675
+      "authoringSeed": 2026092675,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-083",
@@ -8045,7 +8865,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092686
+      "authoringSeed": 2026092686,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-084",
@@ -8185,7 +9015,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092708
+      "authoringSeed": 2026092708,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-085",
@@ -8325,7 +9165,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092669
+      "authoringSeed": 2026092669,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-086",
@@ -8465,7 +9315,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092709
+      "authoringSeed": 2026092709,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-087",
@@ -8605,7 +9465,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092710
+      "authoringSeed": 2026092710,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-088",
@@ -8745,7 +9615,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092664
+      "authoringSeed": 2026092664,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-089",
@@ -8885,7 +9765,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092677
+      "authoringSeed": 2026092677,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-090",
@@ -9025,7 +9915,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092693
+      "authoringSeed": 2026092693,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-091",
@@ -9165,7 +10065,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092673
+      "authoringSeed": 2026092673,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-092",
@@ -9305,7 +10215,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092690
+      "authoringSeed": 2026092690,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-093",
@@ -9445,7 +10365,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092713
+      "authoringSeed": 2026092713,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-094",
@@ -9585,7 +10515,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092681
+      "authoringSeed": 2026092681,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-095",
@@ -9725,7 +10665,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092689
+      "authoringSeed": 2026092689,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-096",
@@ -9865,7 +10815,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092694
+      "authoringSeed": 2026092694,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-097",
@@ -10005,7 +10965,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092684
+      "authoringSeed": 2026092684,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-098",
@@ -10145,7 +11115,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092665
+      "authoringSeed": 2026092665,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-099",
@@ -10281,7 +11261,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092659
+      "authoringSeed": 2026092659,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     },
     {
       "id": "v1-100",
@@ -10417,7 +11407,17 @@
         }
       ],
       "difficulty": 5,
-      "authoringSeed": 2026092698
+      "authoringSeed": 2026092698,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+        "rescueSeconds": 15
+      }
     }
   ]
 }

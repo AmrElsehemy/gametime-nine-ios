@@ -4,11 +4,13 @@ extension PrototypeLevel {
     init(
         definition: LevelDefinition,
         initialMarkers: Set<BoardCoordinate>,
-        solution: [BoardCoordinate]
+        solution: [BoardCoordinate],
+        focusTuning: NineFocusTuning? = nil
     ) {
         self.definition = definition
         self.initialMarkers = initialMarkers
         self.solution = solution
+        self.focusTuning = focusTuning ?? .initial(size: definition.size)
     }
 }
 
@@ -35,6 +37,7 @@ struct NineLevelProgress: Codable, Equatable, Sendable {
     var completionCount: Int
     var bestDurationSeconds: Double?
     var lastCompletedDayKey: String?
+    var mastery: NinePersonalMastery? = nil
 
     init(
         completionCount: Int = 0,
@@ -84,6 +87,7 @@ struct NineSavedSession: Codable, Equatable, Sendable {
     let levelID: String
     let dayKey: String?
     var markers: [BoardCoordinate]
+    var focusAttempt: NineFocusAttempt? = nil
 }
 
 struct NineSaveState: Codable, Equatable, Sendable {
@@ -279,7 +283,8 @@ struct NineSaveState: Codable, Equatable, Sendable {
             mode: expectedMode,
             levelID: session.levelID,
             dayKey: expectedMode == .daily ? session.dayKey : nil,
-            markers: validMarkers
+            markers: validMarkers,
+            focusAttempt: session.focusAttempt
         )
     }
 }
