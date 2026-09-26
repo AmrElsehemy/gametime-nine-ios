@@ -103,8 +103,9 @@ final class NineGameCenterService {
         }
     }
 
-    func submitDailySolve(durationSeconds: TimeInterval) {
-        guard isAuthenticated else { return }
+    func submitDailySolve(result: NineMasteryResult) {
+        guard isAuthenticated, result.isRanked, result.scoringVersion == 1 else { return }
+        let durationSeconds = Double(result.elapsedMilliseconds) / 1_000
 
         let score = NineGameCenterScore.milliseconds(
             durationSeconds: durationSeconds

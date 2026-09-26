@@ -339,10 +339,11 @@ struct NineReplayEvent: Codable, Equatable, Sendable {
     let sequence: Int
     let kind: String
     let coordinate: BoardCoordinate?
+    var timestampMilliseconds: Int? = nil
 }
 
 struct NineReplay: Codable, Equatable, Sendable {
-    static let currentSchemaVersion = 1
+    static let currentSchemaVersion = 2
 
     let schemaVersion: Int
     let replayID: UUID
@@ -354,6 +355,9 @@ struct NineReplay: Codable, Equatable, Sendable {
     let dayKey: String?
     let initialMarkers: [BoardCoordinate]
     var events: [NineReplayEvent]
+    var initialFocus: NineFocusAttempt? = nil
+    var focusResult: NineMasteryResult? = nil
+    var completedAtMilliseconds: Int? = nil
 }
 
 enum NineReplayError: Error, Equatable, Sendable {
@@ -389,13 +393,21 @@ struct NineReplayRecorder: Sendable {
         )
     }
 
-    mutating func record(_ intent: NineGameplayIntent) {
+    mutating func setInitialFocus(_ attempt: NineFocusAttempt) { replay.initialFocus = attempt }
+
+    mutating func finishFocus(_ result: NineMasteryResult?, at milliseconds: Int) {
+        replay.focusResult = result
+        replay.completedAtMilliseconds = result == nil ? nil : milliseconds
+    }
+
+    mutating func record(_ intent: NineGameplayIntent, at milliseconds: Int? = nil) {
         guard intent.levelID == replay.levelID else { return }
         replay.events.append(
             NineReplayEvent(
                 sequence: replay.events.count,
                 kind: intent.kind.rawValue,
-                coordinate: intent.coordinate
+                coordinate: intent.coordinate,
+                timestampMilliseconds: milliseconds
             )
         )
     }
@@ -406,7 +418,7 @@ enum NineReplayPlayer {
         replay: NineReplay,
         level: PrototypeLevel
     ) throws -> NineBoardState {
-        guard replay.schemaVersion == NineReplay.currentSchemaVersion else {
+        guard (1...NineReplay.currentSchemaVersion).contains(replay.schemaVersion) else {
             throw NineReplayError.unsupportedSchemaVersion(replay.schemaVersion)
         }
         guard replay.levelID == level.definition.id else {
@@ -555,6 +567,12 @@ enum NineRuntimeMetadata {
 // MARK: - Analytics
 
 enum NineAnalyticsEventName: String, CaseIterable, Sendable {
+    case focusStarted = "attempt_timer_started"
+    case focusThreshold = "star_threshold"
+    case focusTimeout = "fail_timeout"
+    case masteryCompleted = "mastery_completed"
+    case replay = "replay_from_results"
+    case retry = "retry_attempt"
     case firstOpen = "first_open"
     case sessionStart = "session_start"
     case sessionEnd = "session_end"
@@ -688,5 +706,39 @@ final class NineAnalyticsTracker {
 
     func resetSessionDeduplication() {
         criticalKeys = criticalKeys.filter { $0 == "first_open" }
+    }
+}
+
+extension NineReplayPlayer {
+    /// Recomputes scoring from timed logical input, never from animation duration.
+    /// Legacy recordings remain playable but cannot establish ranked mastery.
+    static func masteryResult(replay: NineReplay, level: PrototypeLevel) throws -> NineMasteryResult? {
+        guard replay.schemaVersion == 2, var attempt = replay.initialFocus,
+              attempt.tuning == level.focusTuning,
+              let completedAt = replay.completedAtMilliseconds else { return nil }
+        let final = try finalState(replay: replay, level: level)
+        guard NineConstraintEngine.evaluate(final, level: level.definition).isSolved else {
+            throw NineReplayError.malformedEvent(sequence: replay.events.count)
+        }
+        for event in replay.events {
+            guard let timestamp = event.timestampMilliseconds,
+                  timestamp >= attempt.timelineMilliseconds,
+                  let kind = NineGameplayIntentKind(rawValue: event.kind) else {
+                throw NineReplayError.malformedEvent(sequence: event.sequence)
+            }
+            attempt.advance(to: timestamp)
+            guard attempt.canPlay else { throw NineReplayError.malformedEvent(sequence: event.sequence) }
+            switch kind {
+            case .place: attempt.committedPlacement(at: timestamp)
+            case .remove, .undo: attempt.reversal(at: timestamp)
+            case .hintPreview: attempt.hint(at: timestamp)
+            case .reset: throw NineReplayError.malformedEvent(sequence: event.sequence)
+            }
+        }
+        guard completedAt >= attempt.timelineMilliseconds,
+              let result = attempt.solve(at: completedAt), result == replay.focusResult else {
+            throw NineReplayError.malformedEvent(sequence: replay.events.count)
+        }
+        return result
     }
 }

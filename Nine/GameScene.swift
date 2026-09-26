@@ -71,6 +71,11 @@ final class GameScene: SKScene {
         : NineSaveState.fresh(levels: levels)
     private var playMode: NinePlayMode = .progression
     private var dailyChallengeDayKey: String?
+    private var focus = NineFocusAttempt(tuning: .initial(size: 6))
+    private var focusOrigin: TimeInterval = 0
+    private var lastFocusSecond = -1
+    private var newPersonalBest = false
+    private var inputLocked = false
     private var levelStartedAt: TimeInterval = 0
 
     private var moveHistory = NineMoveHistory()
@@ -152,6 +157,7 @@ final class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
+        updateFocus()
         guard playMode == .progression,
               tutorialSession.isActive,
               levelIndex < tutorialLevelCount,
@@ -170,7 +176,8 @@ final class GameScene: SKScene {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let location = touches.first?.location(in: self) else { return }
+        guard !inputLocked, capturePreset == nil, let location = touches.first?.location(in: self) else { return }
+        updateFocus()
         let hitNodes = nodes(at: location)
 
         if hitNodes.contains(where: { $0.name == NodeName.sound }) {
@@ -208,7 +215,7 @@ final class GameScene: SKScene {
             return
         }
 
-        guard !isLevelComplete,
+        guard !isLevelComplete, focus.canPlay,
               let coordinate = hitNodes.compactMap({ coordinate(from: $0.name) }).first,
               var state = boardState else {
             return
@@ -221,6 +228,12 @@ final class GameScene: SKScene {
         )
         guard changed else { return }
 
+        if markerWasPresent { focus.reversal(at: focusTime) }
+        else {
+            let wasInspecting = focus.phase == .inspecting
+            focus.committedPlacement(at: focusTime)
+            if wasInspecting { analytics.track(.focusStarted, level: currentLevel, mode: playMode) }
+        }
         boardState = state
         moveHistory.record(state.markers)
         activeHint = nil
@@ -281,7 +294,7 @@ final class GameScene: SKScene {
             animatePlacement(at: coordinate)
         }
 
-        if latestEvaluation.isSolved {
+        if latestEvaluation.isSolved, focus.solve(at: focusTime) != nil {
             isLevelComplete = true
             recordCompletion()
             lastCompletedReplay = replayRecorder?.replay
@@ -405,6 +418,13 @@ final class GameScene: SKScene {
 
         levelIndex = max(0, min(index, levels.count - 1))
         let level = currentLevel
+        let savedFocus = progress.session(for: playMode)?.focusAttempt
+        focus = restoredMarkers == nil ? NineFocusAttempt(tuning: level.focusTuning)
+            : (savedFocus?.tuning == level.focusTuning ? savedFocus! : NineFocusAttempt(tuning: level.focusTuning))
+        if restoredMarkers != nil { focus.markRestored() }
+        focusOrigin = uptime - Double(focus.timelineMilliseconds) / 1_000
+        newPersonalBest = false
+        lastFocusSecond = -1
         let markers = restoredMarkers ?? level.initialMarkers
         let state = NineBoardState(
             level: level.definition,
@@ -427,6 +447,7 @@ final class GameScene: SKScene {
             appVersion: NineRuntimeMetadata.appVersion,
             buildVersion: NineRuntimeMetadata.buildVersion
         )
+        replayRecorder?.setInitialFocus(focus)
         diagnostics.add("level", "loaded:\(level.definition.id)")
 
         analyticsAttemptID = UUID()
@@ -473,12 +494,14 @@ final class GameScene: SKScene {
     }
 
     private func persistActiveSession(_ state: NineBoardState) {
+        guard capturePreset == nil else { return }
         progress.setSession(
             NineSavedSession(
                 mode: playMode,
                 levelID: currentLevel.definition.id,
                 dayKey: playMode == .daily ? activeDailyDayKey : nil,
-                markers: state.markers.sorted()
+                markers: state.markers.sorted(),
+                focusAttempt: focus
             )
         )
         progressStore.save(progress)
@@ -505,7 +528,8 @@ final class GameScene: SKScene {
     }
 
     private func undoCurrentMove() {
-        guard !isLevelComplete,
+        updateFocus()
+        guard !isLevelComplete, focus.canPlay,
               let previousMarkers = moveHistory.undo() else {
             return
         }
@@ -514,6 +538,7 @@ final class GameScene: SKScene {
             level: currentLevel.definition,
             markers: previousMarkers
         )
+        focus.reversal(at: focusTime)
         boardState = restored
         activeHint = nil
         latestEvaluation = NineConstraintEngine.evaluate(
@@ -533,7 +558,8 @@ final class GameScene: SKScene {
     }
 
     private func previewHint() {
-        guard !isLevelComplete,
+        updateFocus()
+        guard !isLevelComplete, focus.canPlay,
               let state = boardState,
               let hint = NineHintEngine.nextHint(
                 level: currentLevel,
@@ -542,7 +568,9 @@ final class GameScene: SKScene {
             return
         }
 
+        focus.hint(at: focusTime)
         activeHint = hint
+        persistActiveSession(state)
         recordGameplayIntent(
             kind: .hintPreview,
             coordinate: hint.coordinate
@@ -559,47 +587,29 @@ final class GameScene: SKScene {
     }
 
     private func resetCurrentLevel() {
-        let level = currentLevel
-        let resetState = NineBoardState(
-            level: level.definition,
-            markers: level.initialMarkers
-        )
-        boardState = resetState
-        moveHistory.reset(to: resetState.markers)
-        activeHint = nil
-        latestEvaluation = NineConstraintEngine.evaluate(
-            resetState,
-            level: level.definition
-        )
-        isLevelComplete = false
-        levelStartedAt = uptime
-        persistActiveSession(resetState)
-        recordGameplayIntent(kind: .reset)
-        analytics.track(
-            .reset,
-            level: level,
-            mode: playMode
-        )
-
-        if playMode == .progression,
-           tutorialSession.isActive,
-           levelIndex < tutorialLevelCount {
-            emitTutorialEvents(
-                tutorialSession.recordInteraction(
-                    isValid: true,
-                    levelID: level.definition.id,
-                    now: uptime
-                )
-            )
-        }
-        feedback.play(.reset)
-        renderScene()
+        guard !inputLocked else { return }
+        analytics.track(isLevelComplete ? .replay : .retry, level: currentLevel, mode: playMode)
+        trackCurrentLevelAbandonIfNeeded(reason: "retry")
+        loadLevel(at: levelIndex)
     }
 
     private func recordCompletion(restored: Bool = false) {
-        let elapsed: TimeInterval? = restored
-            ? nil
-            : max(0, uptime - levelStartedAt)
+        let result = restored ? nil : focus.result
+        let elapsed = result.flatMap { $0.isRanked ? Double($0.elapsedMilliseconds) / 1_000 : nil }
+        replayRecorder?.finishFocus(result, at: focus.timelineMilliseconds)
+        if let result {
+            var levelProgress = progress.levelProgress[currentLevel.definition.id] ?? NineLevelProgress()
+            var mastery = levelProgress.mastery ?? NinePersonalMastery()
+            newPersonalBest = mastery.record(result)
+            levelProgress.mastery = mastery
+            progress.levelProgress[currentLevel.definition.id] = levelProgress
+            analytics.track(.masteryCompleted, level: currentLevel, mode: playMode, extra: [
+                "stars": String(result.stars), "score": String(result.score),
+                "clean_solve": String(result.cleanSolve), "hints": String(result.hintsUsed),
+                "rescued": String(result.rescued), "ranked": String(result.isRanked),
+                "personal_best": String(newPersonalBest), "scoring_version": "1"
+            ])
+        }
         let levelID = currentLevel.definition.id
         let gameCenter = NineGameCenterService.shared
 
@@ -641,8 +651,8 @@ final class GameScene: SKScene {
                 durationSeconds: elapsed,
                 dayKey: activeDailyDayKey
             )
-            if let elapsed {
-                gameCenter.submitDailySolve(durationSeconds: elapsed)
+            if let result, activeDailyDayKey == todayDayKey {
+                gameCenter.submitDailySolve(result: result)
             }
             gameCenter.report(.firstDaily)
             if progress.streak.currentCount >= 7 {
@@ -764,6 +774,61 @@ final class GameScene: SKScene {
         addChild(board)
 
         addFooter()
+        addFocusHUD()
+        if focus.phase == .timedOut { presentTimeout() }
+        else if isLevelComplete { presentCompletion() }
+    }
+
+    private var focusTime: Int {
+        Int(min(86_400_000, max(0, (uptime - focusOrigin) * 1_000)))
+    }
+
+    private func updateFocus() {
+        guard capturePreset == nil, boardState != nil, !isLevelComplete else { return }
+        let oldPhase = focus.phase
+        let oldStars = focus.stars
+        focus.advance(to: focusTime)
+        if focus.stars != oldStars {
+            analytics.track(.focusThreshold, level: currentLevel, mode: playMode,
+                            extra: ["stars": String(focus.stars)])
+        }
+        if focus.phase == .timedOut && oldPhase != .timedOut {
+            let covered = Set((boardState?.markers ?? []).compactMap(currentLevel.definition.regionID)).count
+            analytics.track(.focusTimeout, level: currentLevel, mode: playMode,
+                            extra: ["territories_remaining": String(currentLevel.definition.size - covered)])
+            if let state = boardState { persistActiveSession(state) }
+            renderScene()
+        } else if lastFocusSecond != focus.remainingMilliseconds / 1_000 {
+            lastFocusSecond = focus.remainingMilliseconds / 1_000
+            childNode(withName: "focusHUD")?.removeFromParent()
+            addFocusHUD()
+            if let state = boardState { persistActiveSession(state) }
+        }
+    }
+
+    private func addFocusHUD() {
+        guard capturePreset == nil else { return }
+        let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+        label.name = "focusHUD"
+        label.text = focus.phase == .inspecting ? "★★★  ·  Place a pebble to start" :
+            "\(String(repeating: "★", count: focus.stars))\(String(repeating: "☆", count: 3 - focus.stars))  ·  \(Int(ceil(Double(focus.remainingMilliseconds) / 1_000)))s"
+        label.fontSize = min(18, size.width * 0.045)
+        label.fontColor = inkColor
+        label.position = CGPoint(x: size.width / 2, y: size.height - 174)
+        label.isAccessibilityElement = true
+        label.accessibilityLabel = label.text
+        addChild(label)
+    }
+
+    private func presentTimeout() {
+        let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+        label.text = "Time’s up — try again"
+        label.fontSize = 21; label.fontColor = inkColor
+        label.position = CGPoint(x: size.width / 2, y: max(145, size.height * 0.20))
+        addChild(label)
+        let retry = makeButton(title: "Retry", name: NodeName.reset, width: 130)
+        retry.position = CGPoint(x: size.width / 2, y: max(90, size.height * 0.12))
+        addChild(retry)
     }
 
     private func addBackdrop() {
@@ -1230,7 +1295,7 @@ final class GameScene: SKScene {
     }
 
     private func addFooter() {
-        guard !isLevelComplete else { return }
+        guard !isLevelComplete, focus.phase != .timedOut else { return }
 
         let footerY = max(72, size.height * 0.115)
 
@@ -1298,6 +1363,7 @@ final class GameScene: SKScene {
     }
 
     private func presentCompletion() {
+        guard childNode(withName: "completion") == nil else { return }
         guard let board = childNode(withName: "board") else { return }
         let reduceMotion = UIAccessibility.isReduceMotionEnabled
 
@@ -1315,9 +1381,10 @@ final class GameScene: SKScene {
                                     reduceMotion: reduceMotion)
 
         let badge = SKShapeNode(
-            rectOf: CGSize(width: min(280, size.width - 56), height: 118),
+            rectOf: CGSize(width: min(280, size.width - 56), height: 214),
             cornerRadius: 28
         )
+        badge.name = "completion"
         badge.fillColor = SKColor.nine(hex: 0x17332E).withAlphaComponent(0.98)
         badge.strokeColor = accentColor.withAlphaComponent(0.55)
         badge.lineWidth = 1
@@ -1337,7 +1404,7 @@ final class GameScene: SKScene {
         }
         solved.fontSize = playMode == .daily ? 18 : 23
         solved.fontColor = inkColor
-        solved.position = CGPoint(x: 0, y: 14)
+        solved.position = CGPoint(x: 0, y: 72)
         solved.verticalAlignmentMode = .center
         badge.addChild(solved)
 
@@ -1350,7 +1417,7 @@ final class GameScene: SKScene {
             nextTitle = "Next puzzle"
         }
         let next = makeButton(title: nextTitle, name: NodeName.next, width: 142)
-        next.position = CGPoint(x: 0, y: -30)
+        next.position = CGPoint(x: 62, y: -75)
         next.setScale(0.88)
         if let shape = next.children.compactMap({ $0 as? SKShapeNode }).first {
             shape.fillColor = accentColor.withAlphaComponent(0.92)
@@ -1360,6 +1427,25 @@ final class GameScene: SKScene {
             label.fontColor = SKColor.nine(hex: 0x0C1A1D)
         }
         badge.addChild(next)
+        let replay = makeButton(title: "Replay", name: NodeName.reset, width: 108)
+        replay.position = CGPoint(x: -72, y: -75)
+        replay.setScale(0.88)
+        badge.addChild(replay)
+        if let result = focus.result {
+            let best = progress.levelProgress[currentLevel.definition.id]?.mastery?.best?.score
+            let target = result.stars == 1 ? focus.tuning.twoStarTime : focus.tuning.threeStarTime
+            let lines = [String(repeating: "★", count: result.stars) + String(repeating: "☆", count: 3 - result.stars),
+                "\(result.score) points · \(String(format: "%.1f", Double(result.elapsedMilliseconds) / 1_000))s",
+                result.rescued ? "Rescued · unranked" : (newPersonalBest ? "New personal best!" : "Best: \(best.map(String.init) ?? "—")"),
+                result.stars < 3 ? "Next star: \(target / 1_000)s · replay to improve" : "Three-star solve"]
+            for (index, text) in lines.enumerated() {
+                let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+                label.text = text; label.fontSize = index == 0 ? 24 : 12
+                label.fontColor = inkColor
+                label.position = CGPoint(x: 0, y: 37 - index * 24)
+                badge.addChild(label)
+            }
+        }
 
         if !reduceMotion {
             badge.run(
@@ -1416,7 +1502,7 @@ final class GameScene: SKScene {
             coordinate: coordinate
         )
         emittedGameplayIntents.append(intent)
-        replayRecorder?.record(intent)
+        replayRecorder?.record(intent, at: focus.timelineMilliseconds)
 
         if emittedGameplayIntents.count > 200 {
             emittedGameplayIntents.removeFirst(
