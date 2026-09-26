@@ -596,7 +596,7 @@ final class GameScene: SKScene {
     private func recordCompletion(restored: Bool = false) {
         let result = restored ? nil : focus.result
         let elapsed = result.flatMap { $0.isRanked ? Double($0.elapsedMilliseconds) / 1_000 : nil }
-        replayRecorder?.finishFocus(result, at: focusTime)
+        replayRecorder?.finishFocus(result, at: focus.timelineMilliseconds)
         if let result {
             var levelProgress = progress.levelProgress[currentLevel.definition.id] ?? NineLevelProgress()
             var mastery = levelProgress.mastery ?? NinePersonalMastery()
@@ -1502,7 +1502,7 @@ final class GameScene: SKScene {
             coordinate: coordinate
         )
         emittedGameplayIntents.append(intent)
-        replayRecorder?.record(intent, at: focusTime)
+        replayRecorder?.record(intent, at: focus.timelineMilliseconds)
 
         if emittedGameplayIntents.count > 200 {
             emittedGameplayIntents.removeFirst(
