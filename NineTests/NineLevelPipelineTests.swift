@@ -508,3 +508,22 @@ import Testing
     #expect(hint.coordinate == wrong)
     #expect(hint.coordinate != correct)
 }
+
+@Test func restoredSessionPutsBackARemovedGiven() throws {
+    let levels = PrototypeLevels.production
+    let level = try #require(levels.first { !$0.initialMarkers.isEmpty })
+    let removedGiven = try #require(level.initialMarkers.sorted().first)
+    var state = NineSaveState.fresh(levels: levels)
+    state.setSession(
+        NineSavedSession(
+            mode: .progression,
+            levelID: level.definition.id,
+            dayKey: nil,
+            markers: level.initialMarkers.subtracting([removedGiven]).sorted()
+        )
+    )
+
+    let sanitized = state.sanitized(levels: levels, todayDayKey: "2026-09-18")
+
+    #expect(sanitized.progressionSession?.markers == level.initialMarkers.sorted())
+}
