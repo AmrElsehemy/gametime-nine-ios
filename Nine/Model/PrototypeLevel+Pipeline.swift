@@ -275,8 +275,9 @@ struct NineSaveState: Codable, Equatable, Sendable {
             return nil
         }
 
-        let validMarkers = session.markers
-            .filter(level.definition.contains)
+        // Givens can't be removed in play; restore any a saved session lacks.
+        let validMarkers = Set(session.markers.filter(level.definition.contains))
+            .union(level.initialMarkers)
             .sorted()
 
         return NineSavedSession(
