@@ -569,7 +569,6 @@ enum NineRuntimeMetadata {
 enum NineAnalyticsEventName: String, CaseIterable, Sendable {
     case focusStarted = "attempt_timer_started"
     case focusThreshold = "star_threshold"
-    case focusTimeout = "fail_timeout"
     case masteryCompleted = "mastery_completed"
     case replay = "replay_from_results"
     case retry = "retry_attempt"

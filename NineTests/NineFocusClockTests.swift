@@ -14,16 +14,13 @@ final class NineFocusClockTests: XCTestCase {
         XCTAssertEqual(attempt.phase, .running)
     }
 
-    func testInclusiveThresholdsAndTimeoutCannotBeSolved() {
-        for (time, stars) in [(1_000, 3), (1_001, 2), (2_000, 2), (2_001, 1), (3_000, 1)] {
+    func testInclusiveThresholdsAndEverySolveEarnsAtLeastOneStar() {
+        for (time, stars) in [(1_000, 3), (1_001, 2), (2_000, 2), (2_001, 1), (3_000, 1), (3_001, 1), (600_000, 1)] {
             var attempt = NineFocusAttempt(tuning: tuning)
             attempt.committedPlacement(at: 0)
             XCTAssertEqual(attempt.solve(at: time)?.stars, stars)
+            XCTAssertEqual(attempt.phase, .completed)
         }
-        var attempt = NineFocusAttempt(tuning: tuning)
-        attempt.committedPlacement(at: 0)
-        XCTAssertNil(attempt.solve(at: 3_001))
-        XCTAssertEqual(attempt.phase, .timedOut)
     }
 
     func testCleanSolveHintsAndIntegerScore() {
@@ -39,24 +36,21 @@ final class NineFocusClockTests: XCTestCase {
         XCTAssertEqual(result?.isRanked, false)
     }
 
-    func testRescueExactlyOnceDoesNotIncludeAdDwellOrBuyMastery() {
+    func testSlowUnassistedSolveIsRankedOneStarWithoutTimeBonus() {
         var attempt = NineFocusAttempt(tuning: tuning)
         attempt.committedPlacement(at: 0)
-        attempt.advance(to: 3_001)
-        XCTAssertTrue(attempt.rescue(receiptID: "earned", at: 50_000))
-        XCTAssertEqual(attempt.remainingMilliseconds, 15_000)
-        XCTAssertFalse(attempt.rescue(receiptID: "duplicate", at: 50_000))
+        attempt.advance(to: 50_000)
+        XCTAssertTrue(attempt.canPlay)
         let result = attempt.solve(at: 51_000)!
         XCTAssertEqual(result.stars, 1)
-        XCTAssertEqual(result.score, 0)
-        XCTAssertFalse(result.isRanked)
+        XCTAssertEqual(result.score, 1_500)
+        XCTAssertTrue(result.isRanked)
         var mastery = NinePersonalMastery()
-        XCTAssertFalse(mastery.record(result))
-        XCTAssertNil(mastery.best)
+        XCTAssertTrue(mastery.record(result))
         XCTAssertEqual(mastery.stars, 1)
     }
 
-    func testRoundTripPreservesTimingAndRescueIntegrity() throws {
+    func testRoundTripPreservesTiming() throws {
         var attempt = NineFocusAttempt(tuning: tuning)
         attempt.committedPlacement(at: 0)
         attempt.hint(at: 400)
@@ -77,6 +71,7 @@ final class NineFocusClockTests: XCTestCase {
         let result = attempt.solve(at: 900)
         attempt.advance(to: 100_000)
         XCTAssertEqual(attempt.result, result)
-        XCTAssertFalse(attempt.rescue(receiptID: "late", at: 100_000))
+        XCTAssertFalse(attempt.canPlay)
+        XCTAssertNil(attempt.solve(at: 100_000))
     }
 }
