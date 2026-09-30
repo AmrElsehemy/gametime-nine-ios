@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic sidecar content factory for Nine.
+"""Deterministic sidecar content factory for Exactly One.
 
 This is intentionally a CLI, not a second product/UI. It generates candidate connected
 territory maps, solves them independently, adds the minimum authored clue count needed

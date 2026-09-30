@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Nine
+@testable import ExactlyOne
 
 @Test func solverDistinguishesMultipleSolutionsAndStopsAtTwo() throws {
     let definition = try LevelDefinition(
@@ -12,7 +12,7 @@ import Testing
         adjacencyRule: .none
     )
 
-    let result = NineLevelSolver.solve(definition: definition)
+    let result = ExactlyOneLevelSolver.solve(definition: definition)
 
     #expect(result.multiplicity == .multiple)
     #expect(result.firstSolution != nil)
@@ -29,7 +29,7 @@ import Testing
         adjacencyRule: .none
     )
 
-    let result = NineLevelSolver.solve(
+    let result = ExactlyOneLevelSolver.solve(
         definition: definition,
         initialMarkers: [
             BoardCoordinate(row: 0, column: 0),
@@ -42,16 +42,16 @@ import Testing
 }
 
 @Test func bundledV1CatalogIsValidUniqueAndDeterministic() throws {
-    let pack = try NineLevelCatalog.loadBundled()
-    let firstPass = try NineLevelPackValidator.validate(pack)
-    let secondPass = try NineLevelPackValidator.validate(pack)
+    let pack = try ExactlyOneLevelCatalog.loadBundled()
+    let firstPass = try ExactlyOneLevelPackValidator.validate(pack)
+    let secondPass = try ExactlyOneLevelPackValidator.validate(pack)
 
     #expect(pack.schemaVersion == 1)
     #expect(pack.levels.count == 100)
-    #expect(NineContentGate.day3.isSatisfied(by: pack.levels.count))
-    #expect(NineContentGate.testFlight.isSatisfied(by: pack.levels.count))
-    #expect(NineContentGate.submission.isSatisfied(by: pack.levels.count))
-    #expect(NineContentGate.v1Target.isSatisfied(by: pack.levels.count))
+    #expect(ExactlyOneContentGate.day3.isSatisfied(by: pack.levels.count))
+    #expect(ExactlyOneContentGate.testFlight.isSatisfied(by: pack.levels.count))
+    #expect(ExactlyOneContentGate.submission.isSatisfied(by: pack.levels.count))
+    #expect(ExactlyOneContentGate.v1Target.isSatisfied(by: pack.levels.count))
 
     #expect(Array(pack.levels.prefix(5)).allSatisfy { $0.kind == .onboarding })
     #expect(Array(pack.levels.dropFirst(5)).allSatisfy { $0.kind == .standard })
@@ -69,7 +69,7 @@ import Testing
 }
 
 @Test func bundledSolutionsMatchAuthoredSolutions() throws {
-    let validated = try NineLevelCatalog.validatedBundled()
+    let validated = try ExactlyOneLevelCatalog.validatedBundled()
 
     for item in validated {
         #expect(Set(item.solver.firstSolution ?? []) == Set(item.record.solution))
@@ -82,26 +82,26 @@ import Testing
 }
 
 @Test func validatorRejectsDuplicateLevelIDs() throws {
-    let pack = try NineLevelCatalog.loadBundled()
-    let duplicate = NineLevelPack(
+    let pack = try ExactlyOneLevelCatalog.loadBundled()
+    let duplicate = ExactlyOneLevelPack(
         schemaVersion: pack.schemaVersion,
         levels: [pack.levels[0], pack.levels[0]]
     )
 
-    #expect(throws: NineLevelPackError.duplicateLevelID(pack.levels[0].id)) {
-        _ = try NineLevelPackValidator.validate(duplicate)
+    #expect(throws: ExactlyOneLevelPackError.duplicateLevelID(pack.levels[0].id)) {
+        _ = try ExactlyOneLevelPackValidator.validate(duplicate)
     }
 }
 
 @Test func validatorRejectsUnsupportedPackVersion() throws {
-    let pack = try NineLevelCatalog.loadBundled()
-    let unsupported = NineLevelPack(
+    let pack = try ExactlyOneLevelCatalog.loadBundled()
+    let unsupported = ExactlyOneLevelPack(
         schemaVersion: 999,
         levels: pack.levels
     )
 
-    #expect(throws: NineLevelPackError.unsupportedSchemaVersion(999)) {
-        _ = try NineLevelPackValidator.validate(unsupported)
+    #expect(throws: ExactlyOneLevelPackError.unsupportedSchemaVersion(999)) {
+        _ = try ExactlyOneLevelPackValidator.validate(unsupported)
     }
 }
 
@@ -115,9 +115,9 @@ import Testing
     }
     """
 
-    let migrated = try NineSaveCodec.decode(Data(legacy.utf8))
+    let migrated = try ExactlyOneSaveCodec.decode(Data(legacy.utf8))
 
-    #expect(migrated.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(migrated.schemaVersion == ExactlyOneSaveState.currentSchemaVersion)
     #expect(migrated.currentLevelID == "v1-003")
     #expect(migrated.unlockedLevelIDs == ["v1-001", "v1-002", "v1-003"])
     #expect(migrated.levelProgress["v1-001"]?.completionCount == 1)
@@ -150,9 +150,9 @@ import Testing
     }
     """
 
-    let migrated = try NineSaveCodec.decode(Data(legacy.utf8))
+    let migrated = try ExactlyOneSaveCodec.decode(Data(legacy.utf8))
 
-    #expect(migrated.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(migrated.schemaVersion == ExactlyOneSaveState.currentSchemaVersion)
     #expect(migrated.progressionSession == nil)
     #expect(migrated.dailySession?.levelID == "v1-006")
     #expect(migrated.dailySession?.dayKey == "2026-09-18")
@@ -162,7 +162,7 @@ import Testing
 
 @Test func saveCodecRoundTripsProgressAndBestTime() throws {
     let levels = PrototypeLevels.production
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
     let level = try #require(levels.first)
 
     state.recordProgressionCompletion(
@@ -172,8 +172,8 @@ import Testing
         dayKey: "2026-09-18"
     )
 
-    let encoded = try NineSaveCodec.encode(state)
-    let decoded = try NineSaveCodec.decode(encoded)
+    let encoded = try ExactlyOneSaveCodec.encode(state)
+    let decoded = try ExactlyOneSaveCodec.decode(encoded)
 
     #expect(decoded == state)
     #expect(decoded.levelProgress[level.definition.id]?.bestDurationSeconds == 12.5)
@@ -181,12 +181,12 @@ import Testing
 
 @Test func saveCodecRoundTripsIndependentProgressionAndDailySessions() throws {
     let levels = PrototypeLevels.production
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
     let progression = levels[0]
     let daily = levels[5]
 
     state.setSession(
-        NineSavedSession(
+        ExactlyOneSavedSession(
             mode: .progression,
             levelID: progression.definition.id,
             dayKey: nil,
@@ -194,7 +194,7 @@ import Testing
         )
     )
     state.setSession(
-        NineSavedSession(
+        ExactlyOneSavedSession(
             mode: .daily,
             levelID: daily.definition.id,
             dayKey: "2026-09-18",
@@ -202,7 +202,7 @@ import Testing
         )
     )
 
-    let decoded = try NineSaveCodec.decode(NineSaveCodec.encode(state))
+    let decoded = try ExactlyOneSaveCodec.decode(ExactlyOneSaveCodec.encode(state))
 
     #expect(decoded.progressionSession == state.progressionSession)
     #expect(decoded.dailySession == state.dailySession)
@@ -213,12 +213,12 @@ import Testing
     let levels = PrototypeLevels.production
     let date = Date(timeIntervalSince1970: 1_800_000_000)
 
-    let first = NineDailyChallenge.levelIndex(
+    let first = ExactlyOneDailyChallenge.levelIndex(
         for: date,
         in: levels,
         excludingFirst: 5
     )
-    let second = NineDailyChallenge.levelIndex(
+    let second = ExactlyOneDailyChallenge.levelIndex(
         for: date,
         in: levels,
         excludingFirst: 5
@@ -230,7 +230,7 @@ import Testing
     #expect(selected < levels.count)
 
     let overrideIndex = try #require(levels.indices.dropFirst(5).first)
-    let overridden = NineDailyChallenge.levelIndex(
+    let overridden = ExactlyOneDailyChallenge.levelIndex(
         for: date,
         in: levels,
         excludingFirst: 5,
@@ -241,41 +241,41 @@ import Testing
 
 @Test func utcDayKeysDoNotDependOnDeviceTimezone() {
     let instant = Date(timeIntervalSince1970: 1_800_000_000)
-    let key = NineUTCDate.dayKey(for: instant)
+    let key = ExactlyOneUTCDate.dayKey(for: instant)
 
     #expect(key.count == 10)
-    #expect(NineUTCDate.dayDistance(from: key, to: key) == 0)
+    #expect(ExactlyOneUTCDate.dayDistance(from: key, to: key) == 0)
 }
 
 @Test func streakAllowsOneMissWithoutInflatingTheCount() {
-    var streak = NineStreakState.empty
+    var streak = ExactlyOneStreakState.empty
 
-    streak = NineStreakPolicy.applyingCompletion(
+    streak = ExactlyOneStreakPolicy.applyingCompletion(
         dayKey: "2026-09-01",
         to: streak
     )
     #expect(streak.currentCount == 1)
 
-    streak = NineStreakPolicy.applyingCompletion(
+    streak = ExactlyOneStreakPolicy.applyingCompletion(
         dayKey: "2026-09-02",
         to: streak
     )
     #expect(streak.currentCount == 2)
 
-    streak = NineStreakPolicy.applyingCompletion(
+    streak = ExactlyOneStreakPolicy.applyingCompletion(
         dayKey: "2026-09-04",
         to: streak
     )
     #expect(streak.currentCount == 2)
 
-    streak = NineStreakPolicy.applyingCompletion(
+    streak = ExactlyOneStreakPolicy.applyingCompletion(
         dayKey: "2026-09-05",
         to: streak
     )
     #expect(streak.currentCount == 3)
     #expect(streak.longestCount == 3)
 
-    streak = NineStreakPolicy.applyingCompletion(
+    streak = ExactlyOneStreakPolicy.applyingCompletion(
         dayKey: "2026-09-10",
         to: streak
     )
@@ -286,7 +286,7 @@ import Testing
 @Test func dailyCompletionIsIdempotentForStreakCredit() {
     let levels = PrototypeLevels.production
     let level = levels[5]
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
 
     state.recordDailyCompletion(
         levelID: level.definition.id,
@@ -306,18 +306,18 @@ import Testing
 }
 
 @Test @MainActor func corruptedSaveRecoversToFreshOfflineProgress() throws {
-    let suiteName = "NineProgressStoreTests.\(UUID().uuidString)"
+    let suiteName = "ExactlyOneProgressStoreTests.\(UUID().uuidString)"
     let defaults = try #require(UserDefaults(suiteName: suiteName))
     defer { defaults.removePersistentDomain(forName: suiteName) }
 
     let key = "corrupt-save"
     defaults.set(Data("definitely not json".utf8), forKey: key)
 
-    let store = NineProgressStore(defaults: defaults, key: key)
+    let store = ExactlyOneProgressStore(defaults: defaults, key: key)
     let levels = PrototypeLevels.production
     let recovered = store.load(levels: levels)
 
-    #expect(recovered.schemaVersion == NineSaveState.currentSchemaVersion)
+    #expect(recovered.schemaVersion == ExactlyOneSaveState.currentSchemaVersion)
     #expect(recovered.currentLevelID == levels.first?.definition.id)
     #expect(recovered.unlockedLevelIDs == [levels[0].definition.id])
     #expect(defaults.data(forKey: key) == nil)
@@ -325,12 +325,12 @@ import Testing
 
 @Test func staleDailySessionIsDiscardedWithoutDestroyingProgressionSession() throws {
     let levels = PrototypeLevels.production
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
     let progressionLevel = levels[0]
     let dailyLevel = levels[5]
 
     state.setSession(
-        NineSavedSession(
+        ExactlyOneSavedSession(
             mode: .progression,
             levelID: progressionLevel.definition.id,
             dayKey: nil,
@@ -338,7 +338,7 @@ import Testing
         )
     )
     state.setSession(
-        NineSavedSession(
+        ExactlyOneSavedSession(
             mode: .daily,
             levelID: dailyLevel.definition.id,
             dayKey: "2026-09-17",
@@ -359,17 +359,17 @@ import Testing
 
 @Test func completingOneModeDoesNotDiscardTheOtherModesSession() throws {
     let levels = PrototypeLevels.production
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
     let progressionLevel = levels[0]
     let dailyLevel = levels[5]
 
-    let progressionSession = NineSavedSession(
+    let progressionSession = ExactlyOneSavedSession(
         mode: .progression,
         levelID: progressionLevel.definition.id,
         dayKey: nil,
         markers: progressionLevel.initialMarkers.sorted()
     )
-    let dailySession = NineSavedSession(
+    let dailySession = ExactlyOneSavedSession(
         mode: .daily,
         levelID: dailyLevel.definition.id,
         dayKey: "2026-09-18",
@@ -409,7 +409,7 @@ import Testing
 
     let firstMove = initial.union([firstCoordinate])
     let secondMove = firstMove.union([secondCoordinate])
-    var history = NineMoveHistory()
+    var history = ExactlyOneMoveHistory()
 
     history.reset(to: initial)
     history.record(firstMove)
@@ -424,14 +424,14 @@ import Testing
 
 @Test func hintPreviewPlacesAUniqueSolutionCellWithoutMutatingState() throws {
     let level = PrototypeLevels.production[5]
-    let state = NineBoardState(
+    let state = ExactlyOneBoardState(
         level: level.definition,
         markers: level.initialMarkers
     )
     let before = state.markers
 
     let hint = try #require(
-        NineHintEngine.nextHint(level: level, state: state)
+        ExactlyOneHintEngine.nextHint(level: level, state: state)
     )
 
     #expect(hint.action == .place)
@@ -453,7 +453,7 @@ import Testing
         })
     )
 
-    var state = NineBoardState(
+    var state = ExactlyOneBoardState(
         level: level.definition,
         markers: level.initialMarkers
     )
@@ -461,7 +461,7 @@ import Testing
     #expect(placed)
 
     let hint = try #require(
-        NineHintEngine.nextHint(level: level, state: state)
+        ExactlyOneHintEngine.nextHint(level: level, state: state)
     )
 
     #expect(hint.action == .remove)
@@ -483,7 +483,7 @@ import Testing
             .first(where: { !solution.contains($0) })
     )
 
-    var state = NineBoardState(
+    var state = ExactlyOneBoardState(
         level: level.definition,
         markers: initial
     )
@@ -492,7 +492,7 @@ import Testing
     #expect(placedCorrect)
     #expect(placedWrong)
 
-    let evaluation = NineConstraintEngine.evaluate(
+    let evaluation = ExactlyOneConstraintEngine.evaluate(
         state,
         level: level.definition
     )
@@ -501,7 +501,7 @@ import Testing
     #expect(correct < wrong)
 
     let hint = try #require(
-        NineHintEngine.nextHint(level: level, state: state)
+        ExactlyOneHintEngine.nextHint(level: level, state: state)
     )
 
     #expect(hint.action == .remove)
@@ -513,9 +513,9 @@ import Testing
     let levels = PrototypeLevels.production
     let level = try #require(levels.first { !$0.initialMarkers.isEmpty })
     let removedGiven = try #require(level.initialMarkers.sorted().first)
-    var state = NineSaveState.fresh(levels: levels)
+    var state = ExactlyOneSaveState.fresh(levels: levels)
     state.setSession(
-        NineSavedSession(
+        ExactlyOneSavedSession(
             mode: .progression,
             levelID: level.definition.id,
             dayKey: nil,

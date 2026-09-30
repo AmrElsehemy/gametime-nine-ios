@@ -1,6 +1,6 @@
 import Foundation
 
-/// Zero-based logical position on a Nine board.
+/// Zero-based logical position on an Exactly One board.
 struct BoardCoordinate: Hashable, Codable, Sendable, Comparable {
     let row: Int
     let column: Int
@@ -76,7 +76,7 @@ struct LevelDefinition: Codable, Equatable, Sendable {
 }
 
 /// Player-owned logical state. No SpriteKit/UI types are allowed here.
-struct NineBoardState: Equatable, Sendable {
+struct ExactlyOneBoardState: Equatable, Sendable {
     let levelID: String
     let levelSchemaVersion: Int
     private(set) var markers: Set<BoardCoordinate>
@@ -127,7 +127,7 @@ struct NineBoardState: Equatable, Sendable {
 
 // Encode marker order deterministically so logical state is suitable for
 // repeatable fixtures, diagnostics, and later replay hashing.
-extension NineBoardState: Codable {
+extension ExactlyOneBoardState: Codable {
     private enum CodingKeys: String, CodingKey {
         case levelID
         case levelSchemaVersion
@@ -183,9 +183,9 @@ struct BoardEvaluation: Codable, Equatable, Sendable {
     }
 }
 
-enum NineConstraintEngine {
+enum ExactlyOneConstraintEngine {
     static func evaluate(
-        _ state: NineBoardState,
+        _ state: ExactlyOneBoardState,
         level: LevelDefinition
     ) -> BoardEvaluation {
         guard state.levelID == level.id,
@@ -273,7 +273,7 @@ struct PrototypeLevel: Sendable {
     let definition: LevelDefinition
     let initialMarkers: Set<BoardCoordinate>
     let solution: [BoardCoordinate]
-    var focusTuning: NineFocusTuning = .initial(size: 6)
+    var focusTuning: ExactlyOneFocusTuning = .initial(size: 6)
 
     init(
         id: String,
@@ -412,12 +412,12 @@ struct TutorialAssistancePolicy: Equatable, Sendable {
     )
 }
 
-struct NineTutorialEvent: Equatable, Sendable {
+struct ExactlyOneTutorialEvent: Equatable, Sendable {
     let name: String
     let properties: [String: String]
 }
 
-struct NineTutorialSession {
+struct ExactlyOneTutorialSession {
     let policy: TutorialAssistancePolicy
     private(set) var isActive: Bool
     private(set) var currentAssistance: TutorialAssistanceLevel = .none
@@ -439,25 +439,25 @@ struct NineTutorialSession {
         index: Int,
         levelID: String,
         now: TimeInterval
-    ) -> [NineTutorialEvent] {
+    ) -> [ExactlyOneTutorialEvent] {
         guard isActive else { return [] }
 
         currentAssistance = .none
         invalidInteractionTimes.removeAll(keepingCapacity: true)
         lastProgressTime = now
 
-        var events: [NineTutorialEvent] = []
+        var events: [ExactlyOneTutorialEvent] = []
         if !hasStarted {
             hasStarted = true
             events.append(
-                NineTutorialEvent(
+                ExactlyOneTutorialEvent(
                     name: "tutorial_started",
                     properties: ["level_id": levelID]
                 )
             )
         }
         events.append(
-            NineTutorialEvent(
+            ExactlyOneTutorialEvent(
                 name: "tutorial_level_started",
                 properties: [
                     "level_id": levelID,
@@ -472,11 +472,11 @@ struct NineTutorialSession {
         isValid: Bool,
         levelID: String,
         now: TimeInterval
-    ) -> [NineTutorialEvent] {
+    ) -> [ExactlyOneTutorialEvent] {
         guard isActive else { return [] }
 
         var events = [
-            NineTutorialEvent(
+            ExactlyOneTutorialEvent(
                 name: "tutorial_interaction",
                 properties: [
                     "level_id": levelID,
@@ -521,7 +521,7 @@ struct NineTutorialSession {
     mutating func assistanceDue(
         levelID: String,
         now: TimeInterval
-    ) -> [NineTutorialEvent] {
+    ) -> [ExactlyOneTutorialEvent] {
         guard isActive else { return [] }
 
         let elapsed = max(0, now - lastProgressTime)
@@ -543,13 +543,13 @@ struct NineTutorialSession {
 
     mutating func complete(
         levelID: String
-    ) -> [NineTutorialEvent] {
+    ) -> [ExactlyOneTutorialEvent] {
         guard isActive else { return [] }
         isActive = false
         currentAssistance = .none
         invalidInteractionTimes.removeAll()
         return [
-            NineTutorialEvent(
+            ExactlyOneTutorialEvent(
                 name: "tutorial_completed",
                 properties: ["level_id": levelID]
             )
@@ -559,8 +559,8 @@ struct NineTutorialSession {
     private func assistanceEvent(
         levelID: String,
         trigger: TutorialAssistanceTrigger
-    ) -> NineTutorialEvent {
-        NineTutorialEvent(
+    ) -> ExactlyOneTutorialEvent {
+        ExactlyOneTutorialEvent(
             name: "tutorial_assistance_shown",
             properties: [
                 "level_id": levelID,
@@ -571,15 +571,15 @@ struct NineTutorialSession {
     }
 }
 
-struct NineTutorialCompletionStore {
-    static let defaultKey = "nine.onboarding.completed.v1"
+struct ExactlyOneTutorialCompletionStore {
+    static let defaultKey = "exactlyone.onboarding.completed.v1"
 
     let defaults: UserDefaults
     let key: String
 
     init(
         defaults: UserDefaults = .standard,
-        key: String = NineTutorialCompletionStore.defaultKey
+        key: String = ExactlyOneTutorialCompletionStore.defaultKey
     ) {
         self.defaults = defaults
         self.key = key

@@ -2,34 +2,34 @@ import Foundation
 import GameKit
 import UIKit
 
-enum NineGameCenterIDs {
-    static let dailyLeaderboard = "ai.knowlly.nine.daily.time"
+enum ExactlyOneGameCenterIDs {
+    static let dailyLeaderboard = "ai.knowlly.exactlyone.daily.time"
 }
 
-enum NineGameCenterAchievement: String, CaseIterable, Sendable {
-    case firstSolve = "ai.knowlly.nine.achievement.first-solve"
-    case tutorialComplete = "ai.knowlly.nine.achievement.tutorial-complete"
-    case firstDaily = "ai.knowlly.nine.achievement.first-daily"
-    case streakSeven = "ai.knowlly.nine.achievement.streak-7"
+enum ExactlyOneGameCenterAchievement: String, CaseIterable, Sendable {
+    case firstSolve = "ai.knowlly.exactlyone.achievement.first-solve"
+    case tutorialComplete = "ai.knowlly.exactlyone.achievement.tutorial-complete"
+    case firstDaily = "ai.knowlly.exactlyone.achievement.first-daily"
+    case streakSeven = "ai.knowlly.exactlyone.achievement.streak-7"
 }
 
-struct NineAchievementLedger: Equatable, Sendable {
+struct ExactlyOneAchievementLedger: Equatable, Sendable {
     private(set) var completedIdentifiers: Set<String> = []
 
     mutating func hydrate(_ identifiers: some Sequence<String>) {
         completedIdentifiers.formUnion(identifiers)
     }
 
-    mutating func beginReport(_ achievement: NineGameCenterAchievement) -> Bool {
+    mutating func beginReport(_ achievement: ExactlyOneGameCenterAchievement) -> Bool {
         completedIdentifiers.insert(achievement.rawValue).inserted
     }
 
-    mutating func markReportFailed(_ achievement: NineGameCenterAchievement) {
+    mutating func markReportFailed(_ achievement: ExactlyOneGameCenterAchievement) {
         completedIdentifiers.remove(achievement.rawValue)
     }
 }
 
-enum NineGameCenterScore {
+enum ExactlyOneGameCenterScore {
     static let maximumDailyMilliseconds = 86_400_000
 
     static func milliseconds(durationSeconds: TimeInterval) -> Int {
@@ -40,12 +40,12 @@ enum NineGameCenterScore {
 }
 
 @MainActor
-final class NineGameCenterService {
-    static let shared = NineGameCenterService()
+final class ExactlyOneGameCenterService {
+    static let shared = ExactlyOneGameCenterService()
 
     private(set) var isAuthenticated = false
     private var authenticationRequested = false
-    private var achievementLedger = NineAchievementLedger()
+    private var achievementLedger = ExactlyOneAchievementLedger()
 
     var diagnosticHandler: ((String) -> Void)?
 
@@ -80,7 +80,7 @@ final class NineGameCenterService {
         }
     }
 
-    func report(_ achievement: NineGameCenterAchievement) {
+    func report(_ achievement: ExactlyOneGameCenterAchievement) {
         guard isAuthenticated else { return }
         guard achievementLedger.beginReport(achievement) else { return }
 
@@ -103,11 +103,11 @@ final class NineGameCenterService {
         }
     }
 
-    func submitDailySolve(result: NineMasteryResult) {
+    func submitDailySolve(result: ExactlyOneMasteryResult) {
         guard isAuthenticated, result.isRanked, result.scoringVersion == 1 else { return }
         let durationSeconds = Double(result.elapsedMilliseconds) / 1_000
 
-        let score = NineGameCenterScore.milliseconds(
+        let score = ExactlyOneGameCenterScore.milliseconds(
             durationSeconds: durationSeconds
         )
 
@@ -115,7 +115,7 @@ final class NineGameCenterService {
             score,
             context: 0,
             player: GKLocalPlayer.local,
-            leaderboardIDs: [NineGameCenterIDs.dailyLeaderboard]
+            leaderboardIDs: [ExactlyOneGameCenterIDs.dailyLeaderboard]
         ) { [weak self] error in
             MainActor.assumeIsolated {
                 guard let self else { return }
@@ -170,7 +170,7 @@ final class NineGameCenterService {
 }
 
 
-extension NineGameCenterAchievement {
+extension ExactlyOneGameCenterAchievement {
     var artworkAssetName: String {
         switch self {
         case .firstSolve: return "Achievements/FirstSolve"

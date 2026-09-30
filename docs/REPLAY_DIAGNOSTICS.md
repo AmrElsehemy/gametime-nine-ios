@@ -10,7 +10,7 @@ Replay and diagnostics are never required for core play. Failure to encode, expo
 
 ## Replay schema v1
 
-`NineReplay.currentSchemaVersion == 1`.
+`ExactlyOneReplay.currentSchemaVersion == 1`.
 
 A replay contains:
 
@@ -41,9 +41,9 @@ The replay deliberately does **not** serialize SpriteKit nodes, animation timing
 
 ## Determinism contract
 
-`NineReplayPlayer` reconstructs a board from the replay's initial markers and applies each intent through the same logical board mutations used by gameplay.
+`ExactlyOneReplayPlayer` reconstructs a board from the replay's initial markers and applies each intent through the same logical board mutations used by gameplay.
 
-A valid completed session must reproduce the same final `NineBoardState.markers` when replayed against the same compatible level definition.
+A valid completed session must reproduce the same final `ExactlyOneBoardState.markers` when replayed against the same compatible level definition.
 
 Compatibility is explicit. Playback rejects:
 
@@ -53,7 +53,7 @@ Compatibility is explicit. Playback rejects:
 - malformed or out-of-order event sequences
 - impossible place/remove/undo operations
 
-These cases throw `NineReplayError`; they are diagnostic failures, not gameplay failures.
+These cases throw `ExactlyOneReplayError`; they are diagnostic failures, not gameplay failures.
 
 ## Recording lifecycle
 
@@ -63,13 +63,13 @@ Gameplay intents are appended after successful logical mutations. Hint preview i
 
 ## Development import/export
 
-Debug builds provide local replay encode/decode helpers using `NineReplayCodec` and JSON.
+Debug builds provide local replay encode/decode helpers using `ExactlyOneReplayCodec` and JSON.
 
 The format is intentionally plain and diffable so a captured replay can become a regression fixture. Production UI does not expose arbitrary replay import.
 
 ## Diagnostics breadcrumbs
 
-`NineDiagnosticsBuffer` is an in-memory bounded ring-style buffer. It currently records small semantic breadcrumbs such as:
+`ExactlyOneDiagnosticsBuffer` is an in-memory bounded ring-style buffer. It currently records small semantic breadcrumbs such as:
 
 - level loaded/completed
 - save restored/persisted
@@ -82,7 +82,7 @@ The buffer is intentionally local and non-throwing. Diagnostic recording is obse
 
 ## Support package
 
-`NineSupportPackage` is versioned separately and contains only the minimum technical context needed to reproduce a problem:
+`ExactlyOneSupportPackage` is versioned separately and contains only the minimum technical context needed to reproduce a problem:
 
 - app version
 - build version

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SIZE = 1024
 BG = (22, 25, 24)
 
-ASSETS = ROOT / "Nine" / "Assets.xcassets"
+ASSETS = ROOT / "ExactlyOne" / "Assets.xcassets"
 APP_ICON = ASSETS / "AppIcon.appiconset"
 ACHIEVEMENTS = ASSETS / "Achievements"
 MARKETING_ICON = ROOT / "Marketing" / "AppStore" / "Icon"
@@ -184,7 +184,7 @@ def save_png(image: Image.Image, path: Path) -> None:
 
 def write_catalog(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
     (ASSETS / "Contents.json").write_text(json.dumps({"info": {"author": "xcode", "version": 1}}, indent=2) + "\n")
-    icon_name = "Nine-AppIcon-1024.png"
+    icon_name = "ExactlyOne-AppIcon-1024.png"
     save_png(icon, APP_ICON / icon_name)
     (APP_ICON / "Contents.json").write_text(json.dumps({
         "images": [{"filename": icon_name, "idiom": "universal", "platform": "ios", "size": "1024x1024"}],
@@ -207,7 +207,7 @@ def write_catalog(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
 
 
 def write_marketing(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
-    save_png(icon, MARKETING_ICON / "Nine-AppIcon-1024.png")
+    save_png(icon, MARKETING_ICON / "ExactlyOne-AppIcon-1024.png")
     filenames = {
         "FirstSolve": "first-solve-1024.png",
         "TutorialComplete": "tutorial-complete-1024.png",
@@ -236,7 +236,7 @@ def write_marketing(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
 
 
 def patch_xcode_project() -> None:
-    path = ROOT / "Nine.xcodeproj" / "project.pbxproj"
+    path = ROOT / "ExactlyOne.xcodeproj" / "project.pbxproj"
     s = path.read_text()
     build_id = "A44000000000000000000001"
     file_id = "A44000000000000000000002"
@@ -254,11 +254,11 @@ def patch_xcode_project() -> None:
             1,
         )
 
-    group_anchor = "\t\t\tchildren = (\n\t\t\t\tD20000000000000000000001 /* NineApp.swift */,\n"
+    group_anchor = "\t\t\tchildren = (\n\t\t\t\tD20000000000000000000001 /* ExactlyOneApp.swift */,\n"
     if f"{file_id} /* Assets.xcassets */," not in s:
         s = s.replace(group_anchor, group_anchor + f"\t\t\t\t{file_id} /* Assets.xcassets */,\n", 1)
 
-    resource_anchor = "\t\t\tfiles = (\n\t\t\t\tD1000000000000000000000C /* NineLevels-v1.json in Resources */,\n"
+    resource_anchor = "\t\t\tfiles = (\n\t\t\t\tD1000000000000000000000C /* ExactlyOneLevels-v1.json in Resources */,\n"
     if f"{build_id} /* Assets.xcassets in Resources */," not in s:
         s = s.replace(resource_anchor, resource_anchor + f"\t\t\t\t{build_id} /* Assets.xcassets in Resources */,\n", 1)
 
@@ -277,12 +277,12 @@ def patch_xcode_project() -> None:
 
 
 def patch_game_center_code() -> None:
-    path = ROOT / "Nine" / "Experience" / "NineGameCenter.swift"
+    path = ROOT / "ExactlyOne" / "Experience" / "ExactlyOneGameCenter.swift"
     s = path.read_text()
     if "var artworkAssetName: String" not in s:
         s += """
 
-extension NineGameCenterAchievement {
+extension ExactlyOneGameCenterAchievement {
     var artworkAssetName: String {
         switch self {
         case .firstSolve: return "Achievements/FirstSolve"
@@ -300,7 +300,7 @@ extension NineGameCenterAchievement {
 
 
 def patch_tests() -> None:
-    path = ROOT / "NineTests" / "NineFeedbackTests.swift"
+    path = ROOT / "ExactlyOneTests" / "ExactlyOneFeedbackTests.swift"
     s = path.read_text()
     if "bundledAchievementArtworkExists" not in s:
         if "import UIKit" not in s:
@@ -309,7 +309,7 @@ def patch_tests() -> None:
 
 @MainActor
 @Test func bundledAchievementArtworkExists() {
-    for achievement in NineGameCenterAchievement.allCases {
+    for achievement in ExactlyOneGameCenterAchievement.allCases {
         #expect(UIImage(named: achievement.artworkAssetName) != nil)
     }
 }

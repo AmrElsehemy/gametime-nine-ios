@@ -5,7 +5,7 @@ on:
   push:
     branches: ['screenshots/**', 'claude/*screenshots*']
     paths:
-      - Nine/GameScene.swift
+      - ExactlyOne/GameScene.swift
       - Tools/compose_app_store_screenshots.py
       - .github/workflows/capture-app-store-screenshots.yml
 
@@ -17,7 +17,7 @@ jobs:
     if: github.actor != 'github-actions[bot]'
     runs-on: macos-latest
     steps:
-      - name: Checkout Nine
+      - name: Checkout Exactly One
         uses: actions/checkout@v4
         with:
           path: gametime-nine-ios
@@ -53,16 +53,16 @@ jobs:
         working-directory: gametime-nine-ios
         run: |
           xcodebuild \
-            -project Nine.xcodeproj \
-            -scheme Nine \
+            -project ExactlyOne.xcodeproj \
+            -scheme ExactlyOne \
             -sdk iphonesimulator \
             -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}" \
-            -derivedDataPath "$RUNNER_TEMP/NineDerived" \
+            -derivedDataPath "$RUNNER_TEMP/ExactlyOneDerived" \
             CODE_SIGNING_ALLOWED=NO \
             build
       - name: Install build
         run: |
-          APP="$RUNNER_TEMP/NineDerived/Build/Products/Debug-iphonesimulator/Nine.app"
+          APP="$RUNNER_TEMP/ExactlyOneDerived/Build/Products/Debug-iphonesimulator/ExactlyOne.app"
           test -d "$APP"
           xcrun simctl install "${{ steps.simulator.outputs.id }}" "$APP"
       - name: Capture deterministic gameplay masters
@@ -94,7 +94,7 @@ jobs:
             for wait in 3 6 10; do
               xcrun simctl terminate "$DEVICE" "$BUNDLE" >/dev/null 2>&1 || true
               sleep 1
-              xcrun simctl launch "$DEVICE" "$BUNDLE" --nine-capture "$preset"
+              xcrun simctl launch "$DEVICE" "$BUNDLE" --exactly-one-capture "$preset"
               sleep "$wait"
               xcrun simctl io "$DEVICE" screenshot "$RAW/$output"
               if is_rendered "$RAW/$output"; then
@@ -130,13 +130,13 @@ jobs:
       - name: Upload clean capture masters
         uses: actions/upload-artifact@v4
         with:
-          name: nine-real-build-capture-masters
+          name: exactly-one-real-build-capture-masters
           path: gametime-nine-ios/Marketing/Capture/raw/*.png
           retention-days: 90
       - name: Upload composed App Store masters
         uses: actions/upload-artifact@v4
         with:
-          name: nine-app-store-screenshot-masters
+          name: exactly-one-app-store-screenshot-masters
           path: gametime-nine-ios/Marketing/AppStore/Screenshots/0*.png
           retention-days: 90
       - name: Commit final App Store screenshots

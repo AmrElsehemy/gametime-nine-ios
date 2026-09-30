@@ -5,17 +5,17 @@ import GameTimeCore
 import GameTimeExperience
 
 @main
-struct NineApp: App {
+struct ExactlyOneApp: App {
     var body: some Scene {
         WindowGroup {
-            NineRootView()
+            ExactlyOneRootView()
         }
     }
 }
 
 @MainActor
-private struct NineRootView: View {
-    @StateObject private var shell = NineShellModel()
+private struct ExactlyOneRootView: View {
+    @StateObject private var shell = ExactlyOneShellModel()
     @State private var showsSettings = false
 
     var body: some View {
@@ -23,7 +23,7 @@ private struct NineRootView: View {
             SpriteView(scene: shell.scene)
                 .ignoresSafeArea()
 
-            if NineCapturePreset.current == nil {
+            if ExactlyOneCapturePreset.current == nil {
                 Button {
                     showsSettings = true
                 } label: {
@@ -43,7 +43,7 @@ private struct NineRootView: View {
         }
         .preferredColorScheme(.dark)
         .sheet(isPresented: $showsSettings) {
-            NineSettingsView(
+            ExactlyOneSettingsView(
                 onResetGameplay: {
                     shell.resetGameplay()
                 }
@@ -53,7 +53,7 @@ private struct NineRootView: View {
 }
 
 @MainActor
-private final class NineShellModel: ObservableObject {
+private final class ExactlyOneShellModel: ObservableObject {
     @Published private(set) var scene: SKScene
 
     init() {
@@ -61,10 +61,10 @@ private final class NineShellModel: ObservableObject {
     }
 
     func resetGameplay() {
-        let store = NineProgressStore()
+        let store = ExactlyOneProgressStore()
         _ = store.reset(levels: PrototypeLevels.production)
         UserDefaults.standard.removeObject(
-            forKey: NineTutorialCompletionStore.defaultKey
+            forKey: ExactlyOneTutorialCompletionStore.defaultKey
         )
         scene = Self.makeScene()
     }
@@ -77,14 +77,14 @@ private final class NineShellModel: ObservableObject {
 }
 
 @MainActor
-private struct NineSettingsView: View {
+private struct ExactlyOneSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @AppStorage("nine.preferences.soundEnabled")
+    @AppStorage("exactlyone.preferences.soundEnabled")
     private var soundEnabled = true
 
-    @AppStorage("nine.preferences.hapticsEnabled")
+    @AppStorage("exactlyone.preferences.hapticsEnabled")
     private var hapticsEnabled = true
 
     @State private var showsResetConfirmation = false
@@ -122,7 +122,7 @@ private struct NineSettingsView: View {
                         if GKLocalPlayer.local.isAuthenticated {
                             GKAccessPoint.shared.trigger(state: .dashboard) {}
                         } else {
-                            NineGameCenterService.shared.authenticateIfNeeded()
+                            ExactlyOneGameCenterService.shared.authenticateIfNeeded()
                         }
                     }
                 }

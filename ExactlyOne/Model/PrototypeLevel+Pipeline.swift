@@ -5,7 +5,7 @@ extension PrototypeLevel {
         definition: LevelDefinition,
         initialMarkers: Set<BoardCoordinate>,
         solution: [BoardCoordinate],
-        focusTuning: NineFocusTuning? = nil
+        focusTuning: ExactlyOneFocusTuning? = nil
     ) {
         self.definition = definition
         self.initialMarkers = initialMarkers
@@ -19,25 +19,25 @@ extension PrototypeLevels {
     /// vertical-slice levels to this collection without changing puzzle rules.
     static let production: [PrototypeLevel] = {
         do {
-            return try NineLevelCatalog.validatedBundled().map(\.level)
+            return try ExactlyOneLevelCatalog.validatedBundled().map(\.level)
         } catch {
-            preconditionFailure("Invalid bundled Nine level pack: \(error)")
+            preconditionFailure("Invalid bundled Exactly One level pack: \(error)")
         }
     }()
 }
 
 // MARK: - Persistence and progression
 
-enum NinePlayMode: String, Codable, Equatable, Sendable {
+enum ExactlyOnePlayMode: String, Codable, Equatable, Sendable {
     case progression
     case daily
 }
 
-struct NineLevelProgress: Codable, Equatable, Sendable {
+struct ExactlyOneLevelProgress: Codable, Equatable, Sendable {
     var completionCount: Int
     var bestDurationSeconds: Double?
     var lastCompletedDayKey: String?
-    var mastery: NinePersonalMastery? = nil
+    var mastery: ExactlyOnePersonalMastery? = nil
 
     init(
         completionCount: Int = 0,
@@ -70,42 +70,42 @@ struct NineLevelProgress: Codable, Equatable, Sendable {
     }
 }
 
-struct NineStreakState: Codable, Equatable, Sendable {
+struct ExactlyOneStreakState: Codable, Equatable, Sendable {
     var currentCount: Int
     var longestCount: Int
     var lastCompletedDayKey: String?
 
-    static let empty = NineStreakState(
+    static let empty = ExactlyOneStreakState(
         currentCount: 0,
         longestCount: 0,
         lastCompletedDayKey: nil
     )
 }
 
-struct NineSavedSession: Codable, Equatable, Sendable {
-    let mode: NinePlayMode
+struct ExactlyOneSavedSession: Codable, Equatable, Sendable {
+    let mode: ExactlyOnePlayMode
     let levelID: String
     let dayKey: String?
     var markers: [BoardCoordinate]
-    var focusAttempt: NineFocusAttempt? = nil
+    var focusAttempt: ExactlyOneFocusAttempt? = nil
 }
 
-struct NineSaveState: Codable, Equatable, Sendable {
+struct ExactlyOneSaveState: Codable, Equatable, Sendable {
     static let currentSchemaVersion = 3
 
     var schemaVersion: Int
     var currentLevelID: String?
     var unlockedLevelIDs: [String]
-    var levelProgress: [String: NineLevelProgress]
-    var progressionSession: NineSavedSession?
-    var dailySession: NineSavedSession?
-    var lastPlayMode: NinePlayMode
+    var levelProgress: [String: ExactlyOneLevelProgress]
+    var progressionSession: ExactlyOneSavedSession?
+    var dailySession: ExactlyOneSavedSession?
+    var lastPlayMode: ExactlyOnePlayMode
     var dailyCompletions: [String: String]
-    var streak: NineStreakState
+    var streak: ExactlyOneStreakState
 
-    static func fresh(levels: [PrototypeLevel]) -> NineSaveState {
+    static func fresh(levels: [PrototypeLevel]) -> ExactlyOneSaveState {
         let firstID = levels.first?.definition.id
-        return NineSaveState(
+        return ExactlyOneSaveState(
             schemaVersion: currentSchemaVersion,
             currentLevelID: firstID,
             unlockedLevelIDs: firstID.map { [$0] } ?? [],
@@ -118,7 +118,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
         )
     }
 
-    func session(for mode: NinePlayMode) -> NineSavedSession? {
+    func session(for mode: ExactlyOnePlayMode) -> ExactlyOneSavedSession? {
         switch mode {
         case .progression:
             return progressionSession
@@ -127,7 +127,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
         }
     }
 
-    mutating func setSession(_ session: NineSavedSession) {
+    mutating func setSession(_ session: ExactlyOneSavedSession) {
         lastPlayMode = session.mode
         switch session.mode {
         case .progression:
@@ -137,7 +137,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
         }
     }
 
-    mutating func clearSession(for mode: NinePlayMode) {
+    mutating func clearSession(for mode: ExactlyOnePlayMode) {
         switch mode {
         case .progression:
             progressionSession = nil
@@ -183,7 +183,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
 
         if dailyCompletions[dayKey] == nil {
             dailyCompletions[dayKey] = levelID
-            streak = NineStreakPolicy.applyingCompletion(
+            streak = ExactlyOneStreakPolicy.applyingCompletion(
                 dayKey: dayKey,
                 to: streak
             )
@@ -197,7 +197,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
         durationSeconds: Double?,
         dayKey: String
     ) {
-        var progress = levelProgress[levelID] ?? NineLevelProgress()
+        var progress = levelProgress[levelID] ?? ExactlyOneLevelProgress()
         progress.recordCompletion(
             durationSeconds: durationSeconds,
             dayKey: dayKey
@@ -205,7 +205,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
         levelProgress[levelID] = progress
     }
 
-    func sanitized(levels: [PrototypeLevel], todayDayKey: String) -> NineSaveState {
+    func sanitized(levels: [PrototypeLevel], todayDayKey: String) -> ExactlyOneSaveState {
         let catalogIDs = levels.map(\.definition.id)
         let validIDs = Set(catalogIDs)
         let firstID = catalogIDs.first
@@ -258,11 +258,11 @@ struct NineSaveState: Codable, Equatable, Sendable {
     }
 
     private func sanitizedSession(
-        _ session: NineSavedSession?,
-        expectedMode: NinePlayMode,
+        _ session: ExactlyOneSavedSession?,
+        expectedMode: ExactlyOnePlayMode,
         levels: [PrototypeLevel],
         todayDayKey: String
-    ) -> NineSavedSession? {
+    ) -> ExactlyOneSavedSession? {
         guard let session,
               session.mode == expectedMode,
               let level = levels.first(where: {
@@ -280,7 +280,7 @@ struct NineSaveState: Codable, Equatable, Sendable {
             .union(level.initialMarkers)
             .sorted()
 
-        return NineSavedSession(
+        return ExactlyOneSavedSession(
             mode: expectedMode,
             levelID: session.levelID,
             dayKey: expectedMode == .daily ? session.dayKey : nil,
@@ -290,12 +290,12 @@ struct NineSaveState: Codable, Equatable, Sendable {
     }
 }
 
-enum NineSaveError: Error, Equatable, Sendable {
+enum ExactlyOneSaveError: Error, Equatable, Sendable {
     case unsupportedSchemaVersion(Int)
     case missingSchemaVersion
 }
 
-enum NineSaveCodec {
+enum ExactlyOneSaveCodec {
     private struct SchemaProbe: Decodable {
         let schemaVersion: Int
     }
@@ -311,34 +311,34 @@ enum NineSaveCodec {
         let schemaVersion: Int
         let currentLevelID: String?
         let unlockedLevelIDs: [String]
-        let levelProgress: [String: NineLevelProgress]
-        let activeSession: NineSavedSession?
+        let levelProgress: [String: ExactlyOneLevelProgress]
+        let activeSession: ExactlyOneSavedSession?
         let dailyCompletions: [String: String]
-        let streak: NineStreakState
+        let streak: ExactlyOneStreakState
     }
 
-    static func encode(_ state: NineSaveState) throws -> Data {
+    static func encode(_ state: ExactlyOneSaveState) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         return try encoder.encode(state)
     }
 
-    static func decode(_ data: Data) throws -> NineSaveState {
+    static func decode(_ data: Data) throws -> ExactlyOneSaveState {
         let decoder = JSONDecoder()
         let probe: SchemaProbe
         do {
             probe = try decoder.decode(SchemaProbe.self, from: data)
         } catch {
-            throw NineSaveError.missingSchemaVersion
+            throw ExactlyOneSaveError.missingSchemaVersion
         }
 
         switch probe.schemaVersion {
-        case NineSaveState.currentSchemaVersion:
-            return try decoder.decode(NineSaveState.self, from: data)
+        case ExactlyOneSaveState.currentSchemaVersion:
+            return try decoder.decode(ExactlyOneSaveState.self, from: data)
         case 2:
             let legacy = try decoder.decode(LegacyV2.self, from: data)
-            return NineSaveState(
-                schemaVersion: NineSaveState.currentSchemaVersion,
+            return ExactlyOneSaveState(
+                schemaVersion: ExactlyOneSaveState.currentSchemaVersion,
                 currentLevelID: legacy.currentLevelID,
                 unlockedLevelIDs: legacy.unlockedLevelIDs,
                 levelProgress: legacy.levelProgress,
@@ -354,12 +354,12 @@ enum NineSaveCodec {
             )
         case 1:
             let legacy = try decoder.decode(LegacyV1.self, from: data)
-            var progress: [String: NineLevelProgress] = [:]
+            var progress: [String: ExactlyOneLevelProgress] = [:]
             for levelID in legacy.completedLevelIDs {
-                progress[levelID] = NineLevelProgress(completionCount: 1)
+                progress[levelID] = ExactlyOneLevelProgress(completionCount: 1)
             }
-            return NineSaveState(
-                schemaVersion: NineSaveState.currentSchemaVersion,
+            return ExactlyOneSaveState(
+                schemaVersion: ExactlyOneSaveState.currentSchemaVersion,
                 currentLevelID: legacy.currentLevelID,
                 unlockedLevelIDs: legacy.unlockedLevelIDs,
                 levelProgress: progress,
@@ -370,22 +370,23 @@ enum NineSaveCodec {
                 streak: .empty
             )
         default:
-            throw NineSaveError.unsupportedSchemaVersion(probe.schemaVersion)
+            throw ExactlyOneSaveError.unsupportedSchemaVersion(probe.schemaVersion)
         }
     }
 }
 
 @MainActor
-final class NineProgressStore {
-    // Keep the existing storage key stable so v1/v2 installs migrate in place.
-    private static let defaultKey = "nine.progress.save.v2"
+final class ExactlyOneProgressStore {
+    // Older save schemas migrate in place under this key, so it must not
+    // change once the app has shipped.
+    private static let defaultKey = "exactlyone.progress.save.v2"
 
     private let defaults: UserDefaults
     private let key: String
 
     init(
         defaults: UserDefaults = .standard,
-        key: String = NineProgressStore.defaultKey
+        key: String = ExactlyOneProgressStore.defaultKey
     ) {
         self.defaults = defaults
         self.key = key
@@ -394,16 +395,16 @@ final class NineProgressStore {
     func load(
         levels: [PrototypeLevel],
         now: Date = Date()
-    ) -> NineSaveState {
+    ) -> ExactlyOneSaveState {
         guard let data = defaults.data(forKey: key) else {
-            return NineSaveState.fresh(levels: levels)
+            return ExactlyOneSaveState.fresh(levels: levels)
         }
 
         do {
-            let decoded = try NineSaveCodec.decode(data)
+            let decoded = try ExactlyOneSaveCodec.decode(data)
             let sanitized = decoded.sanitized(
                 levels: levels,
-                todayDayKey: NineUTCDate.dayKey(for: now)
+                todayDayKey: ExactlyOneUTCDate.dayKey(for: now)
             )
             if sanitized != decoded {
                 save(sanitized)
@@ -411,25 +412,25 @@ final class NineProgressStore {
             return sanitized
         } catch {
             defaults.removeObject(forKey: key)
-            return NineSaveState.fresh(levels: levels)
+            return ExactlyOneSaveState.fresh(levels: levels)
         }
     }
 
-    func save(_ state: NineSaveState) {
-        guard let data = try? NineSaveCodec.encode(state) else { return }
+    func save(_ state: ExactlyOneSaveState) {
+        guard let data = try? ExactlyOneSaveCodec.encode(state) else { return }
         defaults.set(data, forKey: key)
     }
 
     @discardableResult
-    func reset(levels: [PrototypeLevel]) -> NineSaveState {
+    func reset(levels: [PrototypeLevel]) -> ExactlyOneSaveState {
         defaults.removeObject(forKey: key)
-        return NineSaveState.fresh(levels: levels)
+        return ExactlyOneSaveState.fresh(levels: levels)
     }
 }
 
 // MARK: - Daily challenge and streak
 
-enum NineUTCDate {
+enum ExactlyOneUTCDate {
     private static var calendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -473,7 +474,7 @@ enum NineUTCDate {
     }
 }
 
-enum NineDailyChallenge {
+enum ExactlyOneDailyChallenge {
     static func levelIndex(
         for date: Date,
         in levels: [PrototypeLevel],
@@ -493,7 +494,7 @@ enum NineDailyChallenge {
             return index
         }
 
-        let key = "nine-daily-v1|\(NineUTCDate.dayKey(for: date))"
+        let key = "exactly-one-daily-v1|\(ExactlyOneUTCDate.dayKey(for: date))"
         let hash = stableHash(key)
         return candidateIndices[Int(hash % UInt64(candidateIndices.count))]
     }
@@ -508,23 +509,23 @@ enum NineDailyChallenge {
     }
 }
 
-enum NineStreakPolicy {
+enum ExactlyOneStreakPolicy {
     /// A same-day repeat is ignored. Consecutive UTC days increment the streak.
     /// One missed UTC day preserves (but does not increment) the current streak.
     /// Larger gaps reset to one. Using UTC makes timezone changes non-destructive.
     static func applyingCompletion(
         dayKey: String,
-        to streak: NineStreakState
-    ) -> NineStreakState {
+        to streak: ExactlyOneStreakState
+    ) -> ExactlyOneStreakState {
         guard let previous = streak.lastCompletedDayKey else {
-            return NineStreakState(
+            return ExactlyOneStreakState(
                 currentCount: 1,
                 longestCount: max(1, streak.longestCount),
                 lastCompletedDayKey: dayKey
             )
         }
 
-        guard let gap = NineUTCDate.dayDistance(from: previous, to: dayKey) else {
+        guard let gap = ExactlyOneUTCDate.dayDistance(from: previous, to: dayKey) else {
             return streak
         }
 
@@ -542,7 +543,7 @@ enum NineStreakPolicy {
             nextCount = 1
         }
 
-        return NineStreakState(
+        return ExactlyOneStreakState(
             currentCount: nextCount,
             longestCount: max(streak.longestCount, nextCount),
             lastCompletedDayKey: dayKey

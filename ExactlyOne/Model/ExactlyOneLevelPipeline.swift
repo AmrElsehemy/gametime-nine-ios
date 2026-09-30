@@ -1,14 +1,14 @@
 import Foundation
 
-enum NineLevelKind: String, Codable, Sendable {
+enum ExactlyOneLevelKind: String, Codable, Sendable {
     case onboarding
     case standard
 }
 
-struct NineLevelRecord: Codable, Equatable, Sendable {
+struct ExactlyOneLevelRecord: Codable, Equatable, Sendable {
     let id: String
     let order: Int
-    let kind: NineLevelKind
+    let kind: ExactlyOneLevelKind
     let size: Int
     let regionIDs: [Int]
     let adjacencyRule: AdjacencyRule
@@ -16,7 +16,7 @@ struct NineLevelRecord: Codable, Equatable, Sendable {
     let solution: [BoardCoordinate]
     let difficulty: Int
     let authoringSeed: Int?
-    var focusTuning: NineFocusTuning? = nil
+    var focusTuning: ExactlyOneFocusTuning? = nil
 
     func makeDefinition() throws -> LevelDefinition {
         try LevelDefinition(
@@ -31,7 +31,7 @@ struct NineLevelRecord: Codable, Equatable, Sendable {
     func materialize() throws -> PrototypeLevel {
         let definition = try makeDefinition()
         let tuning = focusTuning ?? .initial(size: size, difficulty: difficulty)
-        guard tuning.isValid else { throw NineLevelPackError.malformedLevel(levelID: id, reason: "Invalid Focus Clock tuning") }
+        guard tuning.isValid else { throw ExactlyOneLevelPackError.malformedLevel(levelID: id, reason: "Invalid Focus Clock tuning") }
         return PrototypeLevel(
             definition: definition,
             initialMarkers: Set(initialMarkers),
@@ -41,12 +41,12 @@ struct NineLevelRecord: Codable, Equatable, Sendable {
     }
 }
 
-struct NineLevelPack: Codable, Equatable, Sendable {
+struct ExactlyOneLevelPack: Codable, Equatable, Sendable {
     let schemaVersion: Int
-    let levels: [NineLevelRecord]
+    let levels: [ExactlyOneLevelRecord]
 }
 
-enum NineLevelPackError: Error, Equatable, CustomStringConvertible, Sendable {
+enum ExactlyOneLevelPackError: Error, Equatable, CustomStringConvertible, Sendable {
     case missingResource(String)
     case unsupportedSchemaVersion(Int)
     case duplicateLevelID(String)
@@ -84,39 +84,39 @@ enum NineLevelPackError: Error, Equatable, CustomStringConvertible, Sendable {
     }
 }
 
-enum NineSolutionMultiplicity: String, Equatable, Sendable {
+enum ExactlyOneSolutionMultiplicity: String, Equatable, Sendable {
     case none
     case unique
     case multiple = "2+"
 }
 
-struct NineSolverMetrics: Equatable, Sendable {
+struct ExactlyOneSolverMetrics: Equatable, Sendable {
     var visitedNodes: Int = 0
     var backtracks: Int = 0
     var maxBranching: Int = 0
 }
 
-struct NineSolverResult: Equatable, Sendable {
-    let multiplicity: NineSolutionMultiplicity
+struct ExactlyOneSolverResult: Equatable, Sendable {
+    let multiplicity: ExactlyOneSolutionMultiplicity
     let firstSolution: [BoardCoordinate]?
-    let metrics: NineSolverMetrics
+    let metrics: ExactlyOneSolverMetrics
 
     var hasUniqueSolution: Bool { multiplicity == .unique }
 }
 
-enum NineLevelSolver {
+enum ExactlyOneLevelSolver {
     static func solve(
         definition: LevelDefinition,
         initialMarkers: Set<BoardCoordinate> = []
-    ) -> NineSolverResult {
-        var metrics = NineSolverMetrics()
+    ) -> ExactlyOneSolverResult {
+        var metrics = ExactlyOneSolverMetrics()
         var solutions: [[BoardCoordinate]] = []
 
         guard initialStateIsConsistent(
             definition: definition,
             markers: initialMarkers
         ) else {
-            return NineSolverResult(
+            return ExactlyOneSolverResult(
                 multiplicity: .none,
                 firstSolution: nil,
                 metrics: metrics
@@ -144,14 +144,14 @@ enum NineLevelSolver {
             metrics: &metrics
         )
 
-        let multiplicity: NineSolutionMultiplicity
+        let multiplicity: ExactlyOneSolutionMultiplicity
         switch solutions.count {
         case 0: multiplicity = .none
         case 1: multiplicity = .unique
         default: multiplicity = .multiple
         }
 
-        return NineSolverResult(
+        return ExactlyOneSolverResult(
             multiplicity: multiplicity,
             firstSolution: solutions.first,
             metrics: metrics
@@ -164,7 +164,7 @@ enum NineLevelSolver {
         usedColumns: inout Set<Int>,
         usedRegions: inout Set<Int>,
         solutions: inout [[BoardCoordinate]],
-        metrics: inout NineSolverMetrics
+        metrics: inout ExactlyOneSolverMetrics
     ) {
         guard solutions.count < 2 else { return }
 
@@ -283,8 +283,8 @@ enum NineLevelSolver {
     ) -> Bool {
         guard markers.allSatisfy(definition.contains) else { return false }
 
-        let state = NineBoardState(level: definition, markers: markers)
-        let evaluation = NineConstraintEngine.evaluate(state, level: definition)
+        let state = ExactlyOneBoardState(level: definition, markers: markers)
+        let evaluation = ExactlyOneConstraintEngine.evaluate(state, level: definition)
         guard evaluation.violations.isEmpty else { return false }
 
         return Set(markers.map(\.row)).count == markers.count
@@ -293,31 +293,31 @@ enum NineLevelSolver {
     }
 }
 
-struct NineValidatedLevel: Sendable {
-    let record: NineLevelRecord
+struct ExactlyOneValidatedLevel: Sendable {
+    let record: ExactlyOneLevelRecord
     let level: PrototypeLevel
-    let solver: NineSolverResult
+    let solver: ExactlyOneSolverResult
 }
 
-enum NineLevelPackValidator {
-    static func validate(_ pack: NineLevelPack) throws -> [NineValidatedLevel] {
+enum ExactlyOneLevelPackValidator {
+    static func validate(_ pack: ExactlyOneLevelPack) throws -> [ExactlyOneValidatedLevel] {
         guard pack.schemaVersion == 1 else {
-            throw NineLevelPackError.unsupportedSchemaVersion(pack.schemaVersion)
+            throw ExactlyOneLevelPackError.unsupportedSchemaVersion(pack.schemaVersion)
         }
 
         var ids = Set<String>()
         var orders = Set<Int>()
-        var validated: [NineValidatedLevel] = []
+        var validated: [ExactlyOneValidatedLevel] = []
 
         for record in pack.levels.sorted(by: { $0.order < $1.order }) {
             guard ids.insert(record.id).inserted else {
-                throw NineLevelPackError.duplicateLevelID(record.id)
+                throw ExactlyOneLevelPackError.duplicateLevelID(record.id)
             }
             guard orders.insert(record.order).inserted else {
-                throw NineLevelPackError.duplicateOrder(record.order)
+                throw ExactlyOneLevelPackError.duplicateOrder(record.order)
             }
             guard (1...5).contains(record.difficulty) else {
-                throw NineLevelPackError.invalidDifficulty(
+                throw ExactlyOneLevelPackError.invalidDifficulty(
                     levelID: record.id,
                     value: record.difficulty
                 )
@@ -327,7 +327,7 @@ enum NineLevelPackValidator {
             do {
                 level = try record.materialize()
             } catch {
-                throw NineLevelPackError.malformedLevel(
+                throw ExactlyOneLevelPackError.malformedLevel(
                     levelID: record.id,
                     reason: String(describing: error)
                 )
@@ -335,43 +335,43 @@ enum NineLevelPackValidator {
 
             let solutionSet = Set(record.solution)
             for marker in record.initialMarkers where !solutionSet.contains(marker) {
-                throw NineLevelPackError.invalidInitialMarker(
+                throw ExactlyOneLevelPackError.invalidInitialMarker(
                     levelID: record.id,
                     coordinate: marker
                 )
             }
 
-            let authoredState = NineBoardState(
+            let authoredState = ExactlyOneBoardState(
                 level: level.definition,
                 markers: solutionSet
             )
-            guard NineConstraintEngine.evaluate(
+            guard ExactlyOneConstraintEngine.evaluate(
                 authoredState,
                 level: level.definition
             ).isSolved else {
-                throw NineLevelPackError.invalidAuthoredSolution(levelID: record.id)
+                throw ExactlyOneLevelPackError.invalidAuthoredSolution(levelID: record.id)
             }
 
-            let solver = NineLevelSolver.solve(
+            let solver = ExactlyOneLevelSolver.solve(
                 definition: level.definition,
                 initialMarkers: level.initialMarkers
             )
 
             switch solver.multiplicity {
             case .none:
-                throw NineLevelPackError.unsolvable(levelID: record.id)
+                throw ExactlyOneLevelPackError.unsolvable(levelID: record.id)
             case .multiple:
-                throw NineLevelPackError.ambiguous(levelID: record.id)
+                throw ExactlyOneLevelPackError.ambiguous(levelID: record.id)
             case .unique:
                 break
             }
 
             guard Set(solver.firstSolution ?? []) == solutionSet else {
-                throw NineLevelPackError.invalidAuthoredSolution(levelID: record.id)
+                throw ExactlyOneLevelPackError.invalidAuthoredSolution(levelID: record.id)
             }
 
             validated.append(
-                NineValidatedLevel(
+                ExactlyOneValidatedLevel(
                     record: record,
                     level: level,
                     solver: solver
@@ -383,7 +383,7 @@ enum NineLevelPackValidator {
     }
 }
 
-enum NineContentGate: Int, CaseIterable, Sendable {
+enum ExactlyOneContentGate: Int, CaseIterable, Sendable {
     case day3 = 20
     case testFlight = 50
     case submission = 60
@@ -394,29 +394,29 @@ enum NineContentGate: Int, CaseIterable, Sendable {
     }
 }
 
-enum NineLevelCatalog {
-    static let resourceName = "NineLevels-v1"
+enum ExactlyOneLevelCatalog {
+    static let resourceName = "ExactlyOneLevels-v1"
 
-    static func decode(data: Data) throws -> NineLevelPack {
+    static func decode(data: Data) throws -> ExactlyOneLevelPack {
         let decoder = JSONDecoder()
-        return try decoder.decode(NineLevelPack.self, from: data)
+        return try decoder.decode(ExactlyOneLevelPack.self, from: data)
     }
 
     static func loadBundled(
         bundle: Bundle = .main
-    ) throws -> NineLevelPack {
+    ) throws -> ExactlyOneLevelPack {
         guard let url = bundle.url(
             forResource: resourceName,
             withExtension: "json"
         ) else {
-            throw NineLevelPackError.missingResource("\(resourceName).json")
+            throw ExactlyOneLevelPackError.missingResource("\(resourceName).json")
         }
         return try decode(data: Data(contentsOf: url))
     }
 
     static func validatedBundled(
         bundle: Bundle = .main
-    ) throws -> [NineValidatedLevel] {
-        try NineLevelPackValidator.validate(loadBundled(bundle: bundle))
+    ) throws -> [ExactlyOneValidatedLevel] {
+        try ExactlyOneLevelPackValidator.validate(loadBundled(bundle: bundle))
     }
 }

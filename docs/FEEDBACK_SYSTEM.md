@@ -27,7 +27,7 @@ Audio uses an ambient, mix-with-others session and a pre-attached `AVAudioPlayer
 
 ## Player control
 
-Sound and haptics persist independently through `NineFeedbackPreferenceStore`. The current gameplay shell exposes direct toggles; issue #15 can move these controls into the final settings surface without changing the preference contract.
+Sound and haptics persist independently through `ExactlyOneFeedbackPreferenceStore`. The current gameplay shell exposes direct toggles; issue #15 can move these controls into the final settings surface without changing the preference contract.
 
 ## Motion
 

@@ -4,7 +4,6 @@
 Public product name: **Exactly One**  
 App Store title: **Exactly One: Logic Puzzle**  
 App Store subtitle: **One pebble. Every territory.**  
-Internal codename: **Nine**  
 Platform: iOS  
 Studio: Knowlly Games  
 Internal platform: Game Time  
@@ -65,7 +64,7 @@ Initial direction:
 
 The production direction is **Tactile Territories**: a procedural SpriteKit/Core Graphics visual system with material-like territories and a distinctive Pebble marker. Bespoke illustration must not become a release blocker.
 
-The public product name is locked as **Exactly One**. Public-facing assets and copy must use that name; **Nine** remains an internal engineering codename only.
+The public product name is locked as **Exactly One**. Public-facing assets, copy and code identifiers use that name.
 
 ## 6. Onboarding
 The first levels are the tutorial.

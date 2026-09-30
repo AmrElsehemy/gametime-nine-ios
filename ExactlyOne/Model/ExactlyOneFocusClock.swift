@@ -4,7 +4,7 @@ import Foundation
 /// Thresholds are inclusive. The clock rates a solve; it never fails one:
 /// anything slower than `twoStarTime` is one star, and `oneStarTime` only ends
 /// the time-bonus window.
-struct NineFocusTuning: Codable, Equatable, Sendable {
+struct ExactlyOneFocusTuning: Codable, Equatable, Sendable {
     var threeStarTime: Int
     var twoStarTime: Int
     var oneStarTime: Int
@@ -26,7 +26,7 @@ struct NineFocusTuning: Codable, Equatable, Sendable {
     }
 }
 
-struct NineMasteryResult: Codable, Equatable, Sendable {
+struct ExactlyOneMasteryResult: Codable, Equatable, Sendable {
     let scoringVersion: Int
     let elapsedMilliseconds: Int
     let stars: Int
@@ -37,21 +37,21 @@ struct NineMasteryResult: Codable, Equatable, Sendable {
     var isRanked: Bool { !restored && hintsUsed == 0 }
 }
 
-enum NineFocusPhase: String, Codable, Sendable { case inspecting, running, completed }
+enum ExactlyOneFocusPhase: String, Codable, Sendable { case inspecting, running, completed }
 
 /// No wall clock, SpriteKit, SDK or animation dependency. The caller supplies a
 /// nondecreasing attempt timeline, so events reproduce the same result on replay.
-struct NineFocusAttempt: Codable, Equatable, Sendable {
-    let tuning: NineFocusTuning
-    private(set) var phase: NineFocusPhase = .inspecting
+struct ExactlyOneFocusAttempt: Codable, Equatable, Sendable {
+    let tuning: ExactlyOneFocusTuning
+    private(set) var phase: ExactlyOneFocusPhase = .inspecting
     private(set) var timelineMilliseconds = 0
     private(set) var elapsedMilliseconds = 0
     private(set) var cleanSolve = true
     private(set) var hintsUsed = 0
     private(set) var restored = false
-    private(set) var result: NineMasteryResult?
+    private(set) var result: ExactlyOneMasteryResult?
 
-    init(tuning: NineFocusTuning) {
+    init(tuning: ExactlyOneFocusTuning) {
         precondition(tuning.isValid)
         self.tuning = tuning
     }
@@ -88,14 +88,14 @@ struct NineFocusAttempt: Codable, Equatable, Sendable {
     mutating func markRestored() { restored = true }
 
     @discardableResult
-    mutating func solve(at milliseconds: Int) -> NineMasteryResult? {
+    mutating func solve(at milliseconds: Int) -> ExactlyOneMasteryResult? {
         advance(to: milliseconds)
         guard phase == .running else { return nil }
         let score = tuning.baseScore
             + max(0, tuning.oneStarTime - elapsedMilliseconds) * tuning.timeBonusRate / 1_000
             + (cleanSolve ? tuning.cleanSolveBonus : 0)
             + (hintsUsed == 0 ? tuning.noHintBonus : 0)
-        result = NineMasteryResult(scoringVersion: 1, elapsedMilliseconds: elapsedMilliseconds,
+        result = ExactlyOneMasteryResult(scoringVersion: 1, elapsedMilliseconds: elapsedMilliseconds,
             stars: stars, score: score, cleanSolve: cleanSolve,
             hintsUsed: hintsUsed, restored: restored)
         phase = .completed
@@ -105,10 +105,10 @@ struct NineFocusAttempt: Codable, Equatable, Sendable {
 
 /// Ranked PBs cannot be overwritten by assisted or resumed runs. Progress stars
 /// may still improve from any completed run.
-struct NinePersonalMastery: Codable, Equatable, Sendable {
+struct ExactlyOnePersonalMastery: Codable, Equatable, Sendable {
     var stars = 0
-    var best: NineMasteryResult?
-    @discardableResult mutating func record(_ result: NineMasteryResult) -> Bool {
+    var best: ExactlyOneMasteryResult?
+    @discardableResult mutating func record(_ result: ExactlyOneMasteryResult) -> Bool {
         stars = max(stars, result.stars)
         guard result.isRanked else { return false }
         if let best, best.score > result.score || (best.score == result.score && best.elapsedMilliseconds <= result.elapsedMilliseconds) { return false }

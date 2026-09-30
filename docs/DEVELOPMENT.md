@@ -17,8 +17,8 @@ The Xcode project references `../gametime-ios` through `XCLocalSwiftPackageRefer
 ## Open and run
 
 1. Clone both repositories into the sibling layout above.
-2. Open `Nine.xcodeproj`.
-3. Select the `Nine` scheme.
+2. Open `ExactlyOne.xcodeproj`.
+3. Select the `ExactlyOne` scheme.
 4. Choose an iPhone simulator or device.
 5. Build and run.
 

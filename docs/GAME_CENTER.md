@@ -19,7 +19,7 @@ Use these stable identifiers in code and App Store Connect:
 
 ### Leaderboard
 
-`ai.knowlly.nine.daily.time`
+`ai.knowlly.exactlyone.daily.time`
 
 Configuration intent:
 
@@ -35,10 +35,10 @@ A recurring daily leaderboard gives each daily puzzle a fresh competitive surfac
 
 | Identifier | Meaning | Percent |
 | --- | --- | ---: |
-| `ai.knowlly.nine.achievement.first-solve` | Solve any puzzle | 100 |
-| `ai.knowlly.nine.achievement.tutorial-complete` | Complete the five-level learn-by-playing sequence | 100 |
-| `ai.knowlly.nine.achievement.first-daily` | Complete a daily puzzle | 100 |
-| `ai.knowlly.nine.achievement.streak-7` | Reach a seven-day daily streak | 100 |
+| `ai.knowlly.exactlyone.achievement.first-solve` | Solve any puzzle | 100 |
+| `ai.knowlly.exactlyone.achievement.tutorial-complete` | Complete the five-level learn-by-playing sequence | 100 |
+| `ai.knowlly.exactlyone.achievement.first-daily` | Complete a daily puzzle | 100 |
+| `ai.knowlly.exactlyone.achievement.streak-7` | Reach a seven-day daily streak | 100 |
 
 The first set is deliberately small and meaningful. Do not add filler achievements simply to increase count.
 
@@ -69,7 +69,7 @@ Before sandbox verification:
 - [ ] Enable the Game Center capability for the Exactly One App ID / Xcode target.
 - [ ] Confirm the app's bundle identifier is the production Exactly One bundle identifier.
 - [ ] Enable Game Center for the app record in App Store Connect.
-- [ ] Create leaderboard `ai.knowlly.nine.daily.time` with low-to-high ordering and daily recurrence.
+- [ ] Create leaderboard `ai.knowlly.exactlyone.daily.time` with low-to-high ordering and daily recurrence.
 - [ ] Create the four achievement identifiers exactly as documented above.
 - [ ] Add localized leaderboard/achievement names and descriptions.
 - [ ] Add achievement artwork that matches the final Exactly One visual language.
