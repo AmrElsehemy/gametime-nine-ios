@@ -1,6 +1,5 @@
 import GameKit
 import SpriteKit
-import StoreKit
 import SwiftUI
 import GameTimeCore
 import GameTimeExperience
@@ -88,17 +87,9 @@ private struct NineSettingsView: View {
     @AppStorage("nine.preferences.hapticsEnabled")
     private var hapticsEnabled = true
 
-    @State private var restoreState: RestoreState = .idle
     @State private var showsResetConfirmation = false
 
     let onResetGameplay: () -> Void
-
-    private enum RestoreState: Equatable {
-        case idle
-        case restoring
-        case restored
-        case failed
-    }
 
     var body: some View {
         NavigationStack {
@@ -134,17 +125,6 @@ private struct NineSettingsView: View {
                             NineGameCenterService.shared.authenticateIfNeeded()
                         }
                     }
-                }
-
-                Section("Purchases") {
-                    Button(restoreTitle) {
-                        restorePurchases()
-                    }
-                    .disabled(restoreState == .restoring)
-
-                    Text("Exactly One has no paid entitlements in this version.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
                 }
 
                 Section("Help & Privacy") {
@@ -210,30 +190,5 @@ private struct NineSettingsView: View {
         Bundle.main.object(
             forInfoDictionaryKey: "CFBundleVersion"
         ) as? String ?? "—"
-    }
-
-    private var restoreTitle: String {
-        switch restoreState {
-        case .idle:
-            return "Restore Purchases"
-        case .restoring:
-            return "Restoring…"
-        case .restored:
-            return "Restore Check Complete"
-        case .failed:
-            return "Restore Failed — Try Again"
-        }
-    }
-
-    private func restorePurchases() {
-        restoreState = .restoring
-        Task { @MainActor in
-            do {
-                try await AppStore.sync()
-                restoreState = .restored
-            } catch {
-                restoreState = .failed
-            }
-        }
     }
 }
