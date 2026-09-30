@@ -1,20 +1,20 @@
 import Foundation
 import UIKit
 import Testing
-@testable import Nine
+@testable import ExactlyOne
 
 @Test func semanticFeedbackCuesAreDistinctAndBounded() {
-    let placement = NineFeedbackCue.cue(for: .placement)
-    let invalid = NineFeedbackCue.cue(for: .invalid)
-    let solved = NineFeedbackCue.cue(for: .solved)
+    let placement = ExactlyOneFeedbackCue.cue(for: .placement)
+    let invalid = ExactlyOneFeedbackCue.cue(for: .invalid)
+    let solved = ExactlyOneFeedbackCue.cue(for: .solved)
 
     #expect(placement != invalid)
     #expect(invalid != solved)
     #expect(invalid.hapticIntensity > placement.hapticIntensity)
     #expect(solved.frequency > placement.frequency)
 
-    for event in NineFeedbackEvent.allCases {
-        let cue = NineFeedbackCue.cue(for: event)
+    for event in ExactlyOneFeedbackEvent.allCases {
+        let cue = ExactlyOneFeedbackCue.cue(for: event)
         #expect((0...1).contains(cue.hapticIntensity))
         #expect((0...1).contains(cue.hapticSharpness))
         #expect(cue.frequency > 0)
@@ -25,11 +25,11 @@ import Testing
 
 @MainActor
 @Test func soundAndHapticsPreferencesPersistIndependently() {
-    let suiteName = "NineFeedbackTests.\(UUID().uuidString)"
+    let suiteName = "ExactlyOneFeedbackTests.\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer { defaults.removePersistentDomain(forName: suiteName) }
 
-    let store = NineFeedbackPreferenceStore(defaults: defaults)
+    let store = ExactlyOneFeedbackPreferenceStore(defaults: defaults)
     #expect(store.current == .defaults)
 
     store.setSoundEnabled(false)
@@ -51,14 +51,14 @@ import Testing
     let first = try #require(missing.first)
     let second = try #require(missing.dropFirst().first)
 
-    var state = NineBoardState(
+    var state = ExactlyOneBoardState(
         level: level.definition,
         markers: level.initialMarkers
     )
-    var history = NineMoveHistory()
+    var history = ExactlyOneMoveHistory()
     history.reset(to: state.markers)
 
-    var recorder = NineReplayRecorder(
+    var recorder = ExactlyOneReplayRecorder(
         level: level,
         mode: .progression,
         dayKey: nil,
@@ -72,7 +72,7 @@ import Testing
     #expect(placedFirst)
     history.record(state.markers)
     recorder.record(
-        NineGameplayIntent(
+        ExactlyOneGameplayIntent(
             kind: .place,
             levelID: level.definition.id,
             coordinate: first
@@ -83,7 +83,7 @@ import Testing
     #expect(placedSecond)
     history.record(state.markers)
     recorder.record(
-        NineGameplayIntent(
+        ExactlyOneGameplayIntent(
             kind: .place,
             levelID: level.definition.id,
             coordinate: second
@@ -92,9 +92,9 @@ import Testing
 
     let undoResult = history.undo()
     let undoMarkers = try #require(undoResult)
-    state = NineBoardState(level: level.definition, markers: undoMarkers)
+    state = ExactlyOneBoardState(level: level.definition, markers: undoMarkers)
     recorder.record(
-        NineGameplayIntent(
+        ExactlyOneGameplayIntent(
             kind: .undo,
             levelID: level.definition.id,
             coordinate: nil
@@ -105,27 +105,27 @@ import Testing
     #expect(replacedSecond)
     history.record(state.markers)
     recorder.record(
-        NineGameplayIntent(
+        ExactlyOneGameplayIntent(
             kind: .place,
             levelID: level.definition.id,
             coordinate: second
         )
     )
     recorder.record(
-        NineGameplayIntent(
+        ExactlyOneGameplayIntent(
             kind: .hintPreview,
             levelID: level.definition.id,
             coordinate: nil
         )
     )
 
-    let encoded = try NineReplayCodec.encode(recorder.replay)
-    let decoded = try NineReplayCodec.decode(encoded)
-    let replayed = try NineReplayPlayer.finalState(replay: decoded, level: level)
+    let encoded = try ExactlyOneReplayCodec.encode(recorder.replay)
+    let decoded = try ExactlyOneReplayCodec.decode(encoded)
+    let replayed = try ExactlyOneReplayPlayer.finalState(replay: decoded, level: level)
 
     #expect(decoded == recorder.replay)
     #expect(replayed.markers == state.markers)
-    #expect(decoded.schemaVersion == NineReplay.currentSchemaVersion)
+    #expect(decoded.schemaVersion == ExactlyOneReplay.currentSchemaVersion)
     #expect(decoded.levelID == level.definition.id)
     #expect(decoded.levelSchemaVersion == level.definition.schemaVersion)
     #expect(decoded.appVersion == "1.0")
@@ -137,50 +137,50 @@ import Testing
     let level = PrototypeLevels.production[5]
     let replayID = UUID(uuidString: "00000000-0000-0000-0000-000000000012")!
 
-    let incompatible = NineReplay(
+    let incompatible = ExactlyOneReplay(
         schemaVersion: 999,
         replayID: replayID,
         appVersion: "1.0",
         buildVersion: "42",
         levelID: level.definition.id,
         levelSchemaVersion: level.definition.schemaVersion,
-        mode: NinePlayMode.progression.rawValue,
+        mode: ExactlyOnePlayMode.progression.rawValue,
         dayKey: nil,
         initialMarkers: level.initialMarkers.sorted(),
         events: []
     )
 
-    #expect(throws: NineReplayError.unsupportedSchemaVersion(999)) {
-        _ = try NineReplayPlayer.finalState(replay: incompatible, level: level)
+    #expect(throws: ExactlyOneReplayError.unsupportedSchemaVersion(999)) {
+        _ = try ExactlyOneReplayPlayer.finalState(replay: incompatible, level: level)
     }
 
-    let malformed = NineReplay(
-        schemaVersion: NineReplay.currentSchemaVersion,
+    let malformed = ExactlyOneReplay(
+        schemaVersion: ExactlyOneReplay.currentSchemaVersion,
         replayID: replayID,
         appVersion: "1.0",
         buildVersion: "42",
         levelID: level.definition.id,
         levelSchemaVersion: level.definition.schemaVersion,
-        mode: NinePlayMode.progression.rawValue,
+        mode: ExactlyOnePlayMode.progression.rawValue,
         dayKey: nil,
         initialMarkers: level.initialMarkers.sorted(),
         events: [
-            NineReplayEvent(
+            ExactlyOneReplayEvent(
                 sequence: 7,
-                kind: NineGameplayIntentKind.place.rawValue,
+                kind: ExactlyOneGameplayIntentKind.place.rawValue,
                 coordinate: level.solution.first
             )
         ]
     )
 
-    #expect(throws: NineReplayError.malformedEvent(sequence: 7)) {
-        _ = try NineReplayPlayer.finalState(replay: malformed, level: level)
+    #expect(throws: ExactlyOneReplayError.malformedEvent(sequence: 7)) {
+        _ = try ExactlyOneReplayPlayer.finalState(replay: malformed, level: level)
     }
 }
 
 @MainActor
 @Test func diagnosticsAreBoundedAndSupportPayloadIsPrivacySafeByConstruction() throws {
-    let buffer = NineDiagnosticsBuffer(capacity: 2)
+    let buffer = ExactlyOneDiagnosticsBuffer(capacity: 2)
     buffer.add("level", "loaded:v1-001", at: Date(timeIntervalSince1970: 1))
     buffer.add("save", "saved:v1-001", at: Date(timeIntervalSince1970: 2))
     buffer.add("level", "completed:v1-001", at: Date(timeIntervalSince1970: 3))
@@ -189,8 +189,8 @@ import Testing
     #expect(buffer.breadcrumbs.first?.message == "saved:v1-001")
     #expect(buffer.breadcrumbs.last?.message == "completed:v1-001")
 
-    let package = NineSupportPackage(
-        schemaVersion: NineSupportPackage.currentSchemaVersion,
+    let package = ExactlyOneSupportPackage(
+        schemaVersion: ExactlyOneSupportPackage.currentSchemaVersion,
         appVersion: "1.0",
         buildVersion: "42",
         deviceClass: "iPhone",
@@ -202,7 +202,7 @@ import Testing
     )
 
     let data = try JSONEncoder().encode(package)
-    let decoded = try JSONDecoder().decode(NineSupportPackage.self, from: data)
+    let decoded = try JSONDecoder().decode(ExactlyOneSupportPackage.self, from: data)
     let json = String(decoding: data, as: UTF8.self)
 
     #expect(decoded == package)
@@ -213,7 +213,7 @@ import Testing
 }
 
 @Test func analyticsSchemaIncludesRequiredLaunchFunnelAndCommerceHooks() {
-    let actual = Set(NineAnalyticsEventName.allCases.map(\.rawValue))
+    let actual = Set(ExactlyOneAnalyticsEventName.allCases.map(\.rawValue))
     let required: Set<String> = [
         "first_open",
         "session_start",
@@ -241,13 +241,13 @@ import Testing
 
 @MainActor
 @Test func analyticsFirstOpenAndCriticalLifecycleEventsAreDeduplicated() {
-    let suiteName = "NineAnalyticsTests.\(UUID().uuidString)"
+    let suiteName = "ExactlyOneAnalyticsTests.\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer { defaults.removePersistentDomain(forName: suiteName) }
 
     let client = CapturingAnalyticsClient()
-    let lifecycle = NineAnalyticsLifecycleStore(defaults: defaults)
-    let tracker = NineAnalyticsTracker(client: client, lifecycleStore: lifecycle)
+    let lifecycle = ExactlyOneAnalyticsLifecycleStore(defaults: defaults)
+    let tracker = ExactlyOneAnalyticsTracker(client: client, lifecycleStore: lifecycle)
 
     tracker.trackFirstOpenIfNeeded()
     tracker.trackFirstOpenIfNeeded()
@@ -257,9 +257,9 @@ import Testing
     #expect(client.events.map(\.name) == [.firstOpen, .sessionStart])
 
     let secondClient = CapturingAnalyticsClient()
-    let secondTracker = NineAnalyticsTracker(
+    let secondTracker = ExactlyOneAnalyticsTracker(
         client: secondClient,
-        lifecycleStore: NineAnalyticsLifecycleStore(defaults: defaults)
+        lifecycleStore: ExactlyOneAnalyticsLifecycleStore(defaults: defaults)
     )
     secondTracker.trackFirstOpenIfNeeded()
     #expect(secondClient.events.isEmpty)
@@ -268,7 +268,7 @@ import Testing
 @MainActor
 @Test func analyticsAddsUsefulLevelDimensionsWithoutBoardCoordinates() {
     let client = CapturingAnalyticsClient()
-    let tracker = NineAnalyticsTracker(client: client)
+    let tracker = ExactlyOneAnalyticsTracker(client: client)
     let level = PrototypeLevels.production[5]
 
     tracker.track(
@@ -293,7 +293,7 @@ import Testing
     #expect(event.properties["level_id"] == level.definition.id)
     #expect(event.properties["level_version"] == String(level.definition.schemaVersion))
     #expect(event.properties["board_size"] == String(level.definition.size))
-    #expect(event.properties["mode"] == NinePlayMode.progression.rawValue)
+    #expect(event.properties["mode"] == ExactlyOnePlayMode.progression.rawValue)
     #expect(event.properties["duration_ms"] == "1234")
     #expect(event.properties["reason"] == "solved")
     #expect(event.properties["row"] == nil)
@@ -301,24 +301,24 @@ import Testing
 }
 
 @Test func gameCenterScoreConvertsToClampedMilliseconds() {
-    #expect(NineGameCenterScore.milliseconds(durationSeconds: 1.234) == 1_234)
-    #expect(NineGameCenterScore.milliseconds(durationSeconds: 0) == 1)
-    #expect(NineGameCenterScore.milliseconds(durationSeconds: -4) == 1)
+    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: 1.234) == 1_234)
+    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: 0) == 1)
+    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: -4) == 1)
     #expect(
-        NineGameCenterScore.milliseconds(durationSeconds: 100_000)
-            == NineGameCenterScore.maximumDailyMilliseconds
+        ExactlyOneGameCenterScore.milliseconds(durationSeconds: 100_000)
+            == ExactlyOneGameCenterScore.maximumDailyMilliseconds
     )
 }
 
 @Test func gameCenterAchievementLedgerSuppressesDuplicatesAndRetriesFailures() {
-    var ledger = NineAchievementLedger()
+    var ledger = ExactlyOneAchievementLedger()
 
     let first = ledger.beginReport(.firstSolve)
     #expect(first)
     let duplicate = ledger.beginReport(.firstSolve)
     #expect(!duplicate)
 
-    ledger.hydrate([NineGameCenterAchievement.tutorialComplete.rawValue])
+    ledger.hydrate([ExactlyOneGameCenterAchievement.tutorialComplete.rawValue])
     let hydratedDuplicate = ledger.beginReport(.tutorialComplete)
     #expect(!hydratedDuplicate)
 
@@ -330,17 +330,17 @@ import Testing
 }
 
 @Test func gameCenterIdentifiersStayStable() {
-    #expect(NineGameCenterIDs.dailyLeaderboard == "ai.knowlly.nine.daily.time")
+    #expect(ExactlyOneGameCenterIDs.dailyLeaderboard == "ai.knowlly.exactlyone.daily.time")
     #expect(
-        Set(NineGameCenterAchievement.allCases.map(\.rawValue)).count
-            == NineGameCenterAchievement.allCases.count
+        Set(ExactlyOneGameCenterAchievement.allCases.map(\.rawValue)).count
+            == ExactlyOneGameCenterAchievement.allCases.count
     )
 }
 
-private final class CapturingAnalyticsClient: NineAnalyticsClient {
-    private(set) var events: [NineAnalyticsEvent] = []
+private final class CapturingAnalyticsClient: ExactlyOneAnalyticsClient {
+    private(set) var events: [ExactlyOneAnalyticsEvent] = []
 
-    func track(_ event: NineAnalyticsEvent) {
+    func track(_ event: ExactlyOneAnalyticsEvent) {
         events.append(event)
     }
 }
@@ -348,13 +348,13 @@ private final class CapturingAnalyticsClient: NineAnalyticsClient {
 
 @MainActor
 @Test func bundledAchievementArtworkExists() {
-    for achievement in NineGameCenterAchievement.allCases {
+    for achievement in ExactlyOneGameCenterAchievement.allCases {
         #expect(UIImage(named: achievement.artworkAssetName) != nil)
     }
 }
 @Test func capturePresetParserIsDeterministic() {
-    #expect(NineCapturePreset.parse(arguments: ["Nine"]) == nil)
-    #expect(NineCapturePreset.parse(arguments: ["Nine", "--nine-capture", "simple"]) == .simple)
-    #expect(NineCapturePreset.parse(arguments: ["Nine", "--nine-capture", "daily"]) == .daily)
-    #expect(NineCapturePreset.parse(arguments: ["Nine", "--nine-capture", "unknown"]) == nil)
+    #expect(ExactlyOneCapturePreset.parse(arguments: ["ExactlyOne"]) == nil)
+    #expect(ExactlyOneCapturePreset.parse(arguments: ["ExactlyOne", "--exactly-one-capture", "simple"]) == .simple)
+    #expect(ExactlyOneCapturePreset.parse(arguments: ["ExactlyOne", "--exactly-one-capture", "daily"]) == .daily)
+    #expect(ExactlyOneCapturePreset.parse(arguments: ["ExactlyOne", "--exactly-one-capture", "unknown"]) == nil)
 }

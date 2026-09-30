@@ -13,7 +13,7 @@ Undo is logical-state based, not animation based.
 - an undo result is persisted as the current active session
 - pressing Undo when no previous state exists is a no-op
 
-The history primitive is framework-independent (`NineMoveHistory`) and can later move into a shared puzzle module if another Game Time title proves the reuse.
+The history primitive is framework-independent (`ExactlyOneMoveHistory`) and can later move into a shared puzzle module if another Game Time title proves the reuse.
 
 ## Reset
 
@@ -23,7 +23,7 @@ Reset always restores the exact authored `initialMarkers` for the current bundle
 
 Hints are **preview-first**. Asking for a hint never mutates the board.
 
-`NineHintEngine` follows deterministic priority:
+`ExactlyOneHintEngine` follows deterministic priority:
 
 1. if a player-added marker is currently conflicting, preview removing the deterministic first conflict
 2. otherwise if a player-added marker is not part of the level's unique authored solution, preview removing it
@@ -42,7 +42,7 @@ The board changes only when the player performs that action.
 
 Hints are usable without an ad dependency. The initial tutorial already supplies adaptive free guidance; no ad or purchase is required to learn the game.
 
-Later, `GameTimeCommerce` may decide whether a non-tutorial hint preview is free, earned, or optionally unlocked by a rewarded ad. That eligibility decision must happen outside `NineHintEngine`; the engine itself only answers the puzzle question.
+Later, `GameTimeCommerce` may decide whether a non-tutorial hint preview is free, earned, or optionally unlocked by a rewarded ad. That eligibility decision must happen outside `ExactlyOneHintEngine`; the engine itself only answers the puzzle question.
 
 ## Replay / analytics seam
 

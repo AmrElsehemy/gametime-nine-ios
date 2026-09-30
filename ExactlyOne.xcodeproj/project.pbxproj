@@ -8,24 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		A44000000000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A44000000000000000000002 /* Assets.xcassets */; };
-		D10000000000000000000001 /* NineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000001 /* NineApp.swift */; };
+		D10000000000000000000001 /* ExactlyOneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000001 /* ExactlyOneApp.swift */; };
 		D10000000000000000000002 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000002 /* GameScene.swift */; };
-		D10000000000000000000003 /* NineSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000003 /* NineSmokeTests.swift */; };
+		D10000000000000000000003 /* ExactlyOneSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000003 /* ExactlyOneSmokeTests.swift */; };
 		D10000000000000000000004 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
 		D10000000000000000000005 /* GameTimeExperience in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000002 /* GameTimeExperience */; };
 		D10000000000000000000006 /* GameTimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000001 /* GameTimeCore */; };
-		D10000000000000000000007 /* NineBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000006 /* NineBoardModel.swift */; };
-		D10000000000000000000008 /* NineBoardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000007 /* NineBoardModelTests.swift */; };
-		D10000000000000000000009 /* NineLevelPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000008 /* NineLevelPipeline.swift */; };
+		D10000000000000000000007 /* ExactlyOneBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000006 /* ExactlyOneBoardModel.swift */; };
+		D10000000000000000000008 /* ExactlyOneBoardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000007 /* ExactlyOneBoardModelTests.swift */; };
+		D10000000000000000000009 /* ExactlyOneLevelPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000008 /* ExactlyOneLevelPipeline.swift */; };
 		D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */; };
-		D1000000000000000000000B /* NineLevelPipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000A /* NineLevelPipelineTests.swift */; };
+		D1000000000000000000000B /* ExactlyOneLevelPipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000A /* ExactlyOneLevelPipelineTests.swift */; };
 		C10000000000000000000001 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C20000000000000000000001 /* PrivacyInfo.xcprivacy */; };
-		D1000000000000000000000C /* NineLevels-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000B /* NineLevels-v1.json */; };
-		D1000000000000000000000D /* NineFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000C /* NineFeedback.swift */; };
-		D1000000000000000000000E /* NineFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000D /* NineFeedbackTests.swift */; };
-		D1000000000000000000000F /* NineGameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000E /* NineGameCenter.swift */; };
-		E10000000000000000000021 /* NineFocusClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000000000000000000021 /* NineFocusClock.swift */; };
-		E10000000000000000000022 /* NineFocusClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000000000000000000022 /* NineFocusClockTests.swift */; };
+		D1000000000000000000000C /* ExactlyOneLevels-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000B /* ExactlyOneLevels-v1.json */; };
+		D1000000000000000000000D /* ExactlyOneFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000C /* ExactlyOneFeedback.swift */; };
+		D1000000000000000000000E /* ExactlyOneFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000D /* ExactlyOneFeedbackTests.swift */; };
+		D1000000000000000000000F /* ExactlyOneGameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2000000000000000000000E /* ExactlyOneGameCenter.swift */; };
+		E10000000000000000000021 /* ExactlyOneFocusClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000000000000000000021 /* ExactlyOneFocusClock.swift */; };
+		E10000000000000000000022 /* ExactlyOneFocusClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000000000000000000022 /* ExactlyOneFocusClockTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,29 +34,29 @@
 			containerPortal = D80000000000000000000001 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D50000000000000000000001;
-			remoteInfo = Nine;
+			remoteInfo = ExactlyOne;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A44000000000000000000002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D20000000000000000000001 /* NineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineApp.swift; sourceTree = "<group>"; };
+		D20000000000000000000001 /* ExactlyOneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactlyOneApp.swift; sourceTree = "<group>"; };
 		D20000000000000000000002 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D20000000000000000000003 /* NineSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineSmokeTests.swift; sourceTree = "<group>"; };
-		D20000000000000000000004 /* Nine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nine.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D20000000000000000000005 /* NineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D20000000000000000000006 /* NineBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/NineBoardModel.swift; sourceTree = "<group>"; };
-		D20000000000000000000007 /* NineBoardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineBoardModelTests.swift; sourceTree = "<group>"; };
-		D20000000000000000000008 /* NineLevelPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/NineLevelPipeline.swift; sourceTree = "<group>"; };
+		D20000000000000000000003 /* ExactlyOneSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactlyOneSmokeTests.swift; sourceTree = "<group>"; };
+		D20000000000000000000004 /* ExactlyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExactlyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20000000000000000000005 /* ExactlyOneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExactlyOneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20000000000000000000006 /* ExactlyOneBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/ExactlyOneBoardModel.swift; sourceTree = "<group>"; };
+		D20000000000000000000007 /* ExactlyOneBoardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactlyOneBoardModelTests.swift; sourceTree = "<group>"; };
+		D20000000000000000000008 /* ExactlyOneLevelPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model/ExactlyOneLevelPipeline.swift; sourceTree = "<group>"; };
 		D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/PrototypeLevel+Pipeline.swift"; sourceTree = "<group>"; };
-		D2000000000000000000000A /* NineLevelPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineLevelPipelineTests.swift; sourceTree = "<group>"; };
+		D2000000000000000000000A /* ExactlyOneLevelPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactlyOneLevelPipelineTests.swift; sourceTree = "<group>"; };
 		C20000000000000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		D2000000000000000000000B /* NineLevels-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Resources/NineLevels-v1.json"; sourceTree = "<group>"; };
-		D2000000000000000000000C /* NineFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineFeedback.swift; sourceTree = "<group>"; };
-		D2000000000000000000000D /* NineFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineFeedbackTests.swift; sourceTree = "<group>"; };
-		D2000000000000000000000E /* NineGameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/NineGameCenter.swift; sourceTree = "<group>"; };
-		E20000000000000000000021 /* NineFocusClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/NineFocusClock.swift"; sourceTree = "<group>"; };
-		E20000000000000000000022 /* NineFocusClockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NineFocusClockTests.swift"; sourceTree = "<group>"; };
+		D2000000000000000000000B /* ExactlyOneLevels-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Resources/ExactlyOneLevels-v1.json"; sourceTree = "<group>"; };
+		D2000000000000000000000C /* ExactlyOneFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/ExactlyOneFeedback.swift; sourceTree = "<group>"; };
+		D2000000000000000000000D /* ExactlyOneFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactlyOneFeedbackTests.swift; sourceTree = "<group>"; };
+		D2000000000000000000000E /* ExactlyOneGameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experience/ExactlyOneGameCenter.swift; sourceTree = "<group>"; };
+		E20000000000000000000021 /* ExactlyOneFocusClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model/ExactlyOneFocusClock.swift"; sourceTree = "<group>"; };
+		E20000000000000000000022 /* ExactlyOneFocusClockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExactlyOneFocusClockTests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,47 +83,47 @@
 		D40000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				D40000000000000000000002 /* Nine */,
-				D40000000000000000000003 /* NineTests */,
+				D40000000000000000000002 /* ExactlyOne */,
+				D40000000000000000000003 /* ExactlyOneTests */,
 				D40000000000000000000004 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D40000000000000000000002 /* Nine */ = {
+		D40000000000000000000002 /* ExactlyOne */ = {
 			isa = PBXGroup;
 			children = (
-				D20000000000000000000001 /* NineApp.swift */,
+				D20000000000000000000001 /* ExactlyOneApp.swift */,
 				A44000000000000000000002 /* Assets.xcassets */,
 				D20000000000000000000002 /* GameScene.swift */,
-				D20000000000000000000006 /* NineBoardModel.swift */,
-				E20000000000000000000021 /* NineFocusClock.swift */,
-				D20000000000000000000008 /* NineLevelPipeline.swift */,
+				D20000000000000000000006 /* ExactlyOneBoardModel.swift */,
+				E20000000000000000000021 /* ExactlyOneFocusClock.swift */,
+				D20000000000000000000008 /* ExactlyOneLevelPipeline.swift */,
 				D20000000000000000000009 /* PrototypeLevel+Pipeline.swift */,
-				D2000000000000000000000C /* NineFeedback.swift */,
-				D2000000000000000000000E /* NineGameCenter.swift */,
-				D2000000000000000000000B /* NineLevels-v1.json */,
+				D2000000000000000000000C /* ExactlyOneFeedback.swift */,
+				D2000000000000000000000E /* ExactlyOneGameCenter.swift */,
+				D2000000000000000000000B /* ExactlyOneLevels-v1.json */,
 				C20000000000000000000001 /* PrivacyInfo.xcprivacy */,
 			);
-			path = Nine;
+			path = ExactlyOne;
 			sourceTree = "<group>";
 		};
-		D40000000000000000000003 /* NineTests */ = {
+		D40000000000000000000003 /* ExactlyOneTests */ = {
 			isa = PBXGroup;
 			children = (
-				D20000000000000000000003 /* NineSmokeTests.swift */,
-				D20000000000000000000007 /* NineBoardModelTests.swift */,
-				E20000000000000000000022 /* NineFocusClockTests.swift */,
-				D2000000000000000000000A /* NineLevelPipelineTests.swift */,
-				D2000000000000000000000D /* NineFeedbackTests.swift */,
+				D20000000000000000000003 /* ExactlyOneSmokeTests.swift */,
+				D20000000000000000000007 /* ExactlyOneBoardModelTests.swift */,
+				E20000000000000000000022 /* ExactlyOneFocusClockTests.swift */,
+				D2000000000000000000000A /* ExactlyOneLevelPipelineTests.swift */,
+				D2000000000000000000000D /* ExactlyOneFeedbackTests.swift */,
 			);
-			path = NineTests;
+			path = ExactlyOneTests;
 			sourceTree = "<group>";
 		};
 		D40000000000000000000004 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D20000000000000000000004 /* Nine.app */,
-				D20000000000000000000005 /* NineTests.xctest */,
+				D20000000000000000000004 /* ExactlyOne.app */,
+				D20000000000000000000005 /* ExactlyOneTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,9 +131,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D50000000000000000000001 /* Nine */ = {
+		D50000000000000000000001 /* ExactlyOne */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D91000000000000000000002 /* Build configuration list for PBXNativeTarget "Nine" */;
+			buildConfigurationList = D91000000000000000000002 /* Build configuration list for PBXNativeTarget "ExactlyOne" */;
 			buildPhases = (
 				D60000000000000000000001 /* Sources */,
 				D30000000000000000000001 /* Frameworks */,
@@ -143,18 +143,18 @@
 			);
 			dependencies = (
 			);
-			name = Nine;
+			name = ExactlyOne;
 			packageProductDependencies = (
 				D90000000000000000000001 /* GameTimeCore */,
 				D90000000000000000000002 /* GameTimeExperience */,
 			);
-			productName = Nine;
-			productReference = D20000000000000000000004 /* Nine.app */;
+			productName = ExactlyOne;
+			productReference = D20000000000000000000004 /* ExactlyOne.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D50000000000000000000002 /* NineTests */ = {
+		D50000000000000000000002 /* ExactlyOneTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D91000000000000000000003 /* Build configuration list for PBXNativeTarget "NineTests" */;
+			buildConfigurationList = D91000000000000000000003 /* Build configuration list for PBXNativeTarget "ExactlyOneTests" */;
 			buildPhases = (
 				D60000000000000000000002 /* Sources */,
 				D30000000000000000000002 /* Frameworks */,
@@ -165,12 +165,12 @@
 			dependencies = (
 				D12000000000000000000001 /* PBXTargetDependency */,
 			);
-			name = NineTests;
+			name = ExactlyOneTests;
 			packageProductDependencies = (
 				D90000000000000000000001 /* GameTimeCore */,
 			);
-			productName = NineTests;
-			productReference = D20000000000000000000005 /* NineTests.xctest */;
+			productName = ExactlyOneTests;
+			productReference = D20000000000000000000005 /* ExactlyOneTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -193,7 +193,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D91000000000000000000001 /* Build configuration list for PBXProject "Nine" */;
+			buildConfigurationList = D91000000000000000000001 /* Build configuration list for PBXProject "ExactlyOne" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -210,8 +210,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D50000000000000000000001 /* Nine */,
-				D50000000000000000000002 /* NineTests */,
+				D50000000000000000000001 /* ExactlyOne */,
+				D50000000000000000000002 /* ExactlyOneTests */,
 			);
 		};
 /* End PBXProject section */
@@ -221,7 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1000000000000000000000C /* NineLevels-v1.json in Resources */,
+				D1000000000000000000000C /* ExactlyOneLevels-v1.json in Resources */,
 				C10000000000000000000001 /* PrivacyInfo.xcprivacy in Resources */,
 				A44000000000000000000001 /* Assets.xcassets in Resources */,
 			);
@@ -241,14 +241,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D10000000000000000000001 /* NineApp.swift in Sources */,
+				D10000000000000000000001 /* ExactlyOneApp.swift in Sources */,
 				D10000000000000000000002 /* GameScene.swift in Sources */,
-				D10000000000000000000007 /* NineBoardModel.swift in Sources */,
-				E10000000000000000000021 /* NineFocusClock.swift in Sources */,
-				D10000000000000000000009 /* NineLevelPipeline.swift in Sources */,
+				D10000000000000000000007 /* ExactlyOneBoardModel.swift in Sources */,
+				E10000000000000000000021 /* ExactlyOneFocusClock.swift in Sources */,
+				D10000000000000000000009 /* ExactlyOneLevelPipeline.swift in Sources */,
 				D1000000000000000000000A /* PrototypeLevel+Pipeline.swift in Sources */,
-				D1000000000000000000000D /* NineFeedback.swift in Sources */,
-				D1000000000000000000000F /* NineGameCenter.swift in Sources */,
+				D1000000000000000000000D /* ExactlyOneFeedback.swift in Sources */,
+				D1000000000000000000000F /* ExactlyOneGameCenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,11 +256,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D10000000000000000000003 /* NineSmokeTests.swift in Sources */,
-				D10000000000000000000008 /* NineBoardModelTests.swift in Sources */,
-				E10000000000000000000022 /* NineFocusClockTests.swift in Sources */,
-				D1000000000000000000000B /* NineLevelPipelineTests.swift in Sources */,
-				D1000000000000000000000E /* NineFeedbackTests.swift in Sources */,
+				D10000000000000000000003 /* ExactlyOneSmokeTests.swift in Sources */,
+				D10000000000000000000008 /* ExactlyOneBoardModelTests.swift in Sources */,
+				E10000000000000000000022 /* ExactlyOneFocusClockTests.swift in Sources */,
+				D1000000000000000000000B /* ExactlyOneLevelPipelineTests.swift in Sources */,
+				D1000000000000000000000E /* ExactlyOneFeedbackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +269,7 @@
 /* Begin PBXTargetDependency section */
 		D12000000000000000000001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D50000000000000000000001 /* Nine */;
+			target = D50000000000000000000001 /* ExactlyOne */;
 			targetProxy = D11000000000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -309,7 +309,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Nine/Nine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ExactlyOne/ExactlyOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4XD74F27J2;
@@ -336,7 +336,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Nine/Nine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ExactlyOne/ExactlyOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4XD74F27J2;
@@ -371,7 +371,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.exactlyonce.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nine";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExactlyOne.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ExactlyOne";
 			};
 			name = Debug;
 		};
@@ -386,14 +386,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ai.knowlly.exactlyonce.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nine";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExactlyOne.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ExactlyOne";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D91000000000000000000001 /* Build configuration list for PBXProject "Nine" */ = {
+		D91000000000000000000001 /* Build configuration list for PBXProject "ExactlyOne" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D13000000000000000000001 /* Debug */,
@@ -402,7 +402,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D91000000000000000000002 /* Build configuration list for PBXNativeTarget "Nine" */ = {
+		D91000000000000000000002 /* Build configuration list for PBXNativeTarget "ExactlyOne" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D13000000000000000000003 /* Debug */,
@@ -411,7 +411,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D91000000000000000000003 /* Build configuration list for PBXNativeTarget "NineTests" */ = {
+		D91000000000000000000003 /* Build configuration list for PBXNativeTarget "ExactlyOneTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D13000000000000000000005 /* Debug */,

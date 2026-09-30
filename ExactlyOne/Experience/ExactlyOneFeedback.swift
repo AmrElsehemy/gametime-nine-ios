@@ -3,7 +3,7 @@ import CoreHaptics
 import Foundation
 import UIKit
 
-enum NineFeedbackEvent: String, CaseIterable, Sendable {
+enum ExactlyOneFeedbackEvent: String, CaseIterable, Sendable {
     case placement
     case removal
     case invalid
@@ -14,14 +14,14 @@ enum NineFeedbackEvent: String, CaseIterable, Sendable {
     case milestone
 }
 
-struct NineFeedbackCue: Equatable, Sendable {
+struct ExactlyOneFeedbackCue: Equatable, Sendable {
     let hapticIntensity: Float
     let hapticSharpness: Float
     let frequency: Double
     let duration: Double
     let gain: Float
 
-    static func cue(for event: NineFeedbackEvent) -> NineFeedbackCue {
+    static func cue(for event: ExactlyOneFeedbackEvent) -> ExactlyOneFeedbackCue {
         switch event {
         case .placement:
             return .init(hapticIntensity: 0.48, hapticSharpness: 0.58, frequency: 520, duration: 0.055, gain: 0.13)
@@ -43,21 +43,21 @@ struct NineFeedbackCue: Equatable, Sendable {
     }
 }
 
-struct NineFeedbackPreferences: Equatable, Sendable {
+struct ExactlyOneFeedbackPreferences: Equatable, Sendable {
     var soundEnabled: Bool
     var hapticsEnabled: Bool
 
-    static let defaults = NineFeedbackPreferences(
+    static let defaults = ExactlyOneFeedbackPreferences(
         soundEnabled: true,
         hapticsEnabled: true
     )
 }
 
 @MainActor
-final class NineFeedbackPreferenceStore {
+final class ExactlyOneFeedbackPreferenceStore {
     private enum Key {
-        static let sound = "nine.preferences.soundEnabled"
-        static let haptics = "nine.preferences.hapticsEnabled"
+        static let sound = "exactlyone.preferences.soundEnabled"
+        static let haptics = "exactlyone.preferences.hapticsEnabled"
     }
 
     private let defaults: UserDefaults
@@ -66,8 +66,8 @@ final class NineFeedbackPreferenceStore {
         self.defaults = defaults
     }
 
-    var current: NineFeedbackPreferences {
-        NineFeedbackPreferences(
+    var current: ExactlyOneFeedbackPreferences {
+        ExactlyOneFeedbackPreferences(
             soundEnabled: defaults.object(forKey: Key.sound) == nil
                 ? true
                 : defaults.bool(forKey: Key.sound),
@@ -87,8 +87,8 @@ final class NineFeedbackPreferenceStore {
 }
 
 @MainActor
-final class NineFeedbackEngine {
-    private let preferences: NineFeedbackPreferenceStore
+final class ExactlyOneFeedbackEngine {
+    private let preferences: ExactlyOneFeedbackPreferenceStore
     private var hapticEngine: CHHapticEngine?
     private let audioEngine = AVAudioEngine()
     private let player = AVAudioPlayerNode()
@@ -99,15 +99,15 @@ final class NineFeedbackEngine {
     private var audioConfigured = false
     private var audioReady = false
 
-    init(preferences: NineFeedbackPreferenceStore = .init()) {
+    init(preferences: ExactlyOneFeedbackPreferenceStore = .init()) {
         self.preferences = preferences
         prepareHaptics()
         prepareAudio()
     }
 
-    func play(_ event: NineFeedbackEvent) {
+    func play(_ event: ExactlyOneFeedbackEvent) {
         let settings = preferences.current
-        let cue = NineFeedbackCue.cue(for: event)
+        let cue = ExactlyOneFeedbackCue.cue(for: event)
 
         if settings.hapticsEnabled {
             playHaptic(event, cue: cue)
@@ -135,7 +135,7 @@ final class NineFeedbackEngine {
         }
     }
 
-    private func playHaptic(_ semanticEvent: NineFeedbackEvent, cue: NineFeedbackCue) {
+    private func playHaptic(_ semanticEvent: ExactlyOneFeedbackEvent, cue: ExactlyOneFeedbackCue) {
         guard let hapticEngine else {
             playUIKitFallback(semanticEvent)
             return
@@ -165,7 +165,7 @@ final class NineFeedbackEngine {
         }
     }
 
-    private func playUIKitFallback(_ event: NineFeedbackEvent) {
+    private func playUIKitFallback(_ event: ExactlyOneFeedbackEvent) {
         switch event {
         case .invalid:
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
@@ -196,7 +196,7 @@ final class NineFeedbackEngine {
         }
     }
 
-    private func playTone(_ cue: NineFeedbackCue) {
+    private func playTone(_ cue: ExactlyOneFeedbackCue) {
         if !audioReady || !audioEngine.isRunning {
             prepareAudio()
         }
@@ -234,25 +234,25 @@ final class NineFeedbackEngine {
 
 // MARK: - Puzzle assistance primitives
 
-enum NineHintAction: String, Equatable, Sendable {
+enum ExactlyOneHintAction: String, Equatable, Sendable {
     case place
     case remove
 }
 
-struct NineHint: Equatable, Sendable {
-    let action: NineHintAction
+struct ExactlyOneHint: Equatable, Sendable {
+    let action: ExactlyOneHintAction
     let coordinate: BoardCoordinate
     let reason: String
 }
 
-enum NineHintEngine {
+enum ExactlyOneHintEngine {
     static func nextHint(
         level: PrototypeLevel,
-        state: NineBoardState
-    ) -> NineHint? {
+        state: ExactlyOneBoardState
+    ) -> ExactlyOneHint? {
         let authoredSolution = Set(level.solution)
         let initial = level.initialMarkers
-        let evaluation = NineConstraintEngine.evaluate(
+        let evaluation = ExactlyOneConstraintEngine.evaluate(
             state,
             level: level.definition
         )
@@ -265,7 +265,7 @@ enum NineHintEngine {
             .subtracting(initial)
             .sorted()
             .first {
-            return NineHint(
+            return ExactlyOneHint(
                 action: .remove,
                 coordinate: wrongConflict,
                 reason: "This pebble conflicts with another rule."
@@ -277,7 +277,7 @@ enum NineHintEngine {
             .subtracting(initial)
             .sorted()
             .first {
-            return NineHint(
+            return ExactlyOneHint(
                 action: .remove,
                 coordinate: wrong,
                 reason: "This placement leads away from the unique solution."
@@ -287,7 +287,7 @@ enum NineHintEngine {
         if let missing = level.solution.first(where: {
             !state.markers.contains($0)
         }) {
-            return NineHint(
+            return ExactlyOneHint(
                 action: .place,
                 coordinate: missing,
                 reason: "A useful next placement is highlighted."
@@ -298,7 +298,7 @@ enum NineHintEngine {
     }
 }
 
-struct NineMoveHistory: Equatable, Sendable {
+struct ExactlyOneMoveHistory: Equatable, Sendable {
     private(set) var states: [Set<BoardCoordinate>] = []
 
     var canUndo: Bool { states.count > 1 }
@@ -319,7 +319,7 @@ struct NineMoveHistory: Equatable, Sendable {
     }
 }
 
-enum NineGameplayIntentKind: String, Equatable, Sendable {
+enum ExactlyOneGameplayIntentKind: String, Equatable, Sendable {
     case place
     case remove
     case undo
@@ -327,22 +327,22 @@ enum NineGameplayIntentKind: String, Equatable, Sendable {
     case hintPreview = "hint_preview"
 }
 
-struct NineGameplayIntent: Equatable, Sendable {
-    let kind: NineGameplayIntentKind
+struct ExactlyOneGameplayIntent: Equatable, Sendable {
+    let kind: ExactlyOneGameplayIntentKind
     let levelID: String
     let coordinate: BoardCoordinate?
 }
 
 // MARK: - Deterministic replay
 
-struct NineReplayEvent: Codable, Equatable, Sendable {
+struct ExactlyOneReplayEvent: Codable, Equatable, Sendable {
     let sequence: Int
     let kind: String
     let coordinate: BoardCoordinate?
     var timestampMilliseconds: Int? = nil
 }
 
-struct NineReplay: Codable, Equatable, Sendable {
+struct ExactlyOneReplay: Codable, Equatable, Sendable {
     static let currentSchemaVersion = 2
 
     let schemaVersion: Int
@@ -354,33 +354,33 @@ struct NineReplay: Codable, Equatable, Sendable {
     let mode: String
     let dayKey: String?
     let initialMarkers: [BoardCoordinate]
-    var events: [NineReplayEvent]
-    var initialFocus: NineFocusAttempt? = nil
-    var focusResult: NineMasteryResult? = nil
+    var events: [ExactlyOneReplayEvent]
+    var initialFocus: ExactlyOneFocusAttempt? = nil
+    var focusResult: ExactlyOneMasteryResult? = nil
     var completedAtMilliseconds: Int? = nil
 }
 
-enum NineReplayError: Error, Equatable, Sendable {
+enum ExactlyOneReplayError: Error, Equatable, Sendable {
     case unsupportedSchemaVersion(Int)
     case levelMismatch(expected: String, actual: String)
     case levelSchemaMismatch(expected: Int, actual: Int)
     case malformedEvent(sequence: Int)
 }
 
-struct NineReplayRecorder: Sendable {
-    private(set) var replay: NineReplay
+struct ExactlyOneReplayRecorder: Sendable {
+    private(set) var replay: ExactlyOneReplay
 
     init(
         level: PrototypeLevel,
-        mode: NinePlayMode,
+        mode: ExactlyOnePlayMode,
         dayKey: String?,
         initialMarkers: Set<BoardCoordinate>,
         appVersion: String,
         buildVersion: String,
         replayID: UUID = UUID()
     ) {
-        replay = NineReplay(
-            schemaVersion: NineReplay.currentSchemaVersion,
+        replay = ExactlyOneReplay(
+            schemaVersion: ExactlyOneReplay.currentSchemaVersion,
             replayID: replayID,
             appVersion: appVersion,
             buildVersion: buildVersion,
@@ -393,17 +393,17 @@ struct NineReplayRecorder: Sendable {
         )
     }
 
-    mutating func setInitialFocus(_ attempt: NineFocusAttempt) { replay.initialFocus = attempt }
+    mutating func setInitialFocus(_ attempt: ExactlyOneFocusAttempt) { replay.initialFocus = attempt }
 
-    mutating func finishFocus(_ result: NineMasteryResult?, at milliseconds: Int) {
+    mutating func finishFocus(_ result: ExactlyOneMasteryResult?, at milliseconds: Int) {
         replay.focusResult = result
         replay.completedAtMilliseconds = result == nil ? nil : milliseconds
     }
 
-    mutating func record(_ intent: NineGameplayIntent, at milliseconds: Int? = nil) {
+    mutating func record(_ intent: ExactlyOneGameplayIntent, at milliseconds: Int? = nil) {
         guard intent.levelID == replay.levelID else { return }
         replay.events.append(
-            NineReplayEvent(
+            ExactlyOneReplayEvent(
                 sequence: replay.events.count,
                 kind: intent.kind.rawValue,
                 coordinate: intent.coordinate,
@@ -413,60 +413,60 @@ struct NineReplayRecorder: Sendable {
     }
 }
 
-enum NineReplayPlayer {
+enum ExactlyOneReplayPlayer {
     static func finalState(
-        replay: NineReplay,
+        replay: ExactlyOneReplay,
         level: PrototypeLevel
-    ) throws -> NineBoardState {
-        guard (1...NineReplay.currentSchemaVersion).contains(replay.schemaVersion) else {
-            throw NineReplayError.unsupportedSchemaVersion(replay.schemaVersion)
+    ) throws -> ExactlyOneBoardState {
+        guard (1...ExactlyOneReplay.currentSchemaVersion).contains(replay.schemaVersion) else {
+            throw ExactlyOneReplayError.unsupportedSchemaVersion(replay.schemaVersion)
         }
         guard replay.levelID == level.definition.id else {
-            throw NineReplayError.levelMismatch(
+            throw ExactlyOneReplayError.levelMismatch(
                 expected: level.definition.id,
                 actual: replay.levelID
             )
         }
         guard replay.levelSchemaVersion == level.definition.schemaVersion else {
-            throw NineReplayError.levelSchemaMismatch(
+            throw ExactlyOneReplayError.levelSchemaMismatch(
                 expected: level.definition.schemaVersion,
                 actual: replay.levelSchemaVersion
             )
         }
 
-        var state = NineBoardState(
+        var state = ExactlyOneBoardState(
             level: level.definition,
             markers: Set(replay.initialMarkers)
         )
-        var history = NineMoveHistory()
+        var history = ExactlyOneMoveHistory()
         history.reset(to: state.markers)
 
         for (index, event) in replay.events.enumerated() {
             guard event.sequence == index,
-                  let kind = NineGameplayIntentKind(rawValue: event.kind) else {
-                throw NineReplayError.malformedEvent(sequence: event.sequence)
+                  let kind = ExactlyOneGameplayIntentKind(rawValue: event.kind) else {
+                throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
             }
 
             switch kind {
             case .place:
                 guard let coordinate = event.coordinate,
                       state.placeMarker(at: coordinate, level: level.definition) else {
-                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                    throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
                 }
                 history.record(state.markers)
             case .remove:
                 guard let coordinate = event.coordinate,
                       state.removeMarker(at: coordinate) else {
-                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                    throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
                 }
                 history.record(state.markers)
             case .undo:
                 guard let markers = history.undo() else {
-                    throw NineReplayError.malformedEvent(sequence: event.sequence)
+                    throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
                 }
-                state = NineBoardState(level: level.definition, markers: markers)
+                state = ExactlyOneBoardState(level: level.definition, markers: markers)
             case .reset:
-                state = NineBoardState(
+                state = ExactlyOneBoardState(
                     level: level.definition,
                     markers: level.initialMarkers
                 )
@@ -480,30 +480,30 @@ enum NineReplayPlayer {
     }
 }
 
-enum NineReplayCodec {
-    static func encode(_ replay: NineReplay) throws -> Data {
+enum ExactlyOneReplayCodec {
+    static func encode(_ replay: ExactlyOneReplay) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         return try encoder.encode(replay)
     }
 
-    static func decode(_ data: Data) throws -> NineReplay {
-        try JSONDecoder().decode(NineReplay.self, from: data)
+    static func decode(_ data: Data) throws -> ExactlyOneReplay {
+        try JSONDecoder().decode(ExactlyOneReplay.self, from: data)
     }
 }
 
 // MARK: - Diagnostics and support
 
-struct NineDiagnosticBreadcrumb: Codable, Equatable, Sendable {
+struct ExactlyOneDiagnosticBreadcrumb: Codable, Equatable, Sendable {
     let timestamp: Date
     let category: String
     let message: String
 }
 
 @MainActor
-final class NineDiagnosticsBuffer {
+final class ExactlyOneDiagnosticsBuffer {
     private let capacity: Int
-    private(set) var breadcrumbs: [NineDiagnosticBreadcrumb] = []
+    private(set) var breadcrumbs: [ExactlyOneDiagnosticBreadcrumb] = []
 
     init(capacity: Int = 50) {
         self.capacity = max(1, capacity)
@@ -515,7 +515,7 @@ final class NineDiagnosticsBuffer {
         at timestamp: Date = Date()
     ) {
         breadcrumbs.append(
-            NineDiagnosticBreadcrumb(
+            ExactlyOneDiagnosticBreadcrumb(
                 timestamp: timestamp,
                 category: category,
                 message: message
@@ -527,7 +527,7 @@ final class NineDiagnosticsBuffer {
     }
 }
 
-struct NineSupportPackage: Codable, Equatable, Sendable {
+struct ExactlyOneSupportPackage: Codable, Equatable, Sendable {
     static let currentSchemaVersion = 1
 
     let schemaVersion: Int
@@ -537,12 +537,12 @@ struct NineSupportPackage: Codable, Equatable, Sendable {
     let osClass: String
     let levelID: String?
     let levelSchemaVersion: Int?
-    let replay: NineReplay?
-    let breadcrumbs: [NineDiagnosticBreadcrumb]
+    let replay: ExactlyOneReplay?
+    let breadcrumbs: [ExactlyOneDiagnosticBreadcrumb]
 }
 
 @MainActor
-enum NineRuntimeMetadata {
+enum ExactlyOneRuntimeMetadata {
     static var appVersion: String {
         Bundle.main.object(
             forInfoDictionaryKey: "CFBundleShortVersionString"
@@ -566,7 +566,7 @@ enum NineRuntimeMetadata {
 
 // MARK: - Analytics
 
-enum NineAnalyticsEventName: String, CaseIterable, Sendable {
+enum ExactlyOneAnalyticsEventName: String, CaseIterable, Sendable {
     case focusStarted = "attempt_timer_started"
     case focusThreshold = "star_threshold"
     case masteryCompleted = "mastery_completed"
@@ -593,42 +593,42 @@ enum NineAnalyticsEventName: String, CaseIterable, Sendable {
     case iapCompleted = "iap_completed"
 }
 
-struct NineAnalyticsEvent: Equatable, Sendable {
-    let name: NineAnalyticsEventName
+struct ExactlyOneAnalyticsEvent: Equatable, Sendable {
+    let name: ExactlyOneAnalyticsEventName
     let properties: [String: String]
 }
 
-protocol NineAnalyticsClient: AnyObject {
-    func track(_ event: NineAnalyticsEvent)
+protocol ExactlyOneAnalyticsClient: AnyObject {
+    func track(_ event: ExactlyOneAnalyticsEvent)
 }
 
-final class NineNoOpAnalyticsClient: NineAnalyticsClient {
-    func track(_ event: NineAnalyticsEvent) {}
+final class ExactlyOneNoOpAnalyticsClient: ExactlyOneAnalyticsClient {
+    func track(_ event: ExactlyOneAnalyticsEvent) {}
 }
 
-final class NineDebugAnalyticsClient: NineAnalyticsClient {
+final class ExactlyOneDebugAnalyticsClient: ExactlyOneAnalyticsClient {
     private let capacity: Int
-    private(set) var events: [NineAnalyticsEvent] = []
+    private(set) var events: [ExactlyOneAnalyticsEvent] = []
 
     init(capacity: Int = 200) {
         self.capacity = max(1, capacity)
     }
 
-    func track(_ event: NineAnalyticsEvent) {
+    func track(_ event: ExactlyOneAnalyticsEvent) {
         events.append(event)
         if events.count > capacity {
             events.removeFirst(events.count - capacity)
         }
         #if DEBUG
-        print("[NineAnalytics] \(event.name.rawValue) \(event.properties)")
+        print("[ExactlyOneAnalytics] \(event.name.rawValue) \(event.properties)")
         #endif
     }
 }
 
 @MainActor
-final class NineAnalyticsLifecycleStore {
+final class ExactlyOneAnalyticsLifecycleStore {
     private enum Key {
-        static let firstOpenSent = "nine.analytics.firstOpenSent"
+        static let firstOpenSent = "exactlyone.analytics.firstOpenSent"
     }
 
     private let defaults: UserDefaults
@@ -647,14 +647,14 @@ final class NineAnalyticsLifecycleStore {
 }
 
 @MainActor
-final class NineAnalyticsTracker {
-    private let client: NineAnalyticsClient
-    private let lifecycleStore: NineAnalyticsLifecycleStore
+final class ExactlyOneAnalyticsTracker {
+    private let client: ExactlyOneAnalyticsClient
+    private let lifecycleStore: ExactlyOneAnalyticsLifecycleStore
     private var criticalKeys: Set<String> = []
 
     init(
-        client: NineAnalyticsClient = NineNoOpAnalyticsClient(),
-        lifecycleStore: NineAnalyticsLifecycleStore = .init()
+        client: ExactlyOneAnalyticsClient = ExactlyOneNoOpAnalyticsClient(),
+        lifecycleStore: ExactlyOneAnalyticsLifecycleStore = .init()
     ) {
         self.client = client
         self.lifecycleStore = lifecycleStore
@@ -667,9 +667,9 @@ final class NineAnalyticsTracker {
     }
 
     func track(
-        _ name: NineAnalyticsEventName,
+        _ name: ExactlyOneAnalyticsEventName,
         level: PrototypeLevel? = nil,
-        mode: NinePlayMode? = nil,
+        mode: ExactlyOnePlayMode? = nil,
         durationSeconds: TimeInterval? = nil,
         extra: [String: String] = [:],
         dedupeKey: String? = nil
@@ -679,8 +679,8 @@ final class NineAnalyticsTracker {
         }
 
         var properties: [String: String] = [
-            "app_version": NineRuntimeMetadata.appVersion,
-            "build_version": NineRuntimeMetadata.buildVersion
+            "app_version": ExactlyOneRuntimeMetadata.appVersion,
+            "build_version": ExactlyOneRuntimeMetadata.buildVersion
         ]
 
         if let level {
@@ -699,7 +699,7 @@ final class NineAnalyticsTracker {
         }
 
         client.track(
-            NineAnalyticsEvent(name: name, properties: properties)
+            ExactlyOneAnalyticsEvent(name: name, properties: properties)
         )
     }
 
@@ -708,35 +708,35 @@ final class NineAnalyticsTracker {
     }
 }
 
-extension NineReplayPlayer {
+extension ExactlyOneReplayPlayer {
     /// Recomputes scoring from timed logical input, never from animation duration.
     /// Legacy recordings remain playable but cannot establish ranked mastery.
-    static func masteryResult(replay: NineReplay, level: PrototypeLevel) throws -> NineMasteryResult? {
+    static func masteryResult(replay: ExactlyOneReplay, level: PrototypeLevel) throws -> ExactlyOneMasteryResult? {
         guard replay.schemaVersion == 2, var attempt = replay.initialFocus,
               attempt.tuning == level.focusTuning,
               let completedAt = replay.completedAtMilliseconds else { return nil }
         let final = try finalState(replay: replay, level: level)
-        guard NineConstraintEngine.evaluate(final, level: level.definition).isSolved else {
-            throw NineReplayError.malformedEvent(sequence: replay.events.count)
+        guard ExactlyOneConstraintEngine.evaluate(final, level: level.definition).isSolved else {
+            throw ExactlyOneReplayError.malformedEvent(sequence: replay.events.count)
         }
         for event in replay.events {
             guard let timestamp = event.timestampMilliseconds,
                   timestamp >= attempt.timelineMilliseconds,
-                  let kind = NineGameplayIntentKind(rawValue: event.kind) else {
-                throw NineReplayError.malformedEvent(sequence: event.sequence)
+                  let kind = ExactlyOneGameplayIntentKind(rawValue: event.kind) else {
+                throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
             }
             attempt.advance(to: timestamp)
-            guard attempt.canPlay else { throw NineReplayError.malformedEvent(sequence: event.sequence) }
+            guard attempt.canPlay else { throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence) }
             switch kind {
             case .place: attempt.committedPlacement(at: timestamp)
             case .remove, .undo: attempt.reversal(at: timestamp)
             case .hintPreview: attempt.hint(at: timestamp)
-            case .reset: throw NineReplayError.malformedEvent(sequence: event.sequence)
+            case .reset: throw ExactlyOneReplayError.malformedEvent(sequence: event.sequence)
             }
         }
         guard completedAt >= attempt.timelineMilliseconds,
               let result = attempt.solve(at: completedAt), result == replay.focusResult else {
-            throw NineReplayError.malformedEvent(sequence: replay.events.count)
+            throw ExactlyOneReplayError.malformedEvent(sequence: replay.events.count)
         }
         return result
     }

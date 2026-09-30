@@ -4,7 +4,7 @@ Exactly One's production puzzle content is data, not game logic.
 
 ## Source of truth
 
-The first production pack is `Nine/Resources/NineLevels-v1.json`.
+The first production pack is `ExactlyOne/Resources/ExactlyOneLevels-v1.json`.
 
 Each record contains:
 - stable `id`
@@ -22,7 +22,7 @@ The pack itself has a schema version. Unsupported pack versions fail validation 
 
 ## Solver contract
 
-`NineLevelSolver` is framework-independent and deterministic. It uses:
+`ExactlyOneLevelSolver` is framework-independent and deterministic. It uses:
 1. one placement domain per unresolved row
 2. MRV (minimum remaining values) to pick the next row
 3. deterministic ascending candidate order
@@ -50,7 +50,7 @@ CI must reject a pack containing an impossible or ambiguous level.
 - App Store submission: 60 validated levels
 - v1 target: 100+ when quality supports it
 
-`NineContentGate` makes these thresholds machine-checkable. The first checked-in pack deliberately satisfies only the Day-3 gate; later packs must grow before TestFlight/submission.
+`ExactlyOneContentGate` makes these thresholds machine-checkable. The first checked-in pack deliberately satisfies only the Day-3 gate; later packs must grow before TestFlight/submission.
 
 ## Adding or changing a level
 

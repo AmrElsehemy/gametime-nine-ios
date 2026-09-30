@@ -81,13 +81,13 @@ Entering the daily mode emits `daily_started` alongside the level start. Solving
 
 ## Provider boundary
 
-`NineAnalyticsClient` is injectable and intentionally tiny. The game currently uses a bounded debug client for local inspection; a production analytics SDK adapter can replace it without changing gameplay code or the event vocabulary.
+`ExactlyOneAnalyticsClient` is injectable and intentionally tiny. The game currently uses a bounded debug client for local inspection; a production analytics SDK adapter can replace it without changing gameplay code or the event vocabulary.
 
 The adapter contract does not throw into gameplay. Any SDK/network failure must be swallowed or buffered inside the adapter. Exactly One remains fully playable with a no-op analytics client.
 
 ## Debugging
 
-`NineDebugAnalyticsClient` keeps a bounded event buffer and prints events in debug builds. This gives deterministic local inspection while the provider remains replaceable.
+`ExactlyOneDebugAnalyticsClient` keeps a bounded event buffer and prints events in debug builds. This gives deterministic local inspection while the provider remains replaceable.
 
 ## Tests
 

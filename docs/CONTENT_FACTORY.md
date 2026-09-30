@@ -9,8 +9,8 @@ The product bottleneck is high-quality validated puzzle inventory, not editor UX
 ## Command
 
 ```bash
-python3 Tools/level_factory.py --write Nine/Resources/NineLevels-v1.json
-python3 Tools/level_factory.py --check Nine/Resources/NineLevels-v1.json
+python3 Tools/level_factory.py --write ExactlyOne/Resources/ExactlyOneLevels-v1.json
+python3 Tools/level_factory.py --check ExactlyOne/Resources/ExactlyOneLevels-v1.json
 ```
 
 `--write` regenerates the complete v1 pack. `--check` fails if the checked-in JSON does not exactly match deterministic factory output.
@@ -32,7 +32,7 @@ The generated portfolio intentionally spans 6×6 through 9×9. The checked-in pa
 
 ## Trust boundary
 
-The Python solver is an authoring filter only. The Swift `NineLevelPackValidator` remains the shipping source of truth and re-solves every bundled level in CI. A generated level cannot ship merely because the sidecar accepts it.
+The Python solver is an authoring filter only. The Swift `ExactlyOneLevelPackValidator` remains the shipping source of truth and re-solves every bundled level in CI. A generated level cannot ship merely because the sidecar accepts it.
 
 Every production level must therefore satisfy both independent implementations:
 

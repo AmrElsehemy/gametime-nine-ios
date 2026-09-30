@@ -1,13 +1,13 @@
-name: Generate Nine Launch Assets
+name: Generate Exactly One Launch Assets
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - Tools/generate_launch_assets.py
-      - Nine/Assets.xcassets/**
-      - Nine/Experience/NineGameCenter.swift
-      - NineTests/NineFeedbackTests.swift
+      - ExactlyOne/Assets.xcassets/**
+      - ExactlyOne/Experience/ExactlyOneGameCenter.swift
+      - ExactlyOneTests/ExactlyOneFeedbackTests.swift
       - Marketing/**
       - .github/workflows/generate-launch-assets.yml
   push:
@@ -36,12 +36,12 @@ jobs:
         run: python Tools/generate_launch_assets.py
       - name: Verify required outputs
         run: |
-          test -f Nine/Assets.xcassets/AppIcon.appiconset/Nine-AppIcon-1024.png
-          test -f Nine/Assets.xcassets/Achievements/FirstSolve.imageset/FirstSolve-1024.png
-          test -f Nine/Assets.xcassets/Achievements/TutorialComplete.imageset/TutorialComplete-1024.png
-          test -f Nine/Assets.xcassets/Achievements/FirstDaily.imageset/FirstDaily-1024.png
-          test -f Nine/Assets.xcassets/Achievements/Streak7.imageset/Streak7-1024.png
+          test -f ExactlyOne/Assets.xcassets/AppIcon.appiconset/ExactlyOne-AppIcon-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/FirstSolve.imageset/FirstSolve-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/TutorialComplete.imageset/TutorialComplete-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/FirstDaily.imageset/FirstDaily-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/Streak7.imageset/Streak7-1024.png
           test -f Marketing/AppStore/ASSET_MANIFEST.md
       - name: Verify generated assets are current
         run: |
-          git diff --exit-code -- Nine/Assets.xcassets Nine.xcodeproj/project.pbxproj Nine/Experience/NineGameCenter.swift NineTests/NineFeedbackTests.swift Marketing
+          git diff --exit-code -- ExactlyOne/Assets.xcassets ExactlyOne.xcodeproj/project.pbxproj ExactlyOne/Experience/ExactlyOneGameCenter.swift ExactlyOneTests/ExactlyOneFeedbackTests.swift Marketing

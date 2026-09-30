@@ -2,7 +2,6 @@
 
 **Public product name:** Exactly One  
 **App Store title:** Exactly One: Logic Puzzle  
-**Internal codename:** Nine  
 **Studio:** Knowlly Games  
 **Platform:** native iOS
 
@@ -19,8 +18,8 @@ Shared platform code belongs in [`AmrElsehemy/gametime-ios`](https://github.com/
 - **Exactly One** is the public product name.
 - **Exactly One: Logic Puzzle** is the App Store title.
 - **One pebble. Every territory.** is the App Store subtitle.
-- **Nine** remains the internal engineering codename for the repository, Xcode project, targets, schemes, modules, and internal identifiers unless a technical migration is explicitly approved.
-- Public-facing UI, metadata, screenshots, website copy, support copy, and marketing must use **Exactly One**, never **Nine**.
+- Code uses **ExactlyOne**: the Xcode project, target, scheme, module and type names.
+- Public-facing UI, metadata, screenshots, website copy, support copy, and marketing use **Exactly One**.
 
 See [`docs/BRAND.md`](docs/BRAND.md) for the canonical naming and messaging decision.
 
@@ -45,7 +44,7 @@ Keep the game repo and shared platform repo as siblings:
 └── gametime-nine-ios/
 ```
 
-Then open `Nine.xcodeproj`, select the `Nine` scheme, and run on an iPhone simulator/device. The project consumes `../gametime-ios` as a local Swift package during active development.
+Then open `ExactlyOne.xcodeproj`, select the `ExactlyOne` scheme, and run on an iPhone simulator/device. The project consumes `../gametime-ios` as a local Swift package during active development.
 
 See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full local-development/package workflow.
 

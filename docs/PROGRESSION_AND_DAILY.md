@@ -6,7 +6,7 @@ Exactly One is local-first. Progress, active puzzle state, daily completion and 
 
 Current schema: **v2**.
 
-`NineSaveState` stores:
+`ExactlyOneSaveState` stores:
 
 - current progression level ID
 - ordered unlocked level IDs
@@ -47,7 +47,7 @@ Daily selection is deterministic and entirely offline:
 
 - day identity uses the Gregorian calendar fixed to **UTC**
 - onboarding levels are excluded
-- a stable FNV-1a hash of `nine-daily-v1|YYYY-MM-DD` selects a bundled standard level
+- a stable FNV-1a hash of `exactly-one-daily-v1|YYYY-MM-DD` selects a bundled standard level
 - Swift `hashValue` is never used because it is intentionally process-randomized
 - a future remote config may provide an override **only for a bundled level ID**
 
@@ -71,7 +71,7 @@ Using UTC avoids destructive behavior when the device changes timezone while tra
 
 ## Development reset
 
-`NineProgressStore.reset(levels:)` clears only the progression save and returns a fresh state. It is suitable for development/test reset tooling without deleting unrelated app preferences.
+`ExactlyOneProgressStore.reset(levels:)` clears only the progression save and returns a fresh state. It is suitable for development/test reset tooling without deleting unrelated app preferences.
 
 ## Future backend integration
 

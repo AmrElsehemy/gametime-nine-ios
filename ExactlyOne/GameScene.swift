@@ -4,22 +4,22 @@ import UIKit
 import GameTimeCore
 import GameTimeExperience
 
-enum NineCapturePreset: String, CaseIterable, Sendable {
+enum ExactlyOneCapturePreset: String, CaseIterable, Sendable {
     case simple
     case placement
     case territories
     case daily
     case solved
 
-    static func parse(arguments: [String]) -> NineCapturePreset? {
-        guard let flag = arguments.firstIndex(of: "--nine-capture"),
+    static func parse(arguments: [String]) -> ExactlyOneCapturePreset? {
+        guard let flag = arguments.firstIndex(of: "--exactly-one-capture"),
               arguments.indices.contains(flag + 1) else {
             return nil
         }
-        return NineCapturePreset(rawValue: arguments[flag + 1])
+        return ExactlyOneCapturePreset(rawValue: arguments[flag + 1])
     }
 
-    static var current: NineCapturePreset? {
+    static var current: ExactlyOneCapturePreset? {
         parse(arguments: ProcessInfo.processInfo.arguments)
     }
 }
@@ -38,68 +38,68 @@ final class GameScene: SKScene {
         static let completionBadge = "completion-badge"
     }
 
-    private let canvasColor = SKColor.nine(hex: 0x0E1617)
-    private let inkColor = SKColor.nine(hex: 0xF5F1E8)
-    private let pebbleColor = SKColor.nine(hex: 0x171A1B)
-    private let boardPlateColor = SKColor.nine(hex: 0x152124)
-    private let warningColor = SKColor.nine(hex: 0xFF796B)
-    private let hintColor = SKColor.nine(hex: 0x7AD6C3)
-    private let accentColor = SKColor.nine(hex: 0x54BDD0)
+    private let canvasColor = SKColor.exactlyOne(hex: 0x0E1617)
+    private let inkColor = SKColor.exactlyOne(hex: 0xF5F1E8)
+    private let pebbleColor = SKColor.exactlyOne(hex: 0x171A1B)
+    private let boardPlateColor = SKColor.exactlyOne(hex: 0x152124)
+    private let warningColor = SKColor.exactlyOne(hex: 0xFF796B)
+    private let hintColor = SKColor.exactlyOne(hex: 0x7AD6C3)
+    private let accentColor = SKColor.exactlyOne(hex: 0x54BDD0)
     private let regionPalette: [SKColor] = [
-        .nine(hex: 0xC97062),
-        .nine(hex: 0xD79A59),
-        .nine(hex: 0xCEB453),
-        .nine(hex: 0x68AA82),
-        .nine(hex: 0x58A9AB),
-        .nine(hex: 0x648FC4),
-        .nine(hex: 0x826CB8),
-        .nine(hex: 0xAE6C92),
-        .nine(hex: 0x9C8F7A)
+        .exactlyOne(hex: 0xC97062),
+        .exactlyOne(hex: 0xD79A59),
+        .exactlyOne(hex: 0xCEB453),
+        .exactlyOne(hex: 0x68AA82),
+        .exactlyOne(hex: 0x58A9AB),
+        .exactlyOne(hex: 0x648FC4),
+        .exactlyOne(hex: 0x826CB8),
+        .exactlyOne(hex: 0xAE6C92),
+        .exactlyOne(hex: 0x9C8F7A)
     ]
 
     private let levels = PrototypeLevels.production
-    private let tutorialStore = NineTutorialCompletionStore()
-    private lazy var tutorialSession = NineTutorialSession(
+    private let tutorialStore = ExactlyOneTutorialCompletionStore()
+    private lazy var tutorialSession = ExactlyOneTutorialSession(
         isActive: !tutorialStore.isComplete
     )
-    private var emittedTutorialEvents: [NineTutorialEvent] = []
+    private var emittedTutorialEvents: [ExactlyOneTutorialEvent] = []
 
-    private let feedbackPreferences = NineFeedbackPreferenceStore()
-    private lazy var feedback = NineFeedbackEngine(preferences: feedbackPreferences)
+    private let feedbackPreferences = ExactlyOneFeedbackPreferenceStore()
+    private lazy var feedback = ExactlyOneFeedbackEngine(preferences: feedbackPreferences)
 
-    private let progressStore = NineProgressStore()
+    private let progressStore = ExactlyOneProgressStore()
     private lazy var progress = capturePreset == nil
         ? progressStore.load(levels: levels)
-        : NineSaveState.fresh(levels: levels)
-    private var playMode: NinePlayMode = .progression
+        : ExactlyOneSaveState.fresh(levels: levels)
+    private var playMode: ExactlyOnePlayMode = .progression
     private var dailyChallengeDayKey: String?
-    private var focus = NineFocusAttempt(tuning: .initial(size: 6))
+    private var focus = ExactlyOneFocusAttempt(tuning: .initial(size: 6))
     private var focusOrigin: TimeInterval = 0
     private var lastFocusSecond = -1
     private var newPersonalBest = false
     private var inputLocked = false
     private var levelStartedAt: TimeInterval = 0
 
-    private var moveHistory = NineMoveHistory()
-    private var activeHint: NineHint?
-    private var emittedGameplayIntents: [NineGameplayIntent] = []
+    private var moveHistory = ExactlyOneMoveHistory()
+    private var activeHint: ExactlyOneHint?
+    private var emittedGameplayIntents: [ExactlyOneGameplayIntent] = []
 
-    private let diagnostics = NineDiagnosticsBuffer()
-    private var replayRecorder: NineReplayRecorder?
-    private var lastCompletedReplay: NineReplay?
+    private let diagnostics = ExactlyOneDiagnosticsBuffer()
+    private var replayRecorder: ExactlyOneReplayRecorder?
+    private var lastCompletedReplay: ExactlyOneReplay?
 
-    private let analyticsClient = NineDebugAnalyticsClient()
-    private lazy var analytics = NineAnalyticsTracker(client: analyticsClient)
+    private let analyticsClient = ExactlyOneDebugAnalyticsClient()
+    private lazy var analytics = ExactlyOneAnalyticsTracker(client: analyticsClient)
     private var analyticsSessionStartedAt: TimeInterval?
     private var analyticsAttemptID = UUID()
     private var hasActiveAnalyticsLevel = false
 
     private var levelIndex = 0
-    private var boardState: NineBoardState?
+    private var boardState: ExactlyOneBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
     private var isLevelComplete = false
     private var hasPresentedScene = false
-    private let capturePreset = NineCapturePreset.current
+    private let capturePreset = ExactlyOneCapturePreset.current
 
     private var tutorialLevelCount: Int {
         min(5, levels.count)
@@ -114,7 +114,7 @@ final class GameScene: SKScene {
     }
 
     private var todayDayKey: String {
-        NineUTCDate.dayKey(for: Date())
+        ExactlyOneUTCDate.dayKey(for: Date())
     }
 
     private var activeDailyDayKey: String {
@@ -246,7 +246,7 @@ final class GameScene: SKScene {
         boardState = state
         moveHistory.record(state.markers)
         activeHint = nil
-        latestEvaluation = NineConstraintEngine.evaluate(
+        latestEvaluation = ExactlyOneConstraintEngine.evaluate(
             state,
             level: currentLevel.definition
         )
@@ -315,18 +315,18 @@ final class GameScene: SKScene {
         }
     }
 
-    private func applyCapturePreset(_ preset: NineCapturePreset) {
+    private func applyCapturePreset(_ preset: ExactlyOneCapturePreset) {
         guard !levels.isEmpty else {
-            preconditionFailure("Nine capture requires at least one validated bundled level")
+            preconditionFailure("Exactly One capture requires at least one validated bundled level")
         }
 
         // Capture mode is deterministic, offline, and side-effect free: no analytics,
         // persistence, ads, Game Center auth, or debug chrome.
-        tutorialSession = NineTutorialSession(isActive: false)
+        tutorialSession = ExactlyOneTutorialSession(isActive: false)
         playMode = preset == .daily ? .daily : .progression
         dailyChallengeDayKey = preset == .daily ? "2026-09-19" : nil
         if preset == .daily {
-            progress.streak = NineStreakState(
+            progress.streak = ExactlyOneStreakState(
                 currentCount: 5,
                 longestCount: 8,
                 lastCompletedDayKey: "2026-09-18"
@@ -371,16 +371,16 @@ final class GameScene: SKScene {
             markers = Set(orderedSolution)
         }
 
-        let state = NineBoardState(level: level.definition, markers: markers)
+        let state = ExactlyOneBoardState(level: level.definition, markers: markers)
         boardState = state
         moveHistory.reset(to: state.markers)
         activeHint = nil
-        latestEvaluation = NineConstraintEngine.evaluate(state, level: level.definition)
+        latestEvaluation = ExactlyOneConstraintEngine.evaluate(state, level: level.definition)
         isLevelComplete = preset == .solved
         levelStartedAt = uptime
         // Fixed Focus Clock readings, so the HUD and results card appear in
         // screenshots without depending on how fast the simulator launches.
-        focus = NineFocusAttempt(tuning: level.focusTuning)
+        focus = ExactlyOneFocusAttempt(tuning: level.focusTuning)
         focus.committedPlacement(at: 0)
         switch preset {
         case .simple: focus.advance(to: 9_000)
@@ -402,7 +402,7 @@ final class GameScene: SKScene {
 
     private func restoreSavedSession() {
         guard !levels.isEmpty else {
-            preconditionFailure("Nine requires at least one validated bundled level")
+            preconditionFailure("Exactly One requires at least one validated bundled level")
         }
 
         if let session = progress.session(for: progress.lastPlayMode),
@@ -435,39 +435,39 @@ final class GameScene: SKScene {
         restoring restoredMarkers: Set<BoardCoordinate>? = nil
     ) {
         guard !levels.isEmpty else {
-            preconditionFailure("Nine requires at least one validated bundled level")
+            preconditionFailure("Exactly One requires at least one validated bundled level")
         }
 
         levelIndex = max(0, min(index, levels.count - 1))
         let level = currentLevel
         let savedFocus = progress.session(for: playMode)?.focusAttempt
-        focus = restoredMarkers == nil ? NineFocusAttempt(tuning: level.focusTuning)
-            : (savedFocus?.tuning == level.focusTuning ? savedFocus! : NineFocusAttempt(tuning: level.focusTuning))
+        focus = restoredMarkers == nil ? ExactlyOneFocusAttempt(tuning: level.focusTuning)
+            : (savedFocus?.tuning == level.focusTuning ? savedFocus! : ExactlyOneFocusAttempt(tuning: level.focusTuning))
         if restoredMarkers != nil { focus.markRestored() }
         focusOrigin = uptime - Double(focus.timelineMilliseconds) / 1_000
         newPersonalBest = false
         lastFocusSecond = -1
         let markers = restoredMarkers ?? level.initialMarkers
-        let state = NineBoardState(
+        let state = ExactlyOneBoardState(
             level: level.definition,
             markers: markers
         )
         boardState = state
         moveHistory.reset(to: state.markers)
         activeHint = nil
-        latestEvaluation = NineConstraintEngine.evaluate(
+        latestEvaluation = ExactlyOneConstraintEngine.evaluate(
             state,
             level: level.definition
         )
         isLevelComplete = false
         levelStartedAt = uptime
-        replayRecorder = NineReplayRecorder(
+        replayRecorder = ExactlyOneReplayRecorder(
             level: level,
             mode: playMode,
             dayKey: playMode == .daily ? activeDailyDayKey : nil,
             initialMarkers: state.markers,
-            appVersion: NineRuntimeMetadata.appVersion,
-            buildVersion: NineRuntimeMetadata.buildVersion
+            appVersion: ExactlyOneRuntimeMetadata.appVersion,
+            buildVersion: ExactlyOneRuntimeMetadata.buildVersion
         )
         replayRecorder?.setInitialFocus(focus)
         diagnostics.add("level", "loaded:\(level.definition.id)")
@@ -515,10 +515,10 @@ final class GameScene: SKScene {
         }
     }
 
-    private func persistActiveSession(_ state: NineBoardState) {
+    private func persistActiveSession(_ state: ExactlyOneBoardState) {
         guard capturePreset == nil else { return }
         progress.setSession(
-            NineSavedSession(
+            ExactlyOneSavedSession(
                 mode: playMode,
                 levelID: currentLevel.definition.id,
                 dayKey: playMode == .daily ? activeDailyDayKey : nil,
@@ -556,14 +556,14 @@ final class GameScene: SKScene {
             return
         }
 
-        let restored = NineBoardState(
+        let restored = ExactlyOneBoardState(
             level: currentLevel.definition,
             markers: previousMarkers
         )
         focus.reversal(at: focusTime)
         boardState = restored
         activeHint = nil
-        latestEvaluation = NineConstraintEngine.evaluate(
+        latestEvaluation = ExactlyOneConstraintEngine.evaluate(
             restored,
             level: currentLevel.definition
         )
@@ -583,7 +583,7 @@ final class GameScene: SKScene {
         updateFocus()
         guard !isLevelComplete, focus.canPlay,
               let state = boardState,
-              let hint = NineHintEngine.nextHint(
+              let hint = ExactlyOneHintEngine.nextHint(
                 level: currentLevel,
                 state: state
               ) else {
@@ -620,8 +620,8 @@ final class GameScene: SKScene {
         let elapsed = result.flatMap { $0.isRanked ? Double($0.elapsedMilliseconds) / 1_000 : nil }
         replayRecorder?.finishFocus(result, at: focus.timelineMilliseconds)
         if let result {
-            var levelProgress = progress.levelProgress[currentLevel.definition.id] ?? NineLevelProgress()
-            var mastery = levelProgress.mastery ?? NinePersonalMastery()
+            var levelProgress = progress.levelProgress[currentLevel.definition.id] ?? ExactlyOneLevelProgress()
+            var mastery = levelProgress.mastery ?? ExactlyOnePersonalMastery()
             newPersonalBest = mastery.record(result)
             levelProgress.mastery = mastery
             progress.levelProgress[currentLevel.definition.id] = levelProgress
@@ -633,7 +633,7 @@ final class GameScene: SKScene {
             ])
         }
         let levelID = currentLevel.definition.id
-        let gameCenter = NineGameCenterService.shared
+        let gameCenter = ExactlyOneGameCenterService.shared
 
         analytics.track(
             .levelCompleted,
@@ -709,7 +709,7 @@ final class GameScene: SKScene {
             return
         }
 
-        guard let dailyIndex = NineDailyChallenge.levelIndex(
+        guard let dailyIndex = ExactlyOneDailyChallenge.levelIndex(
             for: Date(),
             in: levels,
             excludingFirst: tutorialLevelCount
@@ -835,9 +835,9 @@ final class GameScene: SKScene {
 
     private func addBackdrop() {
         let haze: [(CGPoint, CGFloat, SKColor)] = [
-            (CGPoint(x: size.width * 0.10, y: size.height * 0.88), size.width * 0.78, SKColor.nine(hex: 0x18342F)),
-            (CGPoint(x: size.width * 0.94, y: size.height * 0.66), size.width * 0.70, SKColor.nine(hex: 0x173044)),
-            (CGPoint(x: size.width * 0.50, y: size.height * 0.18), size.width * 0.85, SKColor.nine(hex: 0x2A241B))
+            (CGPoint(x: size.width * 0.10, y: size.height * 0.88), size.width * 0.78, SKColor.exactlyOne(hex: 0x18342F)),
+            (CGPoint(x: size.width * 0.94, y: size.height * 0.66), size.width * 0.70, SKColor.exactlyOne(hex: 0x173044)),
+            (CGPoint(x: size.width * 0.50, y: size.height * 0.18), size.width * 0.85, SKColor.exactlyOne(hex: 0x2A241B))
         ]
 
         for (position, diameter, color) in haze {
@@ -921,7 +921,7 @@ final class GameScene: SKScene {
 
     private func makeBoard(
         side: CGFloat,
-        state: NineBoardState
+        state: ExactlyOneBoardState
     ) -> SKNode {
         let container = SKNode()
         container.name = "board"
@@ -1033,7 +1033,7 @@ final class GameScene: SKScene {
         side: CGFloat,
         cellSide: CGFloat,
         half: CGFloat,
-        state: NineBoardState
+        state: ExactlyOneBoardState
     ) {
         guard activeHint == nil,
               playMode == .progression,
@@ -1396,7 +1396,7 @@ final class GameScene: SKScene {
             cornerRadius: 28
         )
         badge.name = NodeName.completionBadge
-        badge.fillColor = SKColor.nine(hex: 0x17332E).withAlphaComponent(0.98)
+        badge.fillColor = SKColor.exactlyOne(hex: 0x17332E).withAlphaComponent(0.98)
         badge.strokeColor = accentColor.withAlphaComponent(0.55)
         badge.lineWidth = 1
         badge.position = CGPoint(x: size.width / 2, y: size.height * 0.51)
@@ -1435,7 +1435,7 @@ final class GameScene: SKScene {
             shape.strokeColor = SKColor.white.withAlphaComponent(0.18)
         }
         if let label = next.children.compactMap({ $0 as? SKLabelNode }).first {
-            label.fontColor = SKColor.nine(hex: 0x0C1A1D)
+            label.fontColor = SKColor.exactlyOne(hex: 0x0C1A1D)
         }
         badge.addChild(next)
         let replay = makeButton(title: "Replay", name: NodeName.reset, width: 108)
@@ -1477,7 +1477,7 @@ final class GameScene: SKScene {
     }
 
     private func beginGameCenterIfNeeded() {
-        let gameCenter = NineGameCenterService.shared
+        let gameCenter = ExactlyOneGameCenterService.shared
         gameCenter.diagnosticHandler = { [weak self] message in
             self?.diagnostics.add("game_center", message)
         }
@@ -1504,10 +1504,10 @@ final class GameScene: SKScene {
     }
 
     private func recordGameplayIntent(
-        kind: NineGameplayIntentKind,
+        kind: ExactlyOneGameplayIntentKind,
         coordinate: BoardCoordinate? = nil
     ) {
-        let intent = NineGameplayIntent(
+        let intent = ExactlyOneGameplayIntent(
             kind: kind,
             levelID: currentLevel.definition.id,
             coordinate: coordinate
@@ -1525,17 +1525,17 @@ final class GameScene: SKScene {
         let coordinateText = coordinate.map {
             "\($0.row),\($0.column)"
         } ?? "-"
-        print("[NineIntent] \(kind.rawValue) \(coordinateText)")
+        print("[ExactlyOneIntent] \(kind.rawValue) \(coordinateText)")
         #endif
     }
 
-    private func makeSupportPackage() -> NineSupportPackage {
-        NineSupportPackage(
-            schemaVersion: NineSupportPackage.currentSchemaVersion,
-            appVersion: NineRuntimeMetadata.appVersion,
-            buildVersion: NineRuntimeMetadata.buildVersion,
-            deviceClass: NineRuntimeMetadata.deviceClass,
-            osClass: NineRuntimeMetadata.osClass,
+    private func makeSupportPackage() -> ExactlyOneSupportPackage {
+        ExactlyOneSupportPackage(
+            schemaVersion: ExactlyOneSupportPackage.currentSchemaVersion,
+            appVersion: ExactlyOneRuntimeMetadata.appVersion,
+            buildVersion: ExactlyOneRuntimeMetadata.buildVersion,
+            deviceClass: ExactlyOneRuntimeMetadata.deviceClass,
+            osClass: ExactlyOneRuntimeMetadata.osClass,
             levelID: levels.indices.contains(levelIndex)
                 ? currentLevel.definition.id
                 : nil,
@@ -1552,22 +1552,22 @@ final class GameScene: SKScene {
         guard let replay = lastCompletedReplay ?? replayRecorder?.replay else {
             return nil
         }
-        let data = try NineReplayCodec.encode(replay)
+        let data = try ExactlyOneReplayCodec.encode(replay)
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("nine-replay-\(replay.replayID.uuidString).json")
+            .appendingPathComponent("exactly-one-replay-\(replay.replayID.uuidString).json")
         try data.write(to: url, options: .atomic)
         diagnostics.add("replay", "exported:\(replay.replayID.uuidString)")
         return url
     }
 
-    private func importReplay(from url: URL) throws -> NineReplay {
-        let replay = try NineReplayCodec.decode(Data(contentsOf: url))
+    private func importReplay(from url: URL) throws -> ExactlyOneReplay {
+        let replay = try ExactlyOneReplayCodec.decode(Data(contentsOf: url))
         diagnostics.add("replay", "imported:\(replay.replayID.uuidString)")
         return replay
     }
     #endif
 
-    private func emitTutorialEvents(_ events: [NineTutorialEvent]) {
+    private func emitTutorialEvents(_ events: [ExactlyOneTutorialEvent]) {
         guard !events.isEmpty else { return }
 
         emittedTutorialEvents.append(contentsOf: events)
@@ -1577,7 +1577,7 @@ final class GameScene: SKScene {
 
         for event in events {
             switch event.name {
-            case NineAnalyticsEventName.tutorialStarted.rawValue:
+            case ExactlyOneAnalyticsEventName.tutorialStarted.rawValue:
                 analytics.track(
                     .tutorialStarted,
                     level: currentLevel,
@@ -1585,7 +1585,7 @@ final class GameScene: SKScene {
                     extra: event.properties,
                     dedupeKey: "tutorial_started"
                 )
-            case NineAnalyticsEventName.tutorialCompleted.rawValue:
+            case ExactlyOneAnalyticsEventName.tutorialCompleted.rawValue:
                 analytics.track(
                     .tutorialCompleted,
                     level: currentLevel,
@@ -1598,7 +1598,7 @@ final class GameScene: SKScene {
             }
 
             #if DEBUG
-            print("[NineTutorial] \(event.name) \(event.properties)")
+            print("[ExactlyOneTutorial] \(event.name) \(event.properties)")
             #endif
         }
     }
@@ -1626,7 +1626,7 @@ final class GameScene: SKScene {
 }
 
 private extension SKColor {
-    static func nine(hex: UInt32, alpha: CGFloat = 1) -> SKColor {
+    static func exactlyOne(hex: UInt32, alpha: CGFloat = 1) -> SKColor {
         SKColor(
             red: CGFloat((hex >> 16) & 0xFF) / 255,
             green: CGFloat((hex >> 8) & 0xFF) / 255,

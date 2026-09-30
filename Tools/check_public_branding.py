@@ -1,48 +1,38 @@
 #!/usr/bin/env python3
-"""Catch legacy branding in app literals; identifiers are explicitly reviewed.
+"""Catch the retired codename "Nine" in app sources, file names and literals.
 
-This source check complements the bundled display-name test and visual QA.
-It cannot inspect rendered images or text assembled dynamically at runtime.
+The codename was replaced by Exactly One / ExactlyOne before the first
+release. This source check complements the bundled display-name test and
+visual QA. It cannot inspect rendered images or text assembled at runtime.
 """
 from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
 LEGACY = re.compile(r"\bnine\b", re.IGNORECASE)
+# Identifiers such as NineBoardState. "NineByNine" (a 9×9 board) has no word
+# boundary before "Nine", so it is not flagged.
+LEGACY_IDENTIFIER = re.compile(r"\bNine(?=[A-Z_])")
 LITERAL = re.compile(r'"(?:\\.|[^"\\])*"')
-# Exact technical literals only. Never add player-facing copy here.
-INTERNAL = {
-    '--nine-capture',
-    'Nine capture requires at least one validated bundled level',
-    'Nine requires at least one validated bundled level',
-    r'nine-replay-\(replay.replayID.uuidString).json',
-    'nine.preferences.soundEnabled',
-    'nine.preferences.hapticsEnabled',
-    'nine.analytics.firstOpenSent',
-    'ai.knowlly.nine.daily.time',
-    'ai.knowlly.nine.achievement.first-solve',
-    'ai.knowlly.nine.achievement.tutorial-complete',
-    'ai.knowlly.nine.achievement.first-daily',
-    'ai.knowlly.nine.achievement.streak-7',
-    'nine.onboarding.completed.v1',
-    r'Invalid bundled Nine level pack: \(error)',
-    'nine.progress.save.v2',
-    r'nine-daily-v1|\(NineUTCDate.dayKey(for: date))',
-}
+SOURCES = ('ExactlyOne', 'ExactlyOneTests')
 
 
 def violations(source):
-    return [m.group()[1:-1] for m in LITERAL.finditer(source)
-            if LEGACY.search(m.group()) and m.group()[1:-1] not in INTERNAL]
+    found = [m.group()[1:-1] for m in LITERAL.finditer(source) if LEGACY.search(m.group())]
+    found += [m.group() for m in LEGACY_IDENTIFIER.finditer(source)]
+    return found
 
 
 def main():
     errors = []
-    for path in sorted((ROOT / 'Nine').rglob('*')):
-        if path.suffix in {'.swift', '.strings', '.xcstrings'}:
-            errors.extend(f'{path.relative_to(ROOT)}: {s}'
-                          for s in violations(path.read_text()))
-    project = (ROOT / 'Nine.xcodeproj/project.pbxproj').read_text()
+    for folder in SOURCES:
+        for path in sorted((ROOT / folder).rglob('*')):
+            if 'nine' in path.name.lower():
+                errors.append(f'{path.relative_to(ROOT)}: file name uses the retired codename')
+            if path.suffix in {'.swift', '.strings', '.xcstrings'}:
+                errors.extend(f'{path.relative_to(ROOT)}: {s}'
+                              for s in violations(path.read_text()))
+    project = (ROOT / 'ExactlyOne.xcodeproj/project.pbxproj').read_text()
     names = re.findall(r'INFOPLIST_KEY_CFBundleDisplayName\s*=\s*([^;]+);', project)
     if names != ['"Exactly One"', '"Exactly One"']:
         errors.append(f'Debug/Release display names are incorrect: {names}')
