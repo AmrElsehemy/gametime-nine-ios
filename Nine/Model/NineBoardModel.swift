@@ -273,6 +273,7 @@ struct PrototypeLevel: Sendable {
     let definition: LevelDefinition
     let initialMarkers: Set<BoardCoordinate>
     let solution: [BoardCoordinate]
+    var focusTuning: NineFocusTuning = .initial(size: 6)
 
     init(
         id: String,
@@ -293,6 +294,7 @@ struct PrototypeLevel: Sendable {
             regionIDs: regionIDs,
             adjacencyRule: .noTouching
         )
+        self.focusTuning = .initial(size: size)
         self.solution = solution
         self.initialMarkers = Set(solution.prefix(prefilledCount))
     }

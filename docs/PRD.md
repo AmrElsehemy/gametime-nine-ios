@@ -173,6 +173,17 @@ v1 should support:
 
 Premium pass, large store, events, cosmetics and advanced LiveOps are post-v1 unless retention proves demand.
 
+### Focus Clock (v1 decision)
+The Focus Clock rates a solve; it never fails one.
+
+- inspection is free; the clock starts on the first committed placement
+- per-level `threeStarTime` / `twoStarTime` thresholds give 3★ / 2★; any slower solve is 1★
+- `oneStarTime` ends the time-bonus window for score, nothing more
+- score = base + time bonus + Clean Solve bonus + no-hint bonus; personal bests and the ranked Daily exclude hinted and restored runs
+- results show stars, score, personal best and the next-star target, with Replay
+
+**No timeout fail state and no rewarded rescue in v1.** A deadline plus paid extra seconds is the "manufacture frustration, sell relief" pattern the studio's frozen monetization decision rules out, and it would punish the careful players this deduction genre attracts. Rewarded value in v1 stays with optional hints. A hard-deadline mode (with an optional rescue) can be reconsidered as an opt-in mode only after launch telemetry shows players want pressure.
+
 ## 11. Rendering and technology
 - Swift
 - SpriteKit for the game surface and effects

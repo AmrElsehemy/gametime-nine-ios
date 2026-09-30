@@ -16,6 +16,7 @@ struct NineLevelRecord: Codable, Equatable, Sendable {
     let solution: [BoardCoordinate]
     let difficulty: Int
     let authoringSeed: Int?
+    var focusTuning: NineFocusTuning? = nil
 
     func makeDefinition() throws -> LevelDefinition {
         try LevelDefinition(
@@ -29,10 +30,13 @@ struct NineLevelRecord: Codable, Equatable, Sendable {
 
     func materialize() throws -> PrototypeLevel {
         let definition = try makeDefinition()
+        let tuning = focusTuning ?? .initial(size: size, difficulty: difficulty)
+        guard tuning.isValid else { throw NineLevelPackError.malformedLevel(levelID: id, reason: "Invalid Focus Clock tuning") }
         return PrototypeLevel(
             definition: definition,
             initialMarkers: Set(initialMarkers),
-            solution: solution
+            solution: solution,
+            focusTuning: tuning
         )
     }
 }
