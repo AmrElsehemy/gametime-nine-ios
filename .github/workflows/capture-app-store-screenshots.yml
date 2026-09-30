@@ -3,7 +3,7 @@ name: Capture App Store Screenshots
 on:
   workflow_dispatch:
   push:
-    branches: [feat/capture-assets-18, feat/exactly-one-release-branding]
+    branches: ['screenshots/**', 'claude/*screenshots*']
     paths:
       - Nine/GameScene.swift
       - Tools/compose_app_store_screenshots.py
@@ -76,13 +76,34 @@ jobs:
           rm -rf "$RAW"
           mkdir -p "$RAW"
 
+          # A frame taken before SpriteKit draws is flat white; retry with a
+          # longer wait, and fail rather than commit a blank screenshot.
+          is_rendered() {
+            python3 - "$1" <<'PY'
+          import sys
+          from PIL import Image
+          image = Image.open(sys.argv[1]).convert("L").resize((66, 143))
+          light = sum(1 for value in image.getdata() if value > 235)
+          sys.exit(0 if light < 0.5 * 66 * 143 else 1)
+          PY
+          }
+
           capture() {
             preset="$1"
             output="$2"
-            xcrun simctl terminate "$DEVICE" "$BUNDLE" >/dev/null 2>&1 || true
-            xcrun simctl launch "$DEVICE" "$BUNDLE" --nine-capture "$preset"
-            sleep 2
-            xcrun simctl io "$DEVICE" screenshot "$RAW/$output"
+            for wait in 3 6 10; do
+              xcrun simctl terminate "$DEVICE" "$BUNDLE" >/dev/null 2>&1 || true
+              sleep 1
+              xcrun simctl launch "$DEVICE" "$BUNDLE" --nine-capture "$preset"
+              sleep "$wait"
+              xcrun simctl io "$DEVICE" screenshot "$RAW/$output"
+              if is_rendered "$RAW/$output"; then
+                return 0
+              fi
+              echo "::warning::$output was blank after ${wait}s; retrying"
+            done
+            echo "::error::$output never rendered"
+            return 1
           }
 
           capture simple 01-simple.png

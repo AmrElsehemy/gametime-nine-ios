@@ -378,6 +378,19 @@ final class GameScene: SKScene {
         latestEvaluation = NineConstraintEngine.evaluate(state, level: level.definition)
         isLevelComplete = preset == .solved
         levelStartedAt = uptime
+        // Fixed Focus Clock readings, so the HUD and results card appear in
+        // screenshots without depending on how fast the simulator launches.
+        focus = NineFocusAttempt(tuning: level.focusTuning)
+        focus.committedPlacement(at: 0)
+        switch preset {
+        case .simple: focus.advance(to: 9_000)
+        case .placement: focus.advance(to: 14_000)
+        case .territories: focus.advance(to: 38_000)
+        case .daily: focus.advance(to: 21_000)
+        case .solved:
+            focus.solve(at: max(1_000, focus.tuning.threeStarTime * 4 / 5))
+            newPersonalBest = true
+        }
         replayRecorder = nil
         hasActiveAnalyticsLevel = false
         renderScene()
@@ -808,7 +821,6 @@ final class GameScene: SKScene {
     }
 
     private func addFocusHUD() {
-        guard capturePreset == nil else { return }
         let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         label.name = "focusHUD"
         label.text = focus.phase == .inspecting ? "★★★  ·  Place a pebble to start" :
