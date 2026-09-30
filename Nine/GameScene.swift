@@ -474,6 +474,7 @@ final class GameScene: SKScene {
             )
         }
         renderScene()
+        childNode(withName: "board")?.run(GameTimeMotion.levelEnter(reduceMotion: UIAccessibility.isReduceMotionEnabled))
 
         if restoredMarkers != nil && latestEvaluation.isSolved {
             recognizeRestoredSolvedLevel()
@@ -1141,8 +1142,7 @@ final class GameScene: SKScene {
     }
 
     private func animatePlacement(at coordinate: BoardCoordinate) {
-        guard !UIAccessibility.isReduceMotionEnabled,
-              let board = childNode(withName: "board") else {
+        guard let board = childNode(withName: "board") else {
             return
         }
 
@@ -1153,35 +1153,15 @@ final class GameScene: SKScene {
             return
         }
 
-        pebble.setScale(0.72)
-        pebble.alpha = 0.55
-        pebble.run(
-            .group([
-                .fadeIn(withDuration: 0.10),
-                .sequence([
-                    .scale(to: 1.08, duration: 0.10),
-                    .scale(to: 0.98, duration: 0.08),
-                    .scale(to: 1.0, duration: 0.08)
-                ])
-            ])
-        )
+        pebble.run(GameTimeMotion.placementPop(reduceMotion: UIAccessibility.isReduceMotionEnabled))
     }
 
     private func animateConflict(at coordinate: BoardCoordinate) {
-        guard !UIAccessibility.isReduceMotionEnabled,
-              let board = childNode(withName: "board") else {
-            return
+        guard let board = childNode(withName: "board") else { return }
+        let names = Set(latestEvaluation.conflictingCoordinates.union([coordinate]).map(cellName))
+        for node in board.children where names.contains(node.name ?? "") {
+            node.run(GameTimeMotion.invalidShake(reduceMotion: UIAccessibility.isReduceMotionEnabled))
         }
-
-        let name = cellName(for: coordinate)
-        let nodes = board.children.filter { $0.name == name }
-        let shake = SKAction.sequence([
-            .moveBy(x: -5, y: 0, duration: 0.045),
-            .moveBy(x: 10, y: 0, duration: 0.075),
-            .moveBy(x: -8, y: 0, duration: 0.065),
-            .moveBy(x: 3, y: 0, duration: 0.045)
-        ])
-        nodes.forEach { $0.run(shake) }
     }
 
     private func makePebble(
@@ -1334,22 +1314,18 @@ final class GameScene: SKScene {
         guard let board = childNode(withName: "board") else { return }
         let reduceMotion = UIAccessibility.isReduceMotionEnabled
 
-        if !reduceMotion {
-            let cells = board.children.filter {
-                $0.name?.hasPrefix(NodeName.cellPrefix) == true
-            }
-
-            for (index, cell) in cells.enumerated() {
-                let delay = Double(index % max(1, currentLevel.definition.size)) * 0.025
-                cell.run(
-                    .sequence([
-                        .wait(forDuration: delay),
-                        .scale(to: 1.045, duration: 0.10),
-                        .scale(to: 1.0, duration: 0.18)
-                    ])
-                )
-            }
+        let isMilestone = playMode == .daily || (levelIndex + 1).isMultiple(of: 5)
+        let pebbles = board.children.filter {
+            $0.name?.hasPrefix(NodeName.cellPrefix) == true && $0.zPosition >= 3
         }
+        GameTimeMotion.runStaggered(
+            isMilestone ? GameTimeMotion.milestonePulse(reduceMotion: reduceMotion)
+                : GameTimeMotion.successPulse(reduceMotion: reduceMotion),
+            on: pebbles, step: reduceMotion ? 0 : 0.04
+        )
+        GameTimeParticles.playBurst(in: board, at: .zero, color: accentColor,
+                                    style: isMilestone ? .milestone : .success,
+                                    reduceMotion: reduceMotion)
 
         addCompletionBadge(animated: !reduceMotion)
     }
