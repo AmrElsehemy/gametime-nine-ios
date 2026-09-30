@@ -35,6 +35,7 @@ final class GameScene: SKScene {
         static let haptics = "action:haptics"
         static let daily = "action:daily"
         static let cellPrefix = "cell:"
+        static let completionBadge = "completion-badge"
     }
 
     private let canvasColor = SKColor.nine(hex: 0x0E1617)
@@ -52,7 +53,8 @@ final class GameScene: SKScene {
         .nine(hex: 0x58A9AB),
         .nine(hex: 0x648FC4),
         .nine(hex: 0x826CB8),
-        .nine(hex: 0xAE6C92)
+        .nine(hex: 0xAE6C92),
+        .nine(hex: 0x9C8F7A)
     ]
 
     private let levels = PrototypeLevels.production
@@ -211,6 +213,13 @@ final class GameScene: SKScene {
         guard !isLevelComplete,
               let coordinate = hitNodes.compactMap({ coordinate(from: $0.name) }).first,
               var state = boardState else {
+            return
+        }
+
+        // Pre-filled pebbles are part of the puzzle; its unique-solution
+        // guarantee only holds while they stay on the board.
+        if currentLevel.initialMarkers.contains(coordinate) {
+            feedback.play(.invalid)
             return
         }
 
@@ -763,6 +772,10 @@ final class GameScene: SKScene {
         addChild(board)
 
         addFooter()
+
+        if isLevelComplete {
+            addCompletionBadge(animated: false)
+        }
     }
 
     private func addBackdrop() {
@@ -1338,10 +1351,20 @@ final class GameScene: SKScene {
             }
         }
 
+        addCompletionBadge(animated: !reduceMotion)
+    }
+
+    // renderScene() re-adds this while solved, so a sound/haptic toggle or a
+    // resize never strands the player without the Next button.
+    private func addCompletionBadge(animated: Bool) {
+        let reduceMotion = !animated
+        childNode(withName: NodeName.completionBadge)?.removeFromParent()
+
         let badge = SKShapeNode(
             rectOf: CGSize(width: min(280, size.width - 56), height: 118),
             cornerRadius: 28
         )
+        badge.name = NodeName.completionBadge
         badge.fillColor = SKColor.nine(hex: 0x17332E).withAlphaComponent(0.98)
         badge.strokeColor = accentColor.withAlphaComponent(0.55)
         badge.lineWidth = 1
