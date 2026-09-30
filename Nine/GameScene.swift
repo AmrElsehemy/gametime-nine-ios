@@ -35,6 +35,7 @@ final class GameScene: SKScene {
         static let haptics = "action:haptics"
         static let daily = "action:daily"
         static let cellPrefix = "cell:"
+        static let completionBadge = "completion-badge"
     }
 
     private let canvasColor = SKColor.nine(hex: 0x0E1617)
@@ -52,7 +53,8 @@ final class GameScene: SKScene {
         .nine(hex: 0x58A9AB),
         .nine(hex: 0x648FC4),
         .nine(hex: 0x826CB8),
-        .nine(hex: 0xAE6C92)
+        .nine(hex: 0xAE6C92),
+        .nine(hex: 0x9C8F7A)
     ]
 
     private let levels = PrototypeLevels.production
@@ -218,6 +220,13 @@ final class GameScene: SKScene {
         guard !isLevelComplete, focus.canPlay,
               let coordinate = hitNodes.compactMap({ coordinate(from: $0.name) }).first,
               var state = boardState else {
+            return
+        }
+
+        // Pre-filled pebbles are part of the puzzle; its unique-solution
+        // guarantee only holds while they stay on the board.
+        if currentLevel.initialMarkers.contains(coordinate) {
+            feedback.play(.invalid)
             return
         }
 
@@ -606,7 +615,7 @@ final class GameScene: SKScene {
             analytics.track(.masteryCompleted, level: currentLevel, mode: playMode, extra: [
                 "stars": String(result.stars), "score": String(result.score),
                 "clean_solve": String(result.cleanSolve), "hints": String(result.hintsUsed),
-                "rescued": String(result.rescued), "ranked": String(result.isRanked),
+                "ranked": String(result.isRanked),
                 "personal_best": String(newPersonalBest), "scoring_version": "1"
             ])
         }
@@ -775,8 +784,7 @@ final class GameScene: SKScene {
 
         addFooter()
         addFocusHUD()
-        if focus.phase == .timedOut { presentTimeout() }
-        else if isLevelComplete { presentCompletion() }
+        if isLevelComplete { addCompletionBadge(animated: false) }
     }
 
     private var focusTime: Int {
@@ -785,21 +793,14 @@ final class GameScene: SKScene {
 
     private func updateFocus() {
         guard capturePreset == nil, boardState != nil, !isLevelComplete else { return }
-        let oldPhase = focus.phase
         let oldStars = focus.stars
         focus.advance(to: focusTime)
         if focus.stars != oldStars {
             analytics.track(.focusThreshold, level: currentLevel, mode: playMode,
                             extra: ["stars": String(focus.stars)])
         }
-        if focus.phase == .timedOut && oldPhase != .timedOut {
-            let covered = Set((boardState?.markers ?? []).compactMap(currentLevel.definition.regionID)).count
-            analytics.track(.focusTimeout, level: currentLevel, mode: playMode,
-                            extra: ["territories_remaining": String(currentLevel.definition.size - covered)])
-            if let state = boardState { persistActiveSession(state) }
-            renderScene()
-        } else if lastFocusSecond != focus.remainingMilliseconds / 1_000 {
-            lastFocusSecond = focus.remainingMilliseconds / 1_000
+        if lastFocusSecond != focus.elapsedMilliseconds / 1_000 {
+            lastFocusSecond = focus.elapsedMilliseconds / 1_000
             childNode(withName: "focusHUD")?.removeFromParent()
             addFocusHUD()
             if let state = boardState { persistActiveSession(state) }
@@ -811,24 +812,13 @@ final class GameScene: SKScene {
         let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         label.name = "focusHUD"
         label.text = focus.phase == .inspecting ? "★★★  ·  Place a pebble to start" :
-            "\(String(repeating: "★", count: focus.stars))\(String(repeating: "☆", count: 3 - focus.stars))  ·  \(Int(ceil(Double(focus.remainingMilliseconds) / 1_000)))s"
+            "\(String(repeating: "★", count: focus.stars))\(String(repeating: "☆", count: 3 - focus.stars))  ·  \(focus.elapsedMilliseconds / 1_000)s"
         label.fontSize = min(18, size.width * 0.045)
         label.fontColor = inkColor
         label.position = CGPoint(x: size.width / 2, y: size.height - 174)
         label.isAccessibilityElement = true
         label.accessibilityLabel = label.text
         addChild(label)
-    }
-
-    private func presentTimeout() {
-        let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
-        label.text = "Time’s up — try again"
-        label.fontSize = 21; label.fontColor = inkColor
-        label.position = CGPoint(x: size.width / 2, y: max(145, size.height * 0.20))
-        addChild(label)
-        let retry = makeButton(title: "Retry", name: NodeName.reset, width: 130)
-        retry.position = CGPoint(x: size.width / 2, y: max(90, size.height * 0.12))
-        addChild(retry)
     }
 
     private func addBackdrop() {
@@ -1295,7 +1285,7 @@ final class GameScene: SKScene {
     }
 
     private func addFooter() {
-        guard !isLevelComplete, focus.phase != .timedOut else { return }
+        guard !isLevelComplete else { return }
 
         let footerY = max(72, size.height * 0.115)
 
@@ -1363,7 +1353,7 @@ final class GameScene: SKScene {
     }
 
     private func presentCompletion() {
-        guard childNode(withName: "completion") == nil else { return }
+        guard childNode(withName: NodeName.completionBadge) == nil else { return }
         guard let board = childNode(withName: "board") else { return }
         let reduceMotion = UIAccessibility.isReduceMotionEnabled
 
@@ -1380,11 +1370,20 @@ final class GameScene: SKScene {
                                     style: isMilestone ? .milestone : .success,
                                     reduceMotion: reduceMotion)
 
+        addCompletionBadge(animated: !reduceMotion)
+    }
+
+    // renderScene() re-adds this while solved, so a sound/haptic toggle or a
+    // resize never strands the player without the Next button.
+    private func addCompletionBadge(animated: Bool) {
+        let reduceMotion = !animated
+        childNode(withName: NodeName.completionBadge)?.removeFromParent()
+
         let badge = SKShapeNode(
             rectOf: CGSize(width: min(280, size.width - 56), height: 214),
             cornerRadius: 28
         )
-        badge.name = "completion"
+        badge.name = NodeName.completionBadge
         badge.fillColor = SKColor.nine(hex: 0x17332E).withAlphaComponent(0.98)
         badge.strokeColor = accentColor.withAlphaComponent(0.55)
         badge.lineWidth = 1
@@ -1436,7 +1435,7 @@ final class GameScene: SKScene {
             let target = result.stars == 1 ? focus.tuning.twoStarTime : focus.tuning.threeStarTime
             let lines = [String(repeating: "★", count: result.stars) + String(repeating: "☆", count: 3 - result.stars),
                 "\(result.score) points · \(String(format: "%.1f", Double(result.elapsedMilliseconds) / 1_000))s",
-                result.rescued ? "Rescued · unranked" : (newPersonalBest ? "New personal best!" : "Best: \(best.map(String.init) ?? "—")"),
+                newPersonalBest ? "New personal best!" : "Best: \(best.map(String.init) ?? "—")",
                 result.stars < 3 ? "Next star: \(target / 1_000)s · replay to improve" : "Three-star solve"]
             for (index, text) in lines.enumerated() {
                 let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")

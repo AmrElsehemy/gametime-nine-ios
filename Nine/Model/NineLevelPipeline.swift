@@ -196,9 +196,8 @@ enum NineLevelSolver {
                 return
             }
 
-            if selectedRow == nil
-                || candidates.count < selectedCandidates.count
-                || (candidates.count == selectedCandidates.count && row < selectedRow!) {
+            // Rows are visited in ascending order, so ties keep the lowest row.
+            if selectedRow == nil || candidates.count < selectedCandidates.count {
                 selectedRow = row
                 selectedCandidates = candidates
             }
