@@ -377,7 +377,8 @@ enum ExactlyOneSaveCodec {
 
 @MainActor
 final class ExactlyOneProgressStore {
-    // Keep the existing storage key stable so v1/v2 installs migrate in place.
+    // Older save schemas migrate in place under this key, so it must not
+    // change once the app has shipped.
     private static let defaultKey = "exactlyone.progress.save.v2"
 
     private let defaults: UserDefaults
