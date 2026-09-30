@@ -7,7 +7,7 @@ Status: **LOCKED for v1**
 - App Store subtitle: **One pebble. Every territory.**
 - Publisher / umbrella brand: **Knowlly Games**
 - Repository/internal identifier remains `gametime-nine-ios`
-- Bundle identifier remains `ai.knowlly.gametime.nine`
+- Bundle identifier: `ai.knowlly.exactlyonce` (matches the App Store Connect record, Apple ID 6814950883)
 - Visual language: **Tactile Territories / Pebble**
 
 The approved naming and messaging source of truth is [BRAND.md](BRAND.md). The name must communicate that this is a logic puzzle first. Internal identifiers do not change.
