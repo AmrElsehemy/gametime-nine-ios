@@ -8,5 +8,5 @@ import GameTimeCore
 
 @Test func approvedPublicDisplayNameIsBundled() {
     #expect(Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String == "Exactly One")
-    #expect(Bundle.main.bundleIdentifier == "ai.knowlly.exactlyonce")
+    #expect(Bundle.main.bundleIdentifier == "ai.knowlly.exactlyone")
 }

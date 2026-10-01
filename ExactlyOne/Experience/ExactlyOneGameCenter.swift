@@ -7,10 +7,10 @@ enum ExactlyOneGameCenterIDs {
 }
 
 enum ExactlyOneGameCenterAchievement: String, CaseIterable, Sendable {
-    case firstSolve = "ai.knowlly.exactlyone.achievement.first-solve"
-    case tutorialComplete = "ai.knowlly.exactlyone.achievement.tutorial-complete"
-    case firstDaily = "ai.knowlly.exactlyone.achievement.first-daily"
-    case streakSeven = "ai.knowlly.exactlyone.achievement.streak-7"
+    case firstSolve = "ai.knowlly.exactlyone.achievement.first_solve"
+    case tutorialComplete = "ai.knowlly.exactlyone.achievement.tutorial_complete"
+    case firstDaily = "ai.knowlly.exactlyone.achievement.first_daily"
+    case streakSeven = "ai.knowlly.exactlyone.achievement.streak_7"
 }
 
 struct ExactlyOneAchievementLedger: Equatable, Sendable {
@@ -30,12 +30,12 @@ struct ExactlyOneAchievementLedger: Equatable, Sendable {
 }
 
 enum ExactlyOneGameCenterScore {
-    static let maximumDailyMilliseconds = 86_400_000
+    static let maximumDailyCentiseconds = 8_640_000
 
-    static func milliseconds(durationSeconds: TimeInterval) -> Int {
-        guard durationSeconds.isFinite else { return maximumDailyMilliseconds }
-        let raw = Int((max(0, durationSeconds) * 1_000).rounded())
-        return min(maximumDailyMilliseconds, max(1, raw))
+    static func centiseconds(durationSeconds: TimeInterval) -> Int {
+        guard durationSeconds.isFinite else { return maximumDailyCentiseconds }
+        let raw = Int((max(0, durationSeconds) * 100).rounded())
+        return min(maximumDailyCentiseconds, max(1, raw))
     }
 }
 
@@ -107,7 +107,7 @@ final class ExactlyOneGameCenterService {
         guard isAuthenticated, result.isRanked, result.scoringVersion == 1 else { return }
         let durationSeconds = Double(result.elapsedMilliseconds) / 1_000
 
-        let score = ExactlyOneGameCenterScore.milliseconds(
+        let score = ExactlyOneGameCenterScore.centiseconds(
             durationSeconds: durationSeconds
         )
 
