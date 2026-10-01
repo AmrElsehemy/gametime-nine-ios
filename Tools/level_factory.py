@@ -216,6 +216,24 @@ def accepted_candidate(
     return regions, target, clues, metrics, difficulty_score
 
 
+def focus_tuning(size: int, difficulty: int) -> dict[str, int]:
+    """Focus Clock thresholds in milliseconds.
+
+    Mirrors ExactlyOneFocusTuning.initial(size:difficulty:) in
+    ExactlyOne/Model/ExactlyOneFocusClock.swift. Change both together.
+    """
+    three_star = 25_000 + max(0, size - 6) * 10_000 + max(0, difficulty - 1) * 5_000
+    return {
+        "threeStarTime": three_star,
+        "twoStarTime": three_star + 20_000,
+        "oneStarTime": three_star + 45_000,
+        "baseScore": 1_000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10,
+    }
+
+
 def build_pack() -> dict[str, object]:
     # First five are curated. The remaining portfolio deliberately spans 6×6 to 9×9.
     specs = ((6, 25, 0), (7, 25, 1), (8, 25, 2), (9, 20, 2))
@@ -268,6 +286,10 @@ def build_pack() -> dict[str, object]:
 
     if len(levels) != TARGET_COUNT:
         raise RuntimeError(f"expected {TARGET_COUNT} levels, generated {len(levels)}")
+    levels = [
+        {**level, "focusTuning": focus_tuning(level["size"], level["difficulty"])}
+        for level in levels
+    ]
     return {"schemaVersion": SCHEMA_VERSION, "levels": levels}
 
 
