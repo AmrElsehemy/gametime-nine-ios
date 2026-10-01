@@ -300,13 +300,13 @@ import Testing
     #expect(event.properties["column"] == nil)
 }
 
-@Test func gameCenterScoreConvertsToClampedMilliseconds() {
-    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: 1.234) == 1_234)
-    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: 0) == 1)
-    #expect(ExactlyOneGameCenterScore.milliseconds(durationSeconds: -4) == 1)
+@Test func gameCenterScoreConvertsToClampedCentiseconds() {
+    #expect(ExactlyOneGameCenterScore.centiseconds(durationSeconds: 1.234) == 123)
+    #expect(ExactlyOneGameCenterScore.centiseconds(durationSeconds: 0) == 1)
+    #expect(ExactlyOneGameCenterScore.centiseconds(durationSeconds: -4) == 1)
     #expect(
-        ExactlyOneGameCenterScore.milliseconds(durationSeconds: 100_000)
-            == ExactlyOneGameCenterScore.maximumDailyMilliseconds
+        ExactlyOneGameCenterScore.centiseconds(durationSeconds: 100_000)
+            == ExactlyOneGameCenterScore.maximumDailyCentiseconds
     )
 }
 

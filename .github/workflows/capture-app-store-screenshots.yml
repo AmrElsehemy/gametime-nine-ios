@@ -71,7 +71,7 @@ jobs:
         run: |
           set -euo pipefail
           DEVICE="${{ steps.simulator.outputs.id }}"
-          BUNDLE="ai.knowlly.exactlyonce"
+          BUNDLE="ai.knowlly.exactlyone"
           RAW="Marketing/Capture/raw"
           rm -rf "$RAW"
           mkdir -p "$RAW"

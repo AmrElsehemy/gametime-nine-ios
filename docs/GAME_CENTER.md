@@ -9,13 +9,13 @@ Exactly One uses Apple's native Game Center layer for optional identity, achieve
 - Authentication is requested opportunistically after the game scene becomes active.
 - Declining or failing authentication leaves Exactly One fully playable.
 - Authenticated players get the native Game Center access point.
-- Daily results use solve duration in **milliseconds**; lower is better.
+- Daily results use solve duration in **centiseconds** (App Store Connect has no millisecond formatter); lower is better.
 - Game Center errors become diagnostic breadcrumbs only.
 - Exactly One does not create a proprietary account system.
 
 ## Identifiers
 
-Use these stable identifiers in code and App Store Connect:
+Use these stable identifiers in code and App Store Connect. Vendor IDs may only contain letters, digits, underscores and periods (no hyphens):
 
 ### Leaderboard
 
@@ -23,22 +23,19 @@ Use these stable identifiers in code and App Store Connect:
 
 Configuration intent:
 
-- score format: integer
-- unit: milliseconds
-- sort order: low to high
-- recurring: daily
-- score range: 1 ... 86,400,000
-
-A recurring daily leaderboard gives each daily puzzle a fresh competitive surface while Exactly One keeps using the same stable identifier.
+- score format: elapsed time, centiseconds (`ELAPSED_TIME_CENTISECOND`)
+- sort order: low to high, best score
+- type: standard (all-time best; not recurring)
+- score range: 1 ... 8,640,000
 
 ### Achievements
 
 | Identifier | Meaning | Percent |
 | --- | --- | ---: |
-| `ai.knowlly.exactlyone.achievement.first-solve` | Solve any puzzle | 100 |
-| `ai.knowlly.exactlyone.achievement.tutorial-complete` | Complete the five-level learn-by-playing sequence | 100 |
-| `ai.knowlly.exactlyone.achievement.first-daily` | Complete a daily puzzle | 100 |
-| `ai.knowlly.exactlyone.achievement.streak-7` | Reach a seven-day daily streak | 100 |
+| `ai.knowlly.exactlyone.achievement.first_solve` | Solve any puzzle | 100 |
+| `ai.knowlly.exactlyone.achievement.tutorial_complete` | Complete the five-level learn-by-playing sequence | 100 |
+| `ai.knowlly.exactlyone.achievement.first_daily` | Complete a daily puzzle | 100 |
+| `ai.knowlly.exactlyone.achievement.streak_7` | Reach a seven-day daily streak | 100 |
 
 The first set is deliberately small and meaningful. Do not add filler achievements simply to increase count.
 
@@ -52,7 +49,7 @@ Game Center remains the authority for cross-device achievement state.
 
 Exactly One submits only after the local deterministic puzzle engine has marked the daily puzzle solved. The score is derived from the same monotonic elapsed duration used by local completion tracking:
 
-`milliseconds = max(1, round(durationSeconds * 1000))`
+`centiseconds = max(1, round(durationSeconds * 100))`
 
 No score is submitted for abandoned, reset, or unsolved sessions.
 
@@ -69,14 +66,14 @@ Before sandbox verification:
 - [ ] Enable the Game Center capability for the Exactly One App ID / Xcode target.
 - [ ] Confirm the app's bundle identifier is the production Exactly One bundle identifier.
 - [ ] Enable Game Center for the app record in App Store Connect.
-- [ ] Create leaderboard `ai.knowlly.exactlyone.daily.time` with low-to-high ordering and daily recurrence.
+- [ ] Create leaderboard `ai.knowlly.exactlyone.daily.time` with low-to-high ordering (standard, non-recurring).
 - [ ] Create the four achievement identifiers exactly as documented above.
 - [ ] Add localized leaderboard/achievement names and descriptions.
 - [ ] Add achievement artwork that matches the final Exactly One visual language.
 - [ ] Confirm sandbox tester / Game Center test account access.
 - [ ] Run on a signed physical device or suitable signed sandbox build.
 - [ ] Verify auth decline/cancel still leaves the game playable.
-- [ ] Verify a daily solve submits a millisecond score.
+- [ ] Verify a daily solve submits a centisecond score.
 - [ ] Verify completing an achievement reports once and repeated reporting is harmless.
 - [ ] Verify Game Center network/account failure is non-blocking.
 
@@ -86,7 +83,7 @@ The Apple-side configuration and signed sandbox run are human/account gates; cod
 
 Automated tests cover pure policy that does not need Apple's live service:
 
-- duration-to-millisecond score conversion
+- duration-to-centisecond score conversion
 - zero/negative duration clamping
 - achievement duplicate suppression
 - failed-report retry policy
