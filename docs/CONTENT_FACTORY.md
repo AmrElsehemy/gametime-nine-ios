@@ -15,6 +15,8 @@ python3 Tools/level_factory.py --check ExactlyOne/Resources/ExactlyOneLevels-v1.
 
 `--write` regenerates the complete v1 pack. `--check` fails if the checked-in JSON does not exactly match deterministic factory output.
 
+CI runs `--check` on every pull request (`.github/workflows/level-pack.yml`), so a hand edit to the pack fails until the factory produces the same output.
+
 ## v1 generation strategy
 
 The first five onboarding puzzles remain hand-curated. The factory generates the remaining 95 puzzles by:
@@ -27,6 +29,7 @@ The first five onboarding puzzles remain hand-curated. The factory generates the
 6. rejecting any candidate that still has multiple solutions;
 7. ordering accepted puzzles by board size and a difficulty signal that combines solver work, branching, board size and clue burden;
 8. writing stable ids `v1-001` ... `v1-100`.
+9. attaching Focus Clock thresholds (`focusTuning`) computed from board size and difficulty. The formula mirrors `ExactlyOneFocusTuning.initial(size:difficulty:)`, so change both together.
 
 The generated portfolio intentionally spans 6×6 through 9×9. The checked-in pack is the shipping artifact; generation is never performed on the player device.
 
