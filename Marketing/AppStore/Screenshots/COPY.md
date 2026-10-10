@@ -1,18 +1,21 @@
-# Exactly One v1 App Store screenshot copy
+# Exactly One App Store screenshot copy
 
-1. **A Surprisingly Simple Idea**
-   - Place one Pebble in every row, column, and territory.
+Slides 1–3 are the ones App Store search results show, so they carry the goal, the daily hook and the payoff.
 
-2. **Place the Pebbles**
-   - Tap a cell. Think ahead. Feel every move.
+1. **Solve the Logic Grid** (`01-solve.png`)
+   - One per row, column and territory.
 
-3. **Master Irregular Territories**
-   - Every board is different. Every solution is unique.
+2. **A New Puzzle Every Day** (`02-daily.png`)
+   - Build your streak. One missed day is forgiven.
 
-4. **Daily Puzzles**
-   - A fresh challenge every day. Keep your streak alive.
+3. **Chase Three Stars** (`03-solved.png`)
+   - Every board has exactly one solution.
 
-5. **That Satisfying Solved Moment**
-   - Clear. Calm. Complete.
+4. **100 Boards, All Solvable** (`04-boards.png`)
+   - Solver-verified, from gentle to demanding.
+
+5. **Tap, Think Ahead, Place** (`05-placement.png`)
+   - Undo, reset, or ask for a hint.
 
 These are composition overlays for real-build screenshots, not in-game copy requirements.
+Regenerate with `Tools/compose_app_store_screenshots.py` (needs Pillow).
