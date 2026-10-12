@@ -8,16 +8,25 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "Marketing" / "Capture" / "raw"
 OUT = ROOT / "Marketing" / "AppStore" / "Screenshots"
 TARGET = (1320, 2868)
-CARD_WIDTH = 980
-CARD_TOP = 630
+CARD_WIDTH = 1240
+CARD_TOP = 470
+STATUS_CROP = 120  # raw px (at capture width) covering the status bar and Dynamic Island
 
-COPY = {
-    "01-simple.png": ("A Surprisingly Simple Idea", "One Pebble in every row, column, and territory."),
-    "02-placement.png": ("Place the Pebbles", "Tap a cell. Think ahead. Feel every move."),
-    "03-territories.png": ("Master Irregular Territories", "Every board is different. Every solution is unique."),
-    "04-daily.png": ("Daily Puzzles", "A fresh challenge every day. Keep your streak alive."),
-    "05-solved.png": ("That Satisfying Solved Moment", "Clear. Calm. Complete."),
-}
+# Raw-frame row ranges that hold only empty app background. They are cut out so the
+# board and controls sit closer together and the phone reads larger in the thumbnail.
+HEADER_GAP = (400, 470)
+BOTTOM_GAP = (1480, 1560)
+RESULT_GAP = (1500, 1545)
+
+# (raw capture, output file, headline, supporting line). The first three slides are
+# the ones shown in search results, so they carry the goal, the daily hook and the payoff.
+COPY = [
+    ("01-simple.png", "01-solve.png", "Solve the Logic Grid", "One per row, column and territory.", [HEADER_GAP, BOTTOM_GAP]),
+    ("04-daily.png", "02-daily.png", "A New Puzzle Every Day", "Build your streak. One missed day is forgiven.", [HEADER_GAP, BOTTOM_GAP]),
+    ("05-solved.png", "03-solved.png", "Chase Three Stars", "Every board has exactly one solution.", [HEADER_GAP, RESULT_GAP]),
+    ("03-territories.png", "04-boards.png", "100 Boards, All Solvable", "Solver-verified, from gentle to demanding.", [HEADER_GAP, BOTTOM_GAP]),
+    ("02-placement.png", "05-placement.png", "Tap, Think Ahead, Place", "Undo, reset, or ask for a hint.", [HEADER_GAP, BOTTOM_GAP]),
+]
 
 
 def font(size: int, bold: bool = False):
@@ -88,21 +97,35 @@ def centered_multiline(
     return y
 
 
+def cut_bands(raw: Image.Image, bands) -> Image.Image:
+    """Remove empty horizontal bands (raw-frame rows), highest first so offsets stay valid."""
+    for start, end in sorted(bands, reverse=True):
+        top = raw.crop((0, 0, raw.width, start))
+        bottom = raw.crop((0, end, raw.width, raw.height))
+        raw = Image.new("RGB", (raw.width, top.height + bottom.height))
+        raw.paste(top, (0, 0))
+        raw.paste(bottom, (0, top.height))
+    return raw
+
+
 def rounded_card(raw: Image.Image) -> Image.Image:
+    raw = raw.crop((0, STATUS_CROP, raw.width, raw.height))
     scale = CARD_WIDTH / raw.width
     card = raw.resize((CARD_WIDTH, round(raw.height * scale)), Image.Resampling.LANCZOS).convert("RGBA")
-    max_h = TARGET[1] - CARD_TOP - 68
+    max_h = TARGET[1] - CARD_TOP
     if card.height > max_h:
         card = card.crop((0, 0, card.width, max_h))
 
+    # Only the top corners are rounded: the card bleeds off the bottom edge.
     mask = Image.new("L", card.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, card.width - 1, card.height - 1), radius=64, fill=255)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, card.width - 1, card.height + 200), radius=64, fill=255)
     card.putalpha(mask)
     return card
 
 
-def compose(raw_path: Path, out_path: Path, title: str, subtitle: str) -> None:
+def compose(raw_path: Path, out_path: Path, title: str, subtitle: str, bands) -> None:
     raw = Image.open(raw_path).convert("RGB")
+    raw = cut_bands(raw, bands)
 
     # Real gameplay remains the visual source: a blurred/darkened copy becomes the
     # surrounding atmosphere and an unmodified clean capture sits in front.
@@ -125,15 +148,10 @@ def compose(raw_path: Path, out_path: Path, title: str, subtitle: str) -> None:
     canvas.alpha_composite(card, (x, CARD_TOP))
 
     draw = ImageDraw.Draw(canvas)
-    brand_font = font(30, bold=True)
-    brand = "EXACTLY ONE   ·   KNOWLLY GAMES"
-    b = draw.textbbox((0, 0), brand, font=brand_font)
-    draw.text(((TARGET[0] - (b[2] - b[0])) / 2, 66), brand, font=brand_font, fill=(151, 205, 194, 220))
-
-    title_font = font(78, bold=True)
-    subtitle_font = font(38, bold=False)
-    next_y = centered_multiline(draw, title, 142, title_font, (255, 255, 255, 255), 1120, 8)
-    centered_multiline(draw, subtitle, next_y + 28, subtitle_font, (232, 238, 234, 235), 1040, 7)
+    title_font = font(96, bold=True)
+    subtitle_font = font(44, bold=False)
+    next_y = centered_multiline(draw, title, 90, title_font, (255, 255, 255, 255), 1200, 8)
+    centered_multiline(draw, subtitle, next_y + 46, subtitle_font, (232, 238, 234, 235), 1180, 8)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.convert("RGB").save(out_path, "PNG", optimize=True)
@@ -141,11 +159,11 @@ def compose(raw_path: Path, out_path: Path, title: str, subtitle: str) -> None:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for filename, (title, subtitle) in COPY.items():
-        raw_path = RAW / filename
+    for raw_name, out_name, title, subtitle, bands in COPY:
+        raw_path = RAW / raw_name
         if not raw_path.exists():
             raise SystemExit(f"Missing raw capture: {raw_path}")
-        compose(raw_path, OUT / filename, title, subtitle)
+        compose(raw_path, OUT / out_name, title, subtitle, bands)
     print("Composed five 1320x2868 App Store screenshot masters")
 
 
