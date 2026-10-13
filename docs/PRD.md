@@ -146,11 +146,15 @@ Initial opportunities:
 - watch a rewarded ad for a free hint
 - optionally double an earned reward after completion when there is meaningful reward value to double
 
-Initial provider: **Google AdMob / Google Mobile Ads SDK**, isolated behind `GameTimeCommerce`.
+Initial provider: **AppLovin MAX** as the mediation layer, isolated behind `GameTimeCommerce` (app code talks to an `AdProvider` abstraction, never to a network SDK directly).
+
+Networks sit behind the mediation layer and can be enabled, disabled, or replaced from the dashboard without an app update. Google AdMob / Google Mobile Ads is an optional network behind MAX, not a requirement: a rejection or suspension by any single network must not stop monetization or require a code change. Additional networks (for example Unity Ads, Meta Audience Network, Pangle, Mintegral) may be added the same way.
 
 Rules:
 - rewarded ads only initially
-- no mediation in v1
+- mediation is required from v1 so no single ad network is a point of failure
+- each enabled network's line is added to `app-ads.txt` on the developer website (`knowlly.games`)
+- consent and App Tracking Transparency handling, and privacy manifest updates, ship with the first ad-enabled build
 - the full game remains playable without ads
 - no monetization during first-time teaching flow
 - no interstitial during active gameplay
