@@ -355,6 +355,9 @@ final class GameScene: SKScene {
         // Capture mode is deterministic, offline, and side-effect free: no analytics,
         // persistence, ads, Game Center auth, or debug chrome.
         tutorialSession = ExactlyOneTutorialSession(isActive: false)
+        // Mid-game state: a fresh save has only puzzle 1 unlocked, which would
+        // turn the solved card's "Next puzzle" into "Levels".
+        progress.unlockedLevelIDs = levels.filter { $0.chapter == 1 }.map(\.definition.id)
         playMode = preset == .daily ? .daily : .progression
         dailyChallengeDayKey = preset == .daily ? "2026-09-19" : nil
         if preset == .daily {
