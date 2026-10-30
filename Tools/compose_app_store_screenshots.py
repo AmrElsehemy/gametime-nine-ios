@@ -24,7 +24,7 @@ COPY = [
     ("01-simple.png", "01-solve.png", "Solve the Logic Grid", "One per row, column and territory.", [HEADER_GAP, BOTTOM_GAP]),
     ("04-daily.png", "02-daily.png", "A New Puzzle Every Day", "Build your streak. One missed day is forgiven.", [HEADER_GAP, BOTTOM_GAP]),
     ("05-solved.png", "03-solved.png", "Chase Three Stars", "Every board has exactly one solution.", [HEADER_GAP, RESULT_GAP]),
-    ("03-territories.png", "04-boards.png", "100 Boards, All Solvable", "Solver-verified, from gentle to demanding.", [HEADER_GAP, BOTTOM_GAP]),
+    ("03-territories.png", "04-boards.png", "160 Boards, All Solvable", "Solver-verified, from gentle to demanding.", [HEADER_GAP, BOTTOM_GAP]),
     ("02-placement.png", "05-placement.png", "Tap, Think Ahead, Place", "Undo, reset, or ask for a hint.", [HEADER_GAP, BOTTOM_GAP]),
 ]
 
