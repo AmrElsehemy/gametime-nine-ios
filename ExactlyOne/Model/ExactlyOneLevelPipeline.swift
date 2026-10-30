@@ -17,6 +17,10 @@ struct ExactlyOneLevelRecord: Codable, Equatable, Sendable {
     let difficulty: Int
     let authoringSeed: Int?
     var focusTuning: ExactlyOneFocusTuning? = nil
+    /// Absent means Chapter 1, so the original 100-level records stay unchanged.
+    var chapter: Int? = nil
+
+    var chapterNumber: Int { chapter ?? 1 }
 
     func makeDefinition() throws -> LevelDefinition {
         try LevelDefinition(
@@ -36,14 +40,29 @@ struct ExactlyOneLevelRecord: Codable, Equatable, Sendable {
             definition: definition,
             initialMarkers: Set(initialMarkers),
             solution: solution,
-            focusTuning: tuning
+            focusTuning: tuning,
+            chapter: chapterNumber
         )
     }
 }
 
+/// A run of consecutive levels that opens once the player has earned
+/// `requiredStars` across every earlier chapter.
+struct ExactlyOneChapter: Codable, Equatable, Sendable {
+    let number: Int
+    let title: String
+    let requiredStars: Int
+}
+
 struct ExactlyOneLevelPack: Codable, Equatable, Sendable {
     let schemaVersion: Int
+    var chapters: [ExactlyOneChapter]? = nil
     let levels: [ExactlyOneLevelRecord]
+
+    /// A pack without a chapter list is a single, always-open chapter.
+    var resolvedChapters: [ExactlyOneChapter] {
+        chapters ?? [ExactlyOneChapter(number: 1, title: "Puzzles", requiredStars: 0)]
+    }
 }
 
 enum ExactlyOneLevelPackError: Error, Equatable, CustomStringConvertible, Sendable {
@@ -57,6 +76,8 @@ enum ExactlyOneLevelPackError: Error, Equatable, CustomStringConvertible, Sendab
     case unsolvable(levelID: String)
     case ambiguous(levelID: String)
     case malformedLevel(levelID: String, reason: String)
+    case invalidChapter(levelID: String, chapter: Int)
+    case malformedChapters(String)
 
     var description: String {
         switch self {
@@ -80,6 +101,10 @@ enum ExactlyOneLevelPackError: Error, Equatable, CustomStringConvertible, Sendab
             return "Level \(levelID) has multiple solutions"
         case .malformedLevel(let levelID, let reason):
             return "Malformed level \(levelID): \(reason)"
+        case .invalidChapter(let levelID, let chapter):
+            return "Level \(levelID) is in unknown or out-of-sequence chapter \(chapter)"
+        case .malformedChapters(let reason):
+            return "Malformed chapter list: \(reason)"
         }
     }
 }
@@ -305,6 +330,8 @@ enum ExactlyOneLevelPackValidator {
             throw ExactlyOneLevelPackError.unsupportedSchemaVersion(pack.schemaVersion)
         }
 
+        try validateChapters(pack)
+
         var ids = Set<String>()
         var orders = Set<Int>()
         var validated: [ExactlyOneValidatedLevel] = []
@@ -380,6 +407,56 @@ enum ExactlyOneLevelPackValidator {
         }
 
         return validated
+    }
+
+    /// Chapters are numbered 1...n, each holds a contiguous run of levels in
+    /// order, Chapter 1 is always open, and every gate is reachable: it never
+    /// asks for more stars than the earlier chapters can award.
+    private static func validateChapters(_ pack: ExactlyOneLevelPack) throws {
+        let chapters = pack.resolvedChapters
+        guard !chapters.isEmpty else {
+            throw ExactlyOneLevelPackError.malformedChapters("no chapters")
+        }
+        for (index, chapter) in chapters.enumerated() where chapter.number != index + 1 {
+            throw ExactlyOneLevelPackError.malformedChapters(
+                "chapter \(chapter.number) is out of sequence"
+            )
+        }
+        guard chapters[0].requiredStars == 0 else {
+            throw ExactlyOneLevelPackError.malformedChapters("chapter 1 must be open")
+        }
+
+        var currentChapter = 1
+        var levelsBefore: [Int: Int] = [:]
+        var levelCount = 0
+        for record in pack.levels.sorted(by: { $0.order < $1.order }) {
+            let chapter = record.chapterNumber
+            guard chapter == currentChapter || chapter == currentChapter + 1,
+                  chapter <= chapters.count else {
+                throw ExactlyOneLevelPackError.invalidChapter(
+                    levelID: record.id,
+                    chapter: chapter
+                )
+            }
+            if chapter != currentChapter || levelCount == 0 {
+                levelsBefore[chapter] = levelCount
+            }
+            currentChapter = chapter
+            levelCount += 1
+        }
+
+        for chapter in chapters {
+            guard let earlierLevels = levelsBefore[chapter.number] else {
+                throw ExactlyOneLevelPackError.malformedChapters(
+                    "chapter \(chapter.number) has no levels"
+                )
+            }
+            guard (0...earlierLevels * 3).contains(chapter.requiredStars) else {
+                throw ExactlyOneLevelPackError.malformedChapters(
+                    "chapter \(chapter.number) needs \(chapter.requiredStars) stars but only \(earlierLevels * 3) exist before it"
+                )
+            }
+        }
     }
 }
 

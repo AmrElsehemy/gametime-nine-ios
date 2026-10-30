@@ -17,6 +17,9 @@ Each record contains:
 - authored `solution`
 - inspectable `difficulty` (1...5)
 - optional `authoringSeed`
+- optional `chapter` (absent means Chapter 1)
+
+The pack also lists its chapters (`number`, `title`, `requiredStars`). A pack with no chapter list is one always-open chapter.
 
 The pack itself has a schema version. Unsupported pack versions fail validation rather than being interpreted optimistically.
 
@@ -40,6 +43,7 @@ Every normal production level must have **exactly one solution**. The validator 
 - initial markers are part of the authored solution
 - the authored solution actually solves the board
 - deterministic solver output matches the authored solution
+- chapters are numbered from 1, each holds a contiguous run of levels in order, Chapter 1 needs no stars, and no gate asks for more stars than the earlier chapters can award
 
 CI must reject a pack containing an impossible or ambiguous level.
 
@@ -49,6 +53,8 @@ CI must reject a pack containing an impossible or ambiguous level.
 - TestFlight: 50 validated levels
 - App Store submission: 60 validated levels
 - v1 target: 100+ when quality supports it
+
+1.1 ships 160: Chapter 1 (the original 100) and Chapter 2 (60).
 
 `ExactlyOneContentGate` makes these thresholds machine-checkable. The first checked-in pack deliberately satisfies only the Day-3 gate; later packs must grow before TestFlight/submission.
 

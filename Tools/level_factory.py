@@ -17,7 +17,17 @@ from pathlib import Path
 
 SCHEMA_VERSION = 1
 BASE_SEED = 2_026_091_901
-TARGET_COUNT = 100
+CHAPTER_TWO_SEED = 2_026_103_001
+CHAPTER_ONE_COUNT = 100
+CHAPTER_TWO_COUNT = 60
+TARGET_COUNT = CHAPTER_ONE_COUNT + CHAPTER_TWO_COUNT
+
+# Chapter 2 opens on stars earned in Chapter 1: 180 of a possible 300, so a
+# player needs roughly two stars per puzzle rather than a perfect run.
+CHAPTERS = [
+    {"number": 1, "title": "First Territories", "requiredStars": 0},
+    {"number": 2, "title": "Deep Territories", "requiredStars": 180},
+]
 
 # The first five puzzles remain deliberately hand-curated because they teach the game.
 ONBOARDING = [
@@ -234,13 +244,12 @@ def focus_tuning(size: int, difficulty: int) -> dict[str, int]:
     }
 
 
-def build_pack() -> dict[str, object]:
-    # First five are curated. The remaining portfolio deliberately spans 6×6 to 9×9.
-    specs = ((6, 25, 0), (7, 25, 1), (8, 25, 2), (9, 20, 2))
+def generate(
+    specs: tuple[tuple[int, int, int], ...],
+    seed: int,
+    seen: set[tuple[int, tuple[int, ...]]],
+) -> list[tuple[int, int, int, tuple[int, ...], tuple[int, ...], tuple[tuple[int, int], ...]]]:
     accepted: list[tuple[int, int, int, tuple[int, ...], tuple[int, ...], tuple[tuple[int, int], ...]]] = []
-    seen: set[tuple[int, tuple[int, ...]]] = set()
-    seed = BASE_SEED
-
     for size, required, max_clues in specs:
         count = 0
         while count < required:
@@ -260,28 +269,53 @@ def build_pack() -> dict[str, object]:
     # Difficulty is a progression signal, not just solver work: size and clue burden matter,
     # and within each size lower solver work appears earlier.
     accepted.sort(key=lambda item: (item[0], item[1], item[2]))
-    levels = list(ONBOARDING)
+    return accepted
 
-    for order, item in enumerate(accepted, start=6):
-        size, _score, authoring_seed, regions, solution, clues = item
+
+def level_record(
+    level_id: str,
+    order: int,
+    item: tuple[int, int, int, tuple[int, ...], tuple[int, ...], tuple[tuple[int, int], ...]],
+    difficulty: int,
+) -> dict[str, object]:
+    size, _score, authoring_seed, regions, solution, clues = item
+    return {
+        "id": level_id,
+        "order": order,
+        "kind": "standard",
+        "size": size,
+        "regionIDs": list(regions),
+        "adjacencyRule": "noTouching",
+        "initialMarkers": [
+            {"row": row, "column": column} for row, column in clues
+        ],
+        "solution": [
+            {"row": row, "column": solution[row]} for row in range(size)
+        ],
+        "difficulty": difficulty,
+        "authoringSeed": authoring_seed,
+    }
+
+
+def build_pack() -> dict[str, object]:
+    seen: set[tuple[int, tuple[int, ...]]] = set()
+
+    # Chapter 1: five curated puzzles, then a portfolio spanning 6×6 to 9×9.
+    chapter_one = generate(((6, 25, 0), (7, 25, 1), (8, 25, 2), (9, 20, 2)), BASE_SEED, seen)
+    levels = list(ONBOARDING)
+    for order, item in enumerate(chapter_one, start=6):
         difficulty = min(5, 2 + ((order - 6) * 4 // 95))
+        levels.append(level_record(f"v1-{order:03d}", order, item, difficulty))
+
+    # Chapter 2: only 8×8 and 9×9 boards with at most one starting pebble, where
+    # Chapter 1's large boards start with two. Fewer givens means a longer
+    # deduction chain, not just a bigger grid.
+    chapter_two = generate(((8, 25, 1), (9, 35, 1)), CHAPTER_TWO_SEED, seen)
+    for index, item in enumerate(chapter_two, start=1):
+        order = CHAPTER_ONE_COUNT + index
+        difficulty = 4 if index <= CHAPTER_TWO_COUNT // 2 else 5
         levels.append(
-            {
-                "id": f"v1-{order:03d}",
-                "order": order,
-                "kind": "standard",
-                "size": size,
-                "regionIDs": list(regions),
-                "adjacencyRule": "noTouching",
-                "initialMarkers": [
-                    {"row": row, "column": column} for row, column in clues
-                ],
-                "solution": [
-                    {"row": row, "column": solution[row]} for row in range(size)
-                ],
-                "difficulty": difficulty,
-                "authoringSeed": authoring_seed,
-            }
+            {**level_record(f"v2-{index:03d}", order, item, difficulty), "chapter": 2}
         )
 
     if len(levels) != TARGET_COUNT:
@@ -290,7 +324,7 @@ def build_pack() -> dict[str, object]:
         {**level, "focusTuning": focus_tuning(level["size"], level["difficulty"])}
         for level in levels
     ]
-    return {"schemaVersion": SCHEMA_VERSION, "levels": levels}
+    return {"schemaVersion": SCHEMA_VERSION, "chapters": CHAPTERS, "levels": levels}
 
 
 def encoded_pack() -> str:

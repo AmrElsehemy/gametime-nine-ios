@@ -34,6 +34,13 @@ final class GameScene: SKScene {
         static let sound = "action:sound"
         static let haptics = "action:haptics"
         static let daily = "action:daily"
+        static let levels = "action:levels"
+        static let levelSelectClose = "action:levels-close"
+        static let levelSelectPrevious = "action:levels-previous"
+        static let levelSelectNext = "action:levels-next"
+        static let levelTilePrefix = "level:"
+        static let levelSelect = "level-select"
+        static let headerSubtitle = "header-subtitle"
         static let cellPrefix = "cell:"
         static let completionBadge = "completion-badge"
     }
@@ -58,6 +65,8 @@ final class GameScene: SKScene {
     ]
 
     private let levels = PrototypeLevels.production
+    private let chapters = PrototypeLevels.productionChapters
+    private static let levelsPerSelectPage = 20
     private let tutorialStore = ExactlyOneTutorialCompletionStore()
     private lazy var tutorialSession = ExactlyOneTutorialSession(
         isActive: !tutorialStore.isComplete
@@ -95,6 +104,12 @@ final class GameScene: SKScene {
     private var hasActiveAnalyticsLevel = false
 
     private var levelIndex = 0
+    private var levelSelectPage: Int?
+    private var levelSelectPausedAt: TimeInterval?
+    /// Set when the last completion opened a chapter; the results card then
+    /// offers to jump straight into it.
+    private var openedChapter: ExactlyOneChapter?
+    private var notice: (text: String, until: TimeInterval)?
     private var boardState: ExactlyOneBoardState?
     private var latestEvaluation = BoardEvaluation(violations: [], isSolved: false)
     private var isLevelComplete = false
@@ -130,6 +145,7 @@ final class GameScene: SKScene {
         } else {
             beginAnalyticsSessionIfNeeded()
             beginGameCenterIfNeeded()
+            unlockEarnedChaptersOnLaunch()
             if boardState == nil {
                 restoreSavedSession()
             } else {
@@ -159,6 +175,11 @@ final class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
+        if let notice, uptime >= notice.until {
+            self.notice = nil
+            renderScene()
+        }
+        guard levelSelectPage == nil else { return }
         updateFocus()
         guard playMode == .progression,
               tutorialSession.isActive,
@@ -181,6 +202,16 @@ final class GameScene: SKScene {
         guard !inputLocked, capturePreset == nil, let location = touches.first?.location(in: self) else { return }
         updateFocus()
         let hitNodes = nodes(at: location)
+
+        if levelSelectPage != nil {
+            handleLevelSelectTouch(hitNodes)
+            return
+        }
+
+        if hitNodes.contains(where: { $0.name == NodeName.levels }) {
+            openLevelSelect()
+            return
+        }
 
         if hitNodes.contains(where: { $0.name == NodeName.sound }) {
             toggleSound()
@@ -309,6 +340,7 @@ final class GameScene: SKScene {
             lastCompletedReplay = replayRecorder?.replay
             diagnostics.add("level", "completed:\(currentLevel.definition.id)")
             let isMilestone = playMode == .daily
+                || openedChapter != nil
                 || (levelIndex + 1).isMultiple(of: 5)
             feedback.play(isMilestone ? .milestone : .solved)
             presentCompletion()
@@ -439,6 +471,7 @@ final class GameScene: SKScene {
         }
 
         levelIndex = max(0, min(index, levels.count - 1))
+        openedChapter = nil
         let level = currentLevel
         let savedFocus = progress.session(for: playMode)?.focusAttempt
         focus = restoredMarkers == nil ? ExactlyOneFocusAttempt(tuning: level.focusTuning)
@@ -635,6 +668,12 @@ final class GameScene: SKScene {
         let levelID = currentLevel.definition.id
         let gameCenter = ExactlyOneGameCenterService.shared
 
+        let opened = progress.unlockEarnedChapters(levels: levels, chapters: chapters)
+        for chapter in opened {
+            announceChapterUnlock(chapter)
+        }
+        openedChapter = playMode == .progression ? opened.last : nil
+
         analytics.track(
             .levelCompleted,
             level: currentLevel,
@@ -647,9 +686,27 @@ final class GameScene: SKScene {
 
         switch playMode {
         case .progression:
-            let nextLevelID = levels.indices.contains(levelIndex + 1)
-                ? levels[levelIndex + 1].definition.id
-                : nil
+            // The next puzzle in the same chapter always unlocks; the first
+            // puzzle of the next chapter only once its star gate is met.
+            let next = levels.indices.contains(levelIndex + 1) ? levels[levelIndex + 1] : nil
+            let nextLevelID = next.flatMap { next in
+                next.chapter == currentLevel.chapter
+                    || progress.unlockedLevelIDs.contains(next.definition.id)
+                    ? next.definition.id
+                    : nil
+            }
+            if let next, nextLevelID == nil,
+               let chapter = self.chapter(numbered: next.chapter),
+               case .locked(let earned, let required) = ExactlyOneChapterGate.status(
+                   of: chapter,
+                   levels: levels,
+                   progress: progress
+               ) {
+                showNotice(
+                    "Chapter \(chapter.number) opens at \(required)★  ·  You have \(earned)★",
+                    seconds: 12
+                )
+            }
             progress.recordProgressionCompletion(
                 levelID: levelID,
                 nextLevelID: nextLevelID,
@@ -658,6 +715,13 @@ final class GameScene: SKScene {
             )
             if levelIndex == tutorialLevelCount - 1 {
                 gameCenter.report(.tutorialComplete)
+            }
+            if let firstOfChapterTwo = chapterIndices(2).first,
+               progress.unlockedLevelIDs.contains(levels[firstOfChapterTwo].definition.id) {
+                gameCenter.report(.chapterTwoOpen)
+            }
+            if currentLevel.chapter == 2 && isLastInChapter {
+                gameCenter.report(.chapterTwoComplete)
             }
         case .daily:
             analytics.track(
@@ -691,8 +755,18 @@ final class GameScene: SKScene {
             return
         }
 
+        if let openedChapter,
+           let first = chapterIndices(openedChapter.number).first {
+            loadLevel(at: first)
+            return
+        }
+
         let nextIndex = levelIndex + 1
         if nextIndex < levels.count {
+            guard progress.unlockedLevelIDs.contains(levels[nextIndex].definition.id) else {
+                openLevelSelect()
+                return
+            }
             loadLevel(at: nextIndex)
         } else {
             progress.currentLevelID = levels.first?.definition.id
@@ -709,9 +783,10 @@ final class GameScene: SKScene {
             return
         }
 
+        // The pool is a prefix of `levels`, so its indices are catalog indices.
         guard let dailyIndex = ExactlyOneDailyChallenge.levelIndex(
             for: Date(),
-            in: levels,
+            in: ExactlyOneDailyChallenge.pool(from: levels),
             excludingFirst: tutorialLevelCount
         ) else {
             return
@@ -798,6 +873,7 @@ final class GameScene: SKScene {
         addFooter()
         addFocusHUD()
         if isLevelComplete { addCompletionBadge(animated: false) }
+        addLevelSelect()
     }
 
     private var focusTime: Int {
@@ -805,7 +881,8 @@ final class GameScene: SKScene {
     }
 
     private func updateFocus() {
-        guard capturePreset == nil, boardState != nil, !isLevelComplete else { return }
+        guard capturePreset == nil, boardState != nil, !isLevelComplete,
+              levelSelectPage == nil else { return }
         let oldStars = focus.stars
         focus.advance(to: focusTime)
         if focus.stars != oldStars {
@@ -857,7 +934,9 @@ final class GameScene: SKScene {
         } else if tutorialSession.isActive && levelIndex < tutorialLevelCount {
             eyebrow.text = "LEARN BY PLAYING  ·  \(levelIndex + 1) / \(tutorialLevelCount)"
         } else {
-            eyebrow.text = "PUZZLE  \(levelIndex + 1) / \(levels.count)"
+            let indices = chapterIndices(currentLevel.chapter)
+            let position = levelIndex - (indices.first ?? 0) + 1
+            eyebrow.text = "CHAPTER \(currentLevel.chapter)  ·  PUZZLE \(position) / \(indices.count)"
         }
         eyebrow.fontSize = 12
         eyebrow.fontColor = inkColor.withAlphaComponent(0.46)
@@ -875,10 +954,12 @@ final class GameScene: SKScene {
         title.position = CGPoint(x: size.width / 2, y: size.height - 112)
         addChild(title)
 
+        let activeNotice = notice.flatMap { uptime < $0.until ? $0.text : nil }
         let subtitle = SKLabelNode(fontNamed: "AvenirNext-Regular")
-        subtitle.text = copy.subtitle
+        subtitle.name = NodeName.headerSubtitle
+        subtitle.text = activeNotice ?? copy.subtitle
         subtitle.fontSize = 13
-        subtitle.fontColor = inkColor.withAlphaComponent(0.58)
+        subtitle.fontColor = activeNotice == nil ? inkColor.withAlphaComponent(0.58) : hintColor
         subtitle.horizontalAlignmentMode = .center
         subtitle.position = CGPoint(x: size.width / 2, y: size.height - 140)
         addChild(subtitle)
@@ -1302,16 +1383,31 @@ final class GameScene: SKScene {
         let footerY = max(72, size.height * 0.115)
 
         if !tutorialSession.isActive || playMode == .daily {
+            let showsLevels = playMode == .progression
             let dailyTitle = playMode == .daily
                 ? "Back to levels"
                 : "Daily  ·  \(progress.streak.currentCount)"
             let daily = makeButton(
                 title: dailyTitle,
                 name: NodeName.daily,
-                width: 150
+                width: showsLevels ? 140 : 150
             )
-            daily.position = CGPoint(x: size.width / 2, y: footerY + 62)
+            daily.position = CGPoint(
+                x: showsLevels ? size.width * 0.31 : size.width / 2,
+                y: footerY + 62
+            )
             addChild(daily)
+
+            if showsLevels {
+                let stars = progress.stars(in: levels)
+                let levelsButton = makeButton(
+                    title: stars > 0 ? "Levels  ·  \(stars)★" : "Levels",
+                    name: NodeName.levels,
+                    width: 140
+                )
+                levelsButton.position = CGPoint(x: size.width * 0.69, y: footerY + 62)
+                addChild(levelsButton)
+            }
         }
 
         let controls: [(String, String, CGFloat)] = [
@@ -1369,7 +1465,9 @@ final class GameScene: SKScene {
         guard let board = childNode(withName: "board") else { return }
         let reduceMotion = UIAccessibility.isReduceMotionEnabled
 
-        let isMilestone = playMode == .daily || (levelIndex + 1).isMultiple(of: 5)
+        let isMilestone = playMode == .daily
+            || openedChapter != nil
+            || (levelIndex + 1).isMultiple(of: 5)
         let pebbles = board.children.filter {
             $0.name?.hasPrefix(NodeName.cellPrefix) == true && $0.zPosition >= 3
         }
@@ -1408,10 +1506,12 @@ final class GameScene: SKScene {
         let solved = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         if playMode == .daily {
             solved.text = "Daily solved · \(progress.streak.currentCount)-day streak"
+        } else if let openedChapter {
+            solved.text = "Chapter \(openedChapter.number) unlocked!"
+        } else if levelIndex == levels.count - 1 {
+            solved.text = "All chapters complete!"
         } else {
-            solved.text = levelIndex == levels.count - 1
-                ? "Pack complete!"
-                : "Puzzle solved!"
+            solved.text = isLastInChapter ? "Chapter complete!" : "Puzzle solved!"
         }
         solved.fontSize = playMode == .daily ? 18 : 23
         solved.fontColor = inkColor
@@ -1422,8 +1522,12 @@ final class GameScene: SKScene {
         let nextTitle: String
         if playMode == .daily {
             nextTitle = "Back to levels"
+        } else if let openedChapter {
+            nextTitle = "Play Chapter \(openedChapter.number)"
         } else if levelIndex == levels.count - 1 {
             nextTitle = "Play again"
+        } else if !progress.unlockedLevelIDs.contains(levels[levelIndex + 1].definition.id) {
+            nextTitle = "Levels"
         } else {
             nextTitle = "Next puzzle"
         }
@@ -1466,6 +1570,257 @@ final class GameScene: SKScene {
                 ])
             )
         }
+    }
+
+    // MARK: - Chapters and level select
+
+    private var isLastInChapter: Bool {
+        !levels.indices.contains(levelIndex + 1)
+            || levels[levelIndex + 1].chapter != currentLevel.chapter
+    }
+
+    private func chapter(numbered number: Int) -> ExactlyOneChapter? {
+        chapters.first { $0.number == number }
+    }
+
+    /// Catalog indices of a chapter's levels; the validator keeps them contiguous.
+    private func chapterIndices(_ number: Int) -> [Int] {
+        levels.indices.filter { levels[$0].chapter == number }
+    }
+
+    private var levelSelectPages: [(chapter: ExactlyOneChapter, indices: [Int])] {
+        chapters.flatMap { chapter -> [(chapter: ExactlyOneChapter, indices: [Int])] in
+            let indices = chapterIndices(chapter.number)
+            return stride(from: 0, to: indices.count, by: Self.levelsPerSelectPage).map { start in
+                let end = min(start + Self.levelsPerSelectPage, indices.count)
+                return (chapter: chapter, indices: Array(indices[start..<end]))
+            }
+        }
+    }
+
+    private func unlockEarnedChaptersOnLaunch() {
+        // Players who already earned enough stars before a chapter shipped get
+        // it as soon as they open the update.
+        let opened = progress.unlockEarnedChapters(levels: levels, chapters: chapters)
+        guard !opened.isEmpty else { return }
+        progressStore.save(progress)
+        for chapter in opened {
+            announceChapterUnlock(chapter)
+        }
+    }
+
+    private func announceChapterUnlock(_ chapter: ExactlyOneChapter) {
+        analytics.track(
+            .chapterUnlocked,
+            extra: [
+                "chapter": String(chapter.number),
+                "total_stars": String(progress.stars(in: levels))
+            ],
+            dedupeKey: "chapter_unlocked:\(chapter.number)"
+        )
+        if chapter.number == 2 {
+            ExactlyOneGameCenterService.shared.report(.chapterTwoOpen)
+        }
+        showNotice("Chapter \(chapter.number) is open  ·  Find it in Levels")
+    }
+
+    /// Replaces the header subtitle for a few seconds, where it can't collide
+    /// with the board, results card or footer on any screen size.
+    private func showNotice(_ text: String, seconds: TimeInterval = 8) {
+        notice = (text, uptime + seconds)
+        // Update in place: a full re-render would cut short the solve animation.
+        if let subtitle = childNode(withName: NodeName.headerSubtitle) as? SKLabelNode {
+            subtitle.text = text
+            subtitle.fontColor = hintColor
+        }
+        UIAccessibility.post(notification: .announcement, argument: text)
+    }
+
+    private func openLevelSelect() {
+        guard playMode == .progression, !tutorialSession.isActive else { return }
+        updateFocus()
+        // The Focus Clock pauses while the picker covers the board.
+        levelSelectPausedAt = uptime
+        levelSelectPage = levelSelectPages.firstIndex { $0.indices.contains(levelIndex) } ?? 0
+        analytics.track(.levelSelectOpened, level: currentLevel, mode: playMode)
+        renderScene()
+    }
+
+    private func closeLevelSelect() {
+        if let pausedAt = levelSelectPausedAt {
+            focusOrigin += uptime - pausedAt
+        }
+        levelSelectPausedAt = nil
+        levelSelectPage = nil
+        renderScene()
+    }
+
+    private func handleLevelSelectTouch(_ hitNodes: [SKNode]) {
+        let names = Set(hitNodes.compactMap(\.name))
+        let pageCount = levelSelectPages.count
+
+        if names.contains(NodeName.levelSelectClose) {
+            closeLevelSelect()
+        } else if names.contains(NodeName.levelSelectPrevious), let page = levelSelectPage, page > 0 {
+            levelSelectPage = page - 1
+            renderScene()
+        } else if names.contains(NodeName.levelSelectNext), let page = levelSelectPage, page + 1 < pageCount {
+            levelSelectPage = page + 1
+            renderScene()
+        } else if let index = names.compactMap({ catalogIndex(forTileNamed: $0) }).first {
+            selectLevel(at: index)
+        }
+    }
+
+    private func selectLevel(at index: Int) {
+        guard levels.indices.contains(index) else { return }
+        let level = levels[index]
+        guard progress.unlockedLevelIDs.contains(level.definition.id) else {
+            feedback.play(.invalid)
+            return
+        }
+
+        analytics.track(.levelSelected, level: level, mode: .progression)
+        if index == levelIndex && !isLevelComplete {
+            closeLevelSelect()
+            return
+        }
+
+        levelSelectPage = nil
+        levelSelectPausedAt = nil
+        trackCurrentLevelAbandonIfNeeded(reason: "level_select")
+        loadLevel(at: index)
+    }
+
+    private func catalogIndex(forTileNamed name: String) -> Int? {
+        guard name.hasPrefix(NodeName.levelTilePrefix) else { return nil }
+        return Int(name.dropFirst(NodeName.levelTilePrefix.count))
+    }
+
+    private func addLevelSelect() {
+        let pages = levelSelectPages
+        guard let pageIndex = levelSelectPage, pages.indices.contains(pageIndex) else { return }
+        let page = pages[pageIndex]
+        let chapter = page.chapter
+        let chapterLevelIndices = chapterIndices(chapter.number)
+        let chapterLevels = chapterLevelIndices.map { levels[$0] }
+        let chapterStart = chapterLevelIndices.first ?? 0
+
+        let overlay = SKNode()
+        overlay.name = NodeName.levelSelect
+        overlay.zPosition = 50
+        addChild(overlay)
+
+        let scrim = SKShapeNode(rect: CGRect(origin: .zero, size: size))
+        scrim.fillColor = canvasColor.withAlphaComponent(0.97)
+        scrim.strokeColor = .clear
+        overlay.addChild(scrim)
+
+        let subtitle: String
+        if case .locked(let earned, let required) = ExactlyOneChapterGate.status(
+            of: chapter,
+            levels: levels,
+            progress: progress
+        ), !progress.unlockedLevelIDs.contains(chapterLevels.first?.definition.id ?? "") {
+            subtitle = "Opens at \(required)★  ·  You have \(earned)★"
+        } else {
+            subtitle = "\(progress.stars(in: chapterLevels)) / \(chapterLevels.count * 3)★"
+        }
+
+        let headings: [(String, String, CGFloat, CGFloat, CGFloat)] = [
+            ("CHAPTER \(chapter.number)", "AvenirNext-Medium", 12, 0.46, 78),
+            (chapter.title, "AvenirNext-DemiBold", min(21, size.width * 0.052), 1, 112),
+            (subtitle, "AvenirNext-Regular", 13, 0.58, 140)
+        ]
+        for (text, font, fontSize, alpha, inset) in headings {
+            let label = SKLabelNode(fontNamed: font)
+            label.text = text
+            label.fontSize = fontSize
+            label.fontColor = inkColor.withAlphaComponent(alpha)
+            label.horizontalAlignmentMode = .center
+            label.position = CGPoint(x: size.width / 2, y: size.height - inset)
+            overlay.addChild(label)
+        }
+
+        let columns = 5
+        let spacing: CGFloat = 10
+        let tile = min(64, (size.width - 48 - spacing * CGFloat(columns - 1)) / CGFloat(columns))
+        let rowsPerPage = Self.levelsPerSelectPage / columns
+        let gridHeight = CGFloat(rowsPerPage) * (tile + spacing) - spacing
+        let gridTop = size.height * 0.52 + gridHeight / 2
+
+        for (offset, index) in page.indices.enumerated() {
+            let level = levels[index]
+            let id = level.definition.id
+            let unlocked = progress.unlockedLevelIDs.contains(id)
+            let completed = (progress.levelProgress[id]?.completionCount ?? 0) > 0
+            let stars = progress.stars(for: id)
+            let number = index - chapterStart + 1
+            let name = "\(NodeName.levelTilePrefix)\(index)"
+            let center = CGPoint(
+                x: size.width / 2 + (CGFloat(offset % columns) - CGFloat(columns - 1) / 2) * (tile + spacing),
+                y: gridTop - tile / 2 - CGFloat(offset / columns) * (tile + spacing)
+            )
+
+            let shape = SKShapeNode(rectOf: CGSize(width: tile, height: tile), cornerRadius: 14)
+            shape.name = name
+            shape.position = center
+            shape.fillColor = SKColor.white.withAlphaComponent(unlocked ? 0.08 : 0.025)
+            let isCurrent = index == levelIndex
+            shape.strokeColor = isCurrent ? accentColor : SKColor.white.withAlphaComponent(0.12)
+            shape.lineWidth = isCurrent ? 2 : 1
+            shape.isAccessibilityElement = true
+            shape.accessibilityLabel = unlocked
+                ? "Puzzle \(number), \(stars) of 3 stars"
+                : "Puzzle \(number), locked"
+            overlay.addChild(shape)
+
+            let label = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+            label.name = name
+            label.text = "\(number)"
+            label.fontSize = 17
+            label.fontColor = inkColor.withAlphaComponent(unlocked ? 0.9 : 0.28)
+            label.verticalAlignmentMode = .center
+            label.horizontalAlignmentMode = .center
+            label.position = CGPoint(x: center.x, y: center.y + (completed ? 6 : 0))
+            overlay.addChild(label)
+
+            if completed {
+                let rating = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
+                rating.name = name
+                rating.text = String(repeating: "★", count: stars) + String(repeating: "☆", count: 3 - stars)
+                rating.fontSize = 10
+                rating.fontColor = accentColor
+                rating.verticalAlignmentMode = .center
+                rating.horizontalAlignmentMode = .center
+                rating.position = CGPoint(x: center.x, y: center.y - 14)
+                overlay.addChild(rating)
+            }
+        }
+
+        let footerY = max(72, size.height * 0.115)
+        let navigation: [(String, String, CGFloat, Bool)] = [
+            ("‹  Prev", NodeName.levelSelectPrevious, 0.24, pageIndex > 0),
+            ("Next  ›", NodeName.levelSelectNext, 0.76, pageIndex + 1 < pages.count)
+        ]
+        for (title, name, x, enabled) in navigation {
+            let button = makeButton(title: title, name: name, width: 100)
+            button.position = CGPoint(x: size.width * x, y: footerY + 62)
+            button.alpha = enabled ? 1 : 0.34
+            overlay.addChild(button)
+        }
+
+        let pageLabel = SKLabelNode(fontNamed: "AvenirNext-Medium")
+        pageLabel.text = "\(pageIndex + 1) / \(pages.count)"
+        pageLabel.fontSize = 12
+        pageLabel.fontColor = inkColor.withAlphaComponent(0.46)
+        pageLabel.verticalAlignmentMode = .center
+        pageLabel.position = CGPoint(x: size.width / 2, y: footerY + 62)
+        overlay.addChild(pageLabel)
+
+        let close = makeButton(title: "Close", name: NodeName.levelSelectClose, width: 150)
+        close.position = CGPoint(x: size.width / 2, y: footerY)
+        overlay.addChild(close)
     }
 
     private func beginAnalyticsSessionIfNeeded() {

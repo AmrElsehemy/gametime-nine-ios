@@ -11,6 +11,8 @@ enum ExactlyOneGameCenterAchievement: String, CaseIterable, Sendable {
     case tutorialComplete = "ai.knowlly.exactlyone.achievement.tutorial_complete"
     case firstDaily = "ai.knowlly.exactlyone.achievement.first_daily"
     case streakSeven = "ai.knowlly.exactlyone.achievement.streak_7"
+    case chapterTwoOpen = "ai.knowlly.exactlyone.achievement.chapter_2_open"
+    case chapterTwoComplete = "ai.knowlly.exactlyone.achievement.chapter_2_complete"
 }
 
 struct ExactlyOneAchievementLedger: Equatable, Sendable {
@@ -177,6 +179,8 @@ extension ExactlyOneGameCenterAchievement {
         case .tutorialComplete: return "Achievements/TutorialComplete"
         case .firstDaily: return "Achievements/FirstDaily"
         case .streakSeven: return "Achievements/Streak7"
+        case .chapterTwoOpen: return "Achievements/ChapterTwoOpen"
+        case .chapterTwoComplete: return "Achievements/ChapterTwoComplete"
         }
     }
 }

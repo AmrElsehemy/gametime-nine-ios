@@ -175,6 +175,27 @@ def generate_streak() -> Image.Image:
     return im.convert("RGB")
 
 
+def generate_chapter_two_open() -> Image.Image:
+    im = medal_base((28, 66, 72), (84, 189, 208))
+    draw = ImageDraw.Draw(im, "RGBA")
+    # Two territory doors swung open on a lit doorway, a pebble on the threshold.
+    draw.rounded_rectangle((372, 250, 652, 760), radius=36, fill=(236, 214, 160, 255))
+    draw.polygon([(372, 250), (262, 300), (262, 712), (372, 760)], fill=(201, 112, 98, 255))
+    draw.polygon([(652, 250), (762, 300), (762, 712), (652, 760)], fill=(104, 170, 130, 255))
+    im.alpha_composite(sphere(190), (417, 520))
+    return im.convert("RGB")
+
+
+def generate_chapter_two_complete() -> Image.Image:
+    im = medal_base((52, 44, 82), (221, 177, 98))
+    draw = ImageDraw.Draw(im, "RGBA")
+    for cx, cy, outer in ((330, 560, 130), (694, 560, 130), (512, 440, 190)):
+        pts = star_points(cx, cy, outer, outer * 0.46)
+        draw.polygon(pts, fill=(255, 194, 67, 255))
+        draw.line(pts + [pts[0]], fill=(255, 235, 154, 220), width=8, joint="curve")
+    return im.convert("RGB")
+
+
 def save_png(image: Image.Image, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     output = BytesIO()
@@ -213,6 +234,8 @@ def write_marketing(icon: Image.Image, badges: dict[str, Image.Image]) -> None:
         "TutorialComplete": "tutorial-complete-1024.png",
         "FirstDaily": "first-daily-1024.png",
         "Streak7": "streak-7-1024.png",
+        "ChapterTwoOpen": "chapter-2-open-1024.png",
+        "ChapterTwoComplete": "chapter-2-complete-1024.png",
     }
     for name, image in badges.items():
         save_png(image, MARKETING_GC / filenames[name])
@@ -289,6 +312,8 @@ extension ExactlyOneGameCenterAchievement {
         case .tutorialComplete: return "Achievements/TutorialComplete"
         case .firstDaily: return "Achievements/FirstDaily"
         case .streakSeven: return "Achievements/Streak7"
+        case .chapterTwoOpen: return "Achievements/ChapterTwoOpen"
+        case .chapterTwoComplete: return "Achievements/ChapterTwoComplete"
         }
     }
 }
@@ -329,6 +354,8 @@ def write_manifest() -> None:
         "| Tutorial Complete | 1024x1024 | Game Center achievement | Ready |\n"
         "| First Daily | 1024x1024 | Game Center achievement | Ready |\n"
         "| 7-Day Streak | 1024x1024 | Game Center achievement | Ready |\n"
+        "| Chapter 2 Open | 1024x1024 | Game Center achievement | Ready |\n"
+        "| Chapter 2 Complete | 1024x1024 | Game Center achievement | Ready |\n"
         "| iPhone screenshots x5 | current 6.9-inch portrait master | App Store | Capture from real build next |\n"
         "| App Preview | 15-30 seconds if used | App Store | Optional / non-blocking |\n\n"
         "Generated mockups are direction references only; submission screenshots must be real gameplay.\n"
@@ -343,6 +370,8 @@ def main() -> None:
         "TutorialComplete": generate_tutorial(),
         "FirstDaily": generate_first_daily(),
         "Streak7": generate_streak(),
+        "ChapterTwoOpen": generate_chapter_two_open(),
+        "ChapterTwoComplete": generate_chapter_two_complete(),
     }
     write_catalog(icon, badges)
     write_marketing(icon, badges)

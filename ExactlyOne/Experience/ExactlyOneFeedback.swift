@@ -586,6 +586,9 @@ enum ExactlyOneAnalyticsEventName: String, CaseIterable, Sendable {
     case hint
     case dailyStarted = "daily_started"
     case dailyCompleted = "daily_completed"
+    case chapterUnlocked = "chapter_unlocked"
+    case levelSelectOpened = "level_select_opened"
+    case levelSelected = "level_selected"
     case rewardOfferShown = "reward_offer_shown"
     case rewardOfferAccepted = "reward_offer_accepted"
     case rewardCompleted = "reward_completed"
@@ -687,6 +690,7 @@ final class ExactlyOneAnalyticsTracker {
             properties["level_id"] = level.definition.id
             properties["level_version"] = String(level.definition.schemaVersion)
             properties["board_size"] = String(level.definition.size)
+            properties["chapter"] = String(level.chapter)
         }
         if let mode {
             properties["mode"] = mode.rawValue

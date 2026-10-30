@@ -5,12 +5,14 @@ extension PrototypeLevel {
         definition: LevelDefinition,
         initialMarkers: Set<BoardCoordinate>,
         solution: [BoardCoordinate],
-        focusTuning: ExactlyOneFocusTuning? = nil
+        focusTuning: ExactlyOneFocusTuning? = nil,
+        chapter: Int = 1
     ) {
         self.definition = definition
         self.initialMarkers = initialMarkers
         self.solution = solution
         self.focusTuning = focusTuning ?? .initial(size: definition.size)
+        self.chapter = chapter
     }
 }
 
@@ -22,6 +24,16 @@ extension PrototypeLevels {
             return try ExactlyOneLevelCatalog.validatedBundled().map(\.level)
         } catch {
             preconditionFailure("Invalid bundled Exactly One level pack: \(error)")
+        }
+    }()
+
+    /// Validated alongside `production`: the validator rejects a pack whose
+    /// chapter list does not match its levels.
+    static let productionChapters: [ExactlyOneChapter] = {
+        do {
+            return try ExactlyOneLevelCatalog.loadBundled().resolvedChapters
+        } catch {
+            preconditionFailure("Invalid bundled Exactly One chapter list: \(error)")
         }
     }()
 }
@@ -116,6 +128,41 @@ struct ExactlyOneSaveState: Codable, Equatable, Sendable {
             dailyCompletions: [:],
             streak: .empty
         )
+    }
+
+    /// Best star rating earned on a level in any mode; 0 if never rated.
+    func stars(for levelID: String) -> Int {
+        levelProgress[levelID]?.mastery?.stars ?? 0
+    }
+
+    func stars(in levels: some Sequence<PrototypeLevel>) -> Int {
+        levels.reduce(0) { $0 + stars(for: $1.definition.id) }
+    }
+
+    /// Unlocks the first level of every chapter whose star gate is now met and
+    /// returns the chapters that just opened. An opened chapter stays open even
+    /// if a later catalog raises its gate.
+    mutating func unlockEarnedChapters(
+        levels: [PrototypeLevel],
+        chapters: [ExactlyOneChapter]
+    ) -> [ExactlyOneChapter] {
+        var opened: [ExactlyOneChapter] = []
+        for chapter in chapters {
+            guard let firstID = levels.first(where: {
+                      $0.chapter == chapter.number
+                  })?.definition.id,
+                  !unlockedLevelIDs.contains(firstID),
+                  ExactlyOneChapterGate.status(
+                      of: chapter,
+                      levels: levels,
+                      progress: self
+                  ) == .open else {
+                continue
+            }
+            unlockedLevelIDs.append(firstID)
+            opened.append(chapter)
+        }
+        return opened
     }
 
     func session(for mode: ExactlyOnePlayMode) -> ExactlyOneSavedSession? {
@@ -428,6 +475,29 @@ final class ExactlyOneProgressStore {
     }
 }
 
+// MARK: - Chapters
+
+enum ExactlyOneChapterGate: Equatable, Sendable {
+    case open
+    case locked(earnedStars: Int, requiredStars: Int)
+
+    /// Stars from every earlier chapter count toward a gate, so replaying an
+    /// old puzzle for a better rating is how a player catches up. Chapters
+    /// don't also require finishing the previous chapter: the star total
+    /// already implies most of it.
+    static func status(
+        of chapter: ExactlyOneChapter,
+        levels: [PrototypeLevel],
+        progress: ExactlyOneSaveState
+    ) -> ExactlyOneChapterGate {
+        guard chapter.requiredStars > 0 else { return .open }
+        let earned = progress.stars(in: levels.filter { $0.chapter < chapter.number })
+        return earned >= chapter.requiredStars
+            ? .open
+            : .locked(earnedStars: earned, requiredStars: chapter.requiredStars)
+    }
+}
+
 // MARK: - Daily challenge and streak
 
 enum ExactlyOneUTCDate {
@@ -475,6 +545,13 @@ enum ExactlyOneUTCDate {
 }
 
 enum ExactlyOneDailyChallenge {
+    /// Daily draws only from Chapter 1. Adding chapters must not change which
+    /// board a given day selects, or players on different app versions would
+    /// race different puzzles on the same leaderboard.
+    static func pool(from levels: [PrototypeLevel]) -> [PrototypeLevel] {
+        Array(levels.prefix { $0.chapter == 1 })
+    }
+
     static func levelIndex(
         for date: Date,
         in levels: [PrototypeLevel],

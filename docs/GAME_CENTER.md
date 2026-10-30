@@ -36,6 +36,10 @@ Configuration intent:
 | `ai.knowlly.exactlyone.achievement.tutorial_complete` | Complete the five-level learn-by-playing sequence | 100 |
 | `ai.knowlly.exactlyone.achievement.first_daily` | Complete a daily puzzle | 100 |
 | `ai.knowlly.exactlyone.achievement.streak_7` | Reach a seven-day daily streak | 100 |
+| `ai.knowlly.exactlyone.achievement.chapter_2_open` | Earn enough stars to open Chapter 2 (1.1) | 100 |
+| `ai.knowlly.exactlyone.achievement.chapter_2_complete` | Solve the final Chapter 2 puzzle (1.1) | 100 |
+
+The two chapter achievements must be created in App Store Connect before the 1.1 build is submitted; art is in `Marketing/AppStore/GameCenter/chapter-2-*.png`.
 
 The first set is deliberately small and meaningful. Do not add filler achievements simply to increase count.
 
