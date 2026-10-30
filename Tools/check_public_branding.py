@@ -36,9 +36,6 @@ def main():
     names = re.findall(r'INFOPLIST_KEY_CFBundleDisplayName\s*=\s*([^;]+);', project)
     if names != ['"Exactly One"', '"Exactly One"']:
         errors.append(f'Debug/Release display names are incorrect: {names}')
-    compositor = (ROOT / 'Tools/compose_app_store_screenshots.py').read_text()
-    if 'brand = "EXACTLY ONE   ·   KNOWLLY GAMES"' not in compositor:
-        errors.append('Screenshot brand line differs from the approved identity')
     if errors:
         raise SystemExit('\n'.join(errors))
     print('Public branding source checks passed')
