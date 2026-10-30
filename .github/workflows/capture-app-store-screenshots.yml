@@ -144,7 +144,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Marketing/AppStore/Screenshots/0*.png
+          # The raw frames are tracked too (the composer regenerates from them),
+          # so stage them or the rebase below refuses to run.
+          git add Marketing/AppStore/Screenshots/0*.png Marketing/Capture/raw/*.png
           if git diff --cached --quiet; then
             echo 'Screenshots already current.'
             exit 0

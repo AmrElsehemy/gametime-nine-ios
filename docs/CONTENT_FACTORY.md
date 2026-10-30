@@ -13,7 +13,7 @@ python3 Tools/level_factory.py --write ExactlyOne/Resources/ExactlyOneLevels-v1.
 python3 Tools/level_factory.py --check ExactlyOne/Resources/ExactlyOneLevels-v1.json
 ```
 
-`--write` regenerates the complete v1 pack. `--check` fails if the checked-in JSON does not exactly match deterministic factory output.
+`--write` regenerates the complete pack. `--check` fails if the checked-in JSON does not exactly match deterministic factory output.
 
 CI runs `--check` on every pull request (`.github/workflows/level-pack.yml`), so a hand edit to the pack fails until the factory produces the same output.
 
@@ -33,6 +33,19 @@ The first five onboarding puzzles remain hand-curated. The factory generates the
 
 The generated portfolio intentionally spans 6×6 through 9×9. The checked-in pack is the shipping artifact; generation is never performed on the player device.
 
+## Chapter 2 (1.1)
+
+Chapter 2 is generated after Chapter 1 from its own seed (`CHAPTER_TWO_SEED`), so the original 100 records stay byte-identical. It keeps the same pipeline with tighter limits:
+
+- only 8×8 (25 levels) and 9×9 (35 levels) boards;
+- at most one starting pebble, where Chapter 1's large boards usually start with two, so each board has a longer deduction chain;
+- ids `v2-001` ... `v2-060`, orders 101–160, `"chapter": 2`;
+- difficulty 4 for the first half and 5 for the rest, which feeds the Focus Clock thresholds.
+
+Chapter 2 opens at **180★** earned in Chapter 1 (of 300 possible), set in `CHAPTERS`. That's about two stars a puzzle, so a one-star run through Chapter 1 has to go back and replay. Retune it from `chapter_unlocked` data rather than guessing.
+
+Generating Chapter 2 takes about 40 seconds, most of it rejecting 9×9 boards that need more than one starting pebble to be unique.
+
 ## Trust boundary
 
 The Python solver is an authoring filter only. The Swift `ExactlyOneLevelPackValidator` remains the shipping source of truth and re-solves every bundled level in CI. A generated level cannot ship merely because the sidecar accepts it.
@@ -47,7 +60,7 @@ Every production level must therefore satisfy both independent implementations:
 
 ## Current content gate
 
-The v1 pack contains **100 solver-verified levels**, satisfying the Day-3 (20), TestFlight (50), App Store submission (60), and v1 target (100) count gates.
+The pack contains **160 solver-verified levels** (Chapter 1: 100, Chapter 2: 60), satisfying the Day-3 (20), TestFlight (50), App Store submission (60), and v1 target (100) count gates.
 
 Count is not the same thing as quality. Cold-start onboarding validation and representative human difficulty/play-quality sampling remain release QA responsibilities.
 

@@ -11,7 +11,7 @@ Slides 1–3 are the ones App Store search results show, so they carry the goal,
 3. **Chase Three Stars** (`03-solved.png`)
    - Every board has exactly one solution.
 
-4. **100 Boards, All Solvable** (`04-boards.png`)
+4. **160 Boards, All Solvable** (`04-boards.png`)
    - Solver-verified, from gentle to demanding.
 
 5. **Tap, Think Ahead, Place** (`05-placement.png`)

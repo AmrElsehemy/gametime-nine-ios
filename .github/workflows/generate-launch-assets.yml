@@ -41,6 +41,8 @@ jobs:
           test -f ExactlyOne/Assets.xcassets/Achievements/TutorialComplete.imageset/TutorialComplete-1024.png
           test -f ExactlyOne/Assets.xcassets/Achievements/FirstDaily.imageset/FirstDaily-1024.png
           test -f ExactlyOne/Assets.xcassets/Achievements/Streak7.imageset/Streak7-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/ChapterTwoOpen.imageset/ChapterTwoOpen-1024.png
+          test -f ExactlyOne/Assets.xcassets/Achievements/ChapterTwoComplete.imageset/ChapterTwoComplete-1024.png
           test -f Marketing/AppStore/ASSET_MANIFEST.md
       - name: Verify generated assets are current
         run: |

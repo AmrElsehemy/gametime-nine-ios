@@ -1,5 +1,17 @@
 {
   "schemaVersion": 1,
+  "chapters": [
+    {
+      "number": 1,
+      "title": "First Territories",
+      "requiredStars": 0
+    },
+    {
+      "number": 2,
+      "title": "Deep Territories",
+      "requiredStars": 180
+    }
+  ],
   "levels": [
     {
       "id": "v1-001",
@@ -11309,6 +11321,8226 @@
       ],
       "difficulty": 5,
       "authoringSeed": 2026092698,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-001",
+      "order": 101,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        4,
+        1,
+        5,
+        5,
+        6,
+        6,
+        6,
+        4,
+        4,
+        1,
+        5,
+        5,
+        5,
+        3,
+        6,
+        4,
+        2,
+        1,
+        0,
+        0,
+        5,
+        3,
+        3,
+        2,
+        2,
+        1,
+        0,
+        0,
+        5,
+        3,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103077,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-002",
+      "order": 102,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        3,
+        0,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        0,
+        6,
+        6,
+        6,
+        6,
+        6,
+        2,
+        3,
+        0,
+        5,
+        4,
+        4,
+        2,
+        2,
+        2,
+        3,
+        0,
+        5,
+        5,
+        4,
+        7,
+        7,
+        2,
+        2,
+        0,
+        5,
+        5,
+        4,
+        7,
+        1,
+        2,
+        1,
+        1,
+        4,
+        4,
+        4,
+        7,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103089,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-003",
+      "order": 103,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        1,
+        1,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        3,
+        3,
+        6,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        3,
+        6,
+        5,
+        5,
+        7,
+        2,
+        1,
+        1,
+        6,
+        6,
+        5,
+        5,
+        7,
+        2,
+        2,
+        1,
+        6,
+        6,
+        6,
+        7,
+        7,
+        2,
+        2,
+        6,
+        6,
+        0,
+        7,
+        7,
+        7,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103065,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-004",
+      "order": 104,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        6,
+        1,
+        1,
+        1,
+        2,
+        2,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        2,
+        2,
+        0,
+        0,
+        6,
+        6,
+        1,
+        4,
+        0,
+        0,
+        0,
+        0,
+        6,
+        4,
+        4,
+        4,
+        0,
+        5,
+        5,
+        3,
+        3,
+        4,
+        7,
+        4,
+        0,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        4,
+        0,
+        5,
+        5,
+        7,
+        7,
+        7,
+        4,
+        4,
+        0,
+        0,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103214,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-005",
+      "order": 105,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        6,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        6,
+        5,
+        1,
+        1,
+        7,
+        4,
+        6,
+        6,
+        6,
+        5,
+        1,
+        1,
+        7,
+        7,
+        6,
+        7,
+        7,
+        5,
+        1,
+        3,
+        3,
+        7,
+        7,
+        7,
+        7,
+        5,
+        1,
+        1,
+        3,
+        3,
+        0,
+        7,
+        7,
+        5,
+        5,
+        1,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 1
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103155,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-006",
+      "order": 106,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        1,
+        6,
+        6,
+        6,
+        6,
+        4,
+        0,
+        1,
+        1,
+        1,
+        1,
+        6,
+        6,
+        4,
+        0,
+        1,
+        1,
+        1,
+        1,
+        6,
+        4,
+        4,
+        0,
+        0,
+        1,
+        0,
+        0,
+        6,
+        6,
+        5,
+        3,
+        0,
+        0,
+        0,
+        2,
+        5,
+        5,
+        5,
+        3,
+        0,
+        0,
+        2,
+        2,
+        2,
+        7,
+        5,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103071,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-007",
+      "order": 107,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        6,
+        1,
+        6,
+        6,
+        6,
+        4,
+        3,
+        1,
+        1,
+        1,
+        6,
+        6,
+        6,
+        4,
+        3,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        7,
+        7,
+        3,
+        3,
+        2,
+        2,
+        7,
+        7,
+        7,
+        5,
+        3,
+        3,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        0,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 0
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103189,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-008",
+      "order": 108,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        0,
+        0,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        0,
+        0,
+        0,
+        7,
+        7,
+        3,
+        7,
+        7,
+        0,
+        0,
+        0,
+        5,
+        7,
+        3,
+        3,
+        3,
+        0,
+        0,
+        5,
+        5,
+        3,
+        3,
+        2,
+        2,
+        0,
+        1,
+        5,
+        5,
+        6,
+        3,
+        6,
+        2,
+        1,
+        1,
+        1,
+        5,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        4,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103134,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-009",
+      "order": 109,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        0,
+        0,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        0,
+        7,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        0,
+        7,
+        7,
+        7,
+        7,
+        2,
+        2,
+        2,
+        0,
+        0,
+        4,
+        3,
+        3,
+        3,
+        6,
+        2,
+        1,
+        0,
+        4,
+        3,
+        3,
+        3,
+        6,
+        6,
+        1,
+        0,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        1,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        1,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103090,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-010",
+      "order": 110,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        5,
+        2,
+        5,
+        5,
+        3,
+        3,
+        3,
+        7,
+        2,
+        2,
+        5,
+        5,
+        3,
+        3,
+        3,
+        6,
+        2,
+        2,
+        5,
+        5,
+        3,
+        6,
+        6,
+        6,
+        1,
+        2,
+        5,
+        0,
+        3,
+        4,
+        4,
+        6,
+        1,
+        2,
+        1,
+        0,
+        3,
+        4,
+        4,
+        6,
+        1,
+        1,
+        1,
+        0,
+        3,
+        4,
+        4,
+        4,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103049,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-011",
+      "order": 111,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        0,
+        5,
+        1,
+        1,
+        1,
+        6,
+        6,
+        0,
+        0,
+        5,
+        1,
+        1,
+        1,
+        6,
+        6,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        6,
+        0,
+        0,
+        0,
+        4,
+        1,
+        1,
+        3,
+        2,
+        2,
+        2,
+        4,
+        4,
+        1,
+        1,
+        3,
+        2,
+        7,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        7,
+        7,
+        7,
+        7,
+        7,
+        4,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103208,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-012",
+      "order": 112,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        2,
+        6,
+        7,
+        7,
+        7,
+        7,
+        7,
+        2,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        7,
+        2,
+        6,
+        6,
+        6,
+        1,
+        1,
+        7,
+        7,
+        2,
+        4,
+        6,
+        1,
+        1,
+        1,
+        1,
+        3,
+        4,
+        4,
+        4,
+        1,
+        5,
+        5,
+        5,
+        3,
+        4,
+        4,
+        1,
+        1,
+        5,
+        5,
+        5,
+        3,
+        4,
+        4,
+        1,
+        1,
+        1,
+        5,
+        5,
+        0,
+        4,
+        4,
+        1,
+        5,
+        5,
+        5,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103174,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-013",
+      "order": 113,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        0,
+        6,
+        6,
+        6,
+        6,
+        1,
+        3,
+        3,
+        0,
+        6,
+        6,
+        6,
+        6,
+        1,
+        3,
+        3,
+        0,
+        6,
+        6,
+        6,
+        6,
+        1,
+        1,
+        7,
+        0,
+        6,
+        6,
+        5,
+        5,
+        5,
+        5,
+        7,
+        0,
+        0,
+        0,
+        5,
+        2,
+        2,
+        5,
+        7,
+        0,
+        0,
+        0,
+        2,
+        2,
+        5,
+        5,
+        5,
+        0,
+        4,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 0
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103148,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-014",
+      "order": 114,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        3,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        1,
+        7,
+        1,
+        1,
+        2,
+        2,
+        2,
+        5,
+        5,
+        7,
+        7,
+        7,
+        6,
+        6,
+        6,
+        5,
+        5,
+        7,
+        7,
+        7,
+        6,
+        6,
+        4,
+        5,
+        7,
+        7,
+        7,
+        7,
+        6,
+        4,
+        4,
+        5,
+        5,
+        0,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103013,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-015",
+      "order": 115,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        5,
+        5,
+        5,
+        4,
+        4,
+        7,
+        6,
+        6,
+        5,
+        5,
+        5,
+        5,
+        4,
+        7,
+        6,
+        6,
+        6,
+        5,
+        5,
+        4,
+        4,
+        7,
+        1,
+        1,
+        6,
+        6,
+        4,
+        4,
+        4,
+        7,
+        2,
+        1,
+        1,
+        4,
+        4,
+        4,
+        7,
+        7,
+        2,
+        1,
+        3,
+        3,
+        0,
+        0,
+        0,
+        7,
+        2,
+        1,
+        3,
+        0,
+        0,
+        0,
+        7,
+        7,
+        2,
+        3,
+        3,
+        0,
+        0,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 0
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103140,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-016",
+      "order": 116,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        1,
+        1,
+        0,
+        0,
+        4,
+        2,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        4,
+        2,
+        2,
+        2,
+        1,
+        5,
+        5,
+        0,
+        0,
+        2,
+        2,
+        2,
+        1,
+        5,
+        5,
+        0,
+        0,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7,
+        0,
+        0,
+        6,
+        2,
+        7,
+        7,
+        7,
+        7,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        7,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        7,
+        7,
+        6,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 2
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103046,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-017",
+      "order": 117,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        0,
+        3,
+        3,
+        7,
+        7,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        7,
+        5,
+        6,
+        6,
+        6,
+        3,
+        4,
+        3,
+        7,
+        1,
+        6,
+        6,
+        3,
+        3,
+        4,
+        1,
+        1,
+        1,
+        6,
+        6,
+        3,
+        4,
+        4,
+        4,
+        1,
+        1,
+        6,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103194,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-018",
+      "order": 118,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        6,
+        3,
+        2,
+        2,
+        2,
+        0,
+        1,
+        1,
+        6,
+        2,
+        2,
+        2,
+        2,
+        0,
+        5,
+        5,
+        6,
+        6,
+        6,
+        2,
+        4,
+        0,
+        5,
+        5,
+        5,
+        7,
+        4,
+        4,
+        4,
+        0,
+        7,
+        5,
+        7,
+        7,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103207,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-019",
+      "order": 119,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        7,
+        7,
+        7,
+        7,
+        6,
+        6,
+        6,
+        2,
+        2,
+        5,
+        7,
+        7,
+        6,
+        6,
+        4,
+        2,
+        2,
+        5,
+        7,
+        7,
+        6,
+        4,
+        4,
+        2,
+        5,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        2,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        1,
+        5,
+        1,
+        0,
+        0,
+        4,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103128,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-020",
+      "order": 120,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        4,
+        4,
+        4,
+        4,
+        3,
+        6,
+        6,
+        6,
+        4,
+        4,
+        3,
+        3,
+        3,
+        6,
+        6,
+        6,
+        4,
+        0,
+        0,
+        3,
+        3,
+        6,
+        6,
+        6,
+        1,
+        0,
+        0,
+        3,
+        3,
+        7,
+        7,
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        7,
+        7,
+        7,
+        1,
+        2,
+        2,
+        5,
+        7,
+        7,
+        5,
+        7,
+        1,
+        2,
+        5,
+        5,
+        5,
+        7,
+        5,
+        5,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 5
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103047,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-021",
+      "order": 121,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        6,
+        0,
+        0,
+        6,
+        0,
+        0,
+        3,
+        7,
+        6,
+        6,
+        0,
+        6,
+        6,
+        3,
+        3,
+        7,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        7,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        7,
+        7,
+        5,
+        5,
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        4,
+        4,
+        3,
+        1,
+        1,
+        7,
+        7,
+        7,
+        4,
+        4,
+        3,
+        3,
+        1,
+        1,
+        1,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 5
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103191,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-022",
+      "order": 122,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        3,
+        3,
+        2,
+        1,
+        1,
+        3,
+        6,
+        6,
+        2,
+        2,
+        2,
+        1,
+        1,
+        3,
+        0,
+        6,
+        4,
+        2,
+        2,
+        7,
+        1,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        7,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        7,
+        7,
+        0,
+        5,
+        5,
+        4,
+        4,
+        2,
+        7,
+        7,
+        7,
+        5,
+        5,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103185,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-023",
+      "order": 123,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        6,
+        6,
+        6,
+        0,
+        0,
+        3,
+        3,
+        3,
+        6,
+        1,
+        1,
+        0,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        1,
+        0,
+        0,
+        7,
+        7,
+        2,
+        1,
+        1,
+        0,
+        0,
+        0,
+        7,
+        2,
+        2,
+        4,
+        1,
+        0,
+        4,
+        0,
+        7,
+        7,
+        2,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 0
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103217,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-024",
+      "order": 124,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        6,
+        6,
+        3,
+        4,
+        4,
+        4,
+        2,
+        2,
+        6,
+        3,
+        3,
+        4,
+        4,
+        4,
+        2,
+        2,
+        6,
+        3,
+        4,
+        4,
+        4,
+        4,
+        2,
+        6,
+        6,
+        6,
+        1,
+        1,
+        1,
+        4,
+        2,
+        6,
+        5,
+        5,
+        1,
+        1,
+        1,
+        4,
+        2,
+        5,
+        5,
+        0,
+        0,
+        0,
+        1,
+        4,
+        2,
+        5,
+        5,
+        0,
+        0,
+        0,
+        1,
+        1,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103016,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-025",
+      "order": 125,
+      "kind": "standard",
+      "size": 8,
+      "regionIDs": [
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        1,
+        4,
+        6,
+        7,
+        6,
+        2,
+        1,
+        1,
+        4,
+        4,
+        6,
+        6,
+        6,
+        2,
+        2,
+        1,
+        4,
+        4,
+        6,
+        6,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        5,
+        5,
+        5,
+        4,
+        0,
+        0,
+        3,
+        3,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        5,
+        0,
+        0,
+        0,
+        3,
+        3,
+        5,
+        5,
+        5,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 4
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103079,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 60000,
+        "twoStarTime": 80000,
+        "oneStarTime": 105000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-026",
+      "order": 126,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        8,
+        8,
+        8,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        8,
+        7,
+        8,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        4,
+        1,
+        1,
+        1,
+        1,
+        0,
+        7,
+        7,
+        7,
+        4,
+        1,
+        6,
+        1,
+        1,
+        0,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        6,
+        0,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        0,
+        4,
+        0,
+        5,
+        3,
+        3,
+        3,
+        6,
+        3,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103797,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 70000,
+        "twoStarTime": 90000,
+        "oneStarTime": 115000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-027",
+      "order": 127,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        2,
+        2,
+        2,
+        1,
+        1,
+        6,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        1,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        1,
+        6,
+        6,
+        7,
+        4,
+        4,
+        4,
+        2,
+        2,
+        6,
+        6,
+        7,
+        7,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        7,
+        8,
+        4,
+        5,
+        3,
+        5,
+        5,
+        0,
+        7,
+        7,
+        8,
+        8,
+        3,
+        3,
+        5,
+        5,
+        0,
+        8,
+        8,
+        8,
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 0
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103343,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 70000,
+        "twoStarTime": 90000,
+        "oneStarTime": 115000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-028",
+      "order": 128,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        4,
+        6,
+        7,
+        7,
+        1,
+        1,
+        1,
+        0,
+        0,
+        5,
+        6,
+        8,
+        8,
+        8,
+        2,
+        1,
+        1,
+        5,
+        5,
+        6,
+        8,
+        8,
+        8,
+        2,
+        2,
+        1,
+        5,
+        6,
+        6,
+        8,
+        8,
+        8,
+        2,
+        2,
+        2,
+        5,
+        5,
+        6,
+        8,
+        8,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103978,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 70000,
+        "twoStarTime": 90000,
+        "oneStarTime": 115000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-029",
+      "order": 129,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        4,
+        2,
+        4,
+        4,
+        4,
+        4,
+        0,
+        2,
+        2,
+        4,
+        4,
+        4,
+        3,
+        4,
+        3,
+        0,
+        4,
+        4,
+        4,
+        7,
+        4,
+        3,
+        3,
+        3,
+        0,
+        0,
+        5,
+        1,
+        7,
+        7,
+        6,
+        3,
+        3,
+        0,
+        5,
+        5,
+        1,
+        7,
+        7,
+        6,
+        3,
+        3,
+        0,
+        0,
+        1,
+        1,
+        1,
+        6,
+        6,
+        6,
+        6,
+        8,
+        8,
+        8,
+        1,
+        8,
+        8,
+        6,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103376,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 70000,
+        "twoStarTime": 90000,
+        "oneStarTime": 115000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-030",
+      "order": 130,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        8,
+        7,
+        7,
+        7,
+        4,
+        4,
+        4,
+        4,
+        8,
+        8,
+        8,
+        8,
+        7,
+        7,
+        4,
+        4,
+        4,
+        0,
+        8,
+        8,
+        8,
+        8,
+        3,
+        4,
+        2,
+        2,
+        0,
+        0,
+        8,
+        8,
+        8,
+        3,
+        3,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        2,
+        5,
+        0,
+        0,
+        0,
+        6,
+        3,
+        3,
+        2,
+        2,
+        5,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        2,
+        2,
+        5,
+        5,
+        6,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        5,
+        5,
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 4,
+      "authoringSeed": 2026103607,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 70000,
+        "twoStarTime": 90000,
+        "oneStarTime": 115000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-031",
+      "order": 131,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        8,
+        8,
+        6,
+        7,
+        6,
+        7,
+        6,
+        7,
+        7,
+        7,
+        8,
+        6,
+        7,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        5,
+        7,
+        7,
+        3,
+        8,
+        8,
+        8,
+        2,
+        8,
+        5,
+        1,
+        1,
+        3,
+        3,
+        8,
+        8,
+        2,
+        8,
+        5,
+        1,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        5,
+        0,
+        0,
+        4,
+        3,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103823,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-032",
+      "order": 132,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        0,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        5,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        3,
+        7,
+        7,
+        0,
+        7,
+        0,
+        6,
+        1,
+        1,
+        3,
+        7,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        7,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        4,
+        7,
+        7,
+        1,
+        1,
+        2,
+        2,
+        2,
+        8,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        2,
+        8,
+        8,
+        8,
+        8,
+        4,
+        2,
+        2,
+        2,
+        2,
+        8,
+        8,
+        8,
+        8,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 3
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103879,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-033",
+      "order": 133,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        7,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        6,
+        7,
+        7,
+        7,
+        7,
+        0,
+        8,
+        0,
+        6,
+        6,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        6,
+        6,
+        2,
+        0,
+        0,
+        0,
+        0,
+        1,
+        6,
+        6,
+        6,
+        2,
+        5,
+        3,
+        1,
+        1,
+        1,
+        1,
+        6,
+        6,
+        2,
+        5,
+        3,
+        1,
+        1,
+        1,
+        6,
+        6,
+        6,
+        2,
+        5,
+        3,
+        1,
+        1,
+        4,
+        4,
+        6,
+        4,
+        2,
+        5,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 2
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103339,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-034",
+      "order": 134,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        0,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        6,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3,
+        8,
+        6,
+        4,
+        5,
+        5,
+        5,
+        5,
+        3,
+        8,
+        8,
+        6,
+        4,
+        4,
+        5,
+        5,
+        7,
+        7,
+        8,
+        8,
+        6,
+        4,
+        4,
+        5,
+        7,
+        7,
+        8,
+        8,
+        8,
+        1,
+        1,
+        4,
+        4,
+        7,
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        1,
+        1,
+        7,
+        8,
+        7,
+        7,
+        8,
+        2,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 4
+        },
+        {
+          "row": 5,
+          "column": 2
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103943,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-035",
+      "order": 135,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        8,
+        8,
+        5,
+        5,
+        5,
+        5,
+        7,
+        3,
+        3,
+        8,
+        1,
+        1,
+        4,
+        5,
+        5,
+        7,
+        2,
+        2,
+        8,
+        8,
+        1,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2,
+        8,
+        8,
+        1,
+        4,
+        4,
+        2,
+        2,
+        6,
+        2,
+        8,
+        8,
+        1,
+        1,
+        4,
+        0,
+        6,
+        6,
+        6,
+        8,
+        1,
+        1,
+        4,
+        4,
+        0,
+        0,
+        6,
+        6,
+        8,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        6,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 8
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 0
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103505,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-036",
+      "order": 136,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        2,
+        2,
+        5,
+        5,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        5,
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        2,
+        2,
+        5,
+        5,
+        5,
+        3,
+        3,
+        7,
+        7,
+        7,
+        2,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        4,
+        8,
+        8,
+        5,
+        5,
+        5,
+        6,
+        6,
+        4,
+        4,
+        8,
+        8,
+        5,
+        5,
+        5,
+        6,
+        6,
+        4,
+        8,
+        8,
+        8,
+        6,
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 3
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 8
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 5
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103780,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-037",
+      "order": 137,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        2,
+        1,
+        1,
+        5,
+        5,
+        8,
+        5,
+        2,
+        2,
+        2,
+        1,
+        1,
+        5,
+        5,
+        8,
+        8,
+        6,
+        0,
+        0,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        6,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        8,
+        8,
+        6,
+        6,
+        1,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        4,
+        4,
+        4,
+        4,
+        4,
+        1,
+        8,
+        8,
+        8,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        3,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 7
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 0
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103785,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-038",
+      "order": 138,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        5,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        0,
+        2,
+        6,
+        1,
+        2,
+        2,
+        2,
+        5,
+        5,
+        0,
+        6,
+        6,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        0,
+        6,
+        1,
+        1,
+        8,
+        8,
+        8,
+        5,
+        3,
+        0,
+        6,
+        1,
+        1,
+        1,
+        8,
+        8,
+        5,
+        3,
+        4,
+        8,
+        8,
+        8,
+        8,
+        8,
+        7,
+        3,
+        3,
+        4,
+        8,
+        8,
+        7,
+        8,
+        7,
+        7,
+        3,
+        3,
+        4,
+        8,
+        8,
+        7,
+        7,
+        7,
+        7,
+        3,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 6
+        },
+        {
+          "row": 2,
+          "column": 4
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 1
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103612,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-039",
+      "order": 139,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        2,
+        7,
+        7,
+        3,
+        3,
+        7,
+        3,
+        6,
+        6,
+        2,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        4,
+        0,
+        0,
+        5,
+        8,
+        8,
+        8,
+        1,
+        4,
+        4,
+        0,
+        0,
+        8,
+        8,
+        8,
+        8,
+        1,
+        4,
+        4,
+        0,
+        8,
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        4,
+        0,
+        0,
+        0,
+        8,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103353,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-040",
+      "order": 140,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        2,
+        2,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        1,
+        1,
+        3,
+        3,
+        5,
+        5,
+        0,
+        0,
+        0,
+        1,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3,
+        3,
+        3,
+        3,
+        8,
+        8,
+        8,
+        8,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        8,
+        8,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7,
+        6,
+        4,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 7
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103891,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-041",
+      "order": 141,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        8,
+        8,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        0,
+        8,
+        8,
+        8,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        8,
+        8,
+        8,
+        6,
+        7,
+        7,
+        7,
+        0,
+        0,
+        8,
+        3,
+        3,
+        7,
+        7,
+        7,
+        7,
+        0,
+        0,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        7,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        7,
+        7,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 1
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 5
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103606,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-042",
+      "order": 142,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        6,
+        6,
+        7,
+        7,
+        7,
+        5,
+        5,
+        0,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        5,
+        5,
+        0,
+        6,
+        6,
+        6,
+        7,
+        7,
+        5,
+        5,
+        5,
+        0,
+        6,
+        6,
+        3,
+        7,
+        7,
+        3,
+        5,
+        5,
+        6,
+        6,
+        8,
+        3,
+        3,
+        3,
+        3,
+        5,
+        4,
+        6,
+        6,
+        8,
+        8,
+        8,
+        1,
+        3,
+        5,
+        4,
+        8,
+        6,
+        8,
+        8,
+        8,
+        1,
+        3,
+        4,
+        4,
+        8,
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 6,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 5
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103642,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-043",
+      "order": 143,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        4,
+        4,
+        4,
+        3,
+        4,
+        7,
+        7,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        5,
+        7,
+        6,
+        6,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        6,
+        5,
+        5,
+        0,
+        0,
+        5,
+        8,
+        8,
+        7,
+        6,
+        6,
+        0,
+        0,
+        0,
+        0,
+        8,
+        8,
+        2,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        6,
+        6,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 4
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 2
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 6
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103341,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-044",
+      "order": 144,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        8,
+        8,
+        6,
+        6,
+        0,
+        0,
+        0,
+        4,
+        2,
+        2,
+        8,
+        6,
+        6,
+        6,
+        6,
+        3,
+        4,
+        4,
+        2,
+        8,
+        6,
+        6,
+        6,
+        6,
+        3,
+        4,
+        4,
+        2,
+        8,
+        6,
+        6,
+        6,
+        3,
+        3,
+        4,
+        1,
+        1,
+        8,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        1,
+        1,
+        8,
+        7,
+        3,
+        3,
+        7,
+        7,
+        7,
+        1,
+        1,
+        8,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        1,
+        1,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 4,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 0
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103731,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-045",
+      "order": 145,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        8,
+        8,
+        1,
+        1,
+        2,
+        6,
+        5,
+        5,
+        5,
+        8,
+        3,
+        3,
+        1,
+        2,
+        6,
+        6,
+        5,
+        5,
+        8,
+        8,
+        3,
+        3,
+        3,
+        6,
+        6,
+        5,
+        7,
+        8,
+        8,
+        4,
+        4,
+        3,
+        6,
+        6,
+        5,
+        7,
+        7,
+        4,
+        4,
+        3,
+        3,
+        5,
+        5,
+        5,
+        7,
+        7,
+        4,
+        0,
+        0,
+        0,
+        5,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        0,
+        0,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        5,
+        5,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 2,
+          "column": 1
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 8
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 4
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 0
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103250,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-046",
+      "order": 146,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        7,
+        7,
+        7,
+        4,
+        8,
+        8,
+        8,
+        6,
+        8,
+        8,
+        8,
+        7,
+        7,
+        8,
+        8,
+        6,
+        6,
+        8,
+        6,
+        8,
+        7,
+        7,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        5,
+        5,
+        5,
+        6,
+        5,
+        6,
+        2,
+        2,
+        7,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        3,
+        1,
+        1,
+        0,
+        0,
+        2,
+        5,
+        2,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 8
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103395,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-047",
+      "order": 147,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        3,
+        6,
+        6,
+        6,
+        8,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        6,
+        8,
+        8,
+        8,
+        7,
+        7,
+        3,
+        3,
+        6,
+        6,
+        8,
+        8,
+        8,
+        7,
+        7,
+        3,
+        3,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        7,
+        3,
+        0,
+        2,
+        5,
+        4,
+        4,
+        8,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        1,
+        5,
+        4,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        5,
+        4,
+        4,
+        4,
+        1,
+        1,
+        1,
+        1,
+        1,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 1
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103535,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-048",
+      "order": 148,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4,
+        4,
+        7,
+        7,
+        0,
+        7,
+        4,
+        4,
+        4,
+        4,
+        4,
+        8,
+        7,
+        7,
+        7,
+        7,
+        2,
+        4,
+        2,
+        2,
+        8,
+        8,
+        7,
+        7,
+        5,
+        2,
+        2,
+        2,
+        2,
+        8,
+        8,
+        1,
+        1,
+        5,
+        5,
+        2,
+        2,
+        2,
+        8,
+        8,
+        8,
+        1,
+        6,
+        5,
+        5,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 5
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103423,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-049",
+      "order": 149,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        5,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        4,
+        4,
+        0,
+        0,
+        0,
+        1,
+        5,
+        6,
+        2,
+        2,
+        2,
+        0,
+        0,
+        1,
+        1,
+        5,
+        5,
+        3,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        5,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        1,
+        8,
+        8,
+        3,
+        8,
+        3,
+        3,
+        0,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        8,
+        3,
+        3,
+        1,
+        1,
+        8,
+        7,
+        7,
+        8,
+        7,
+        7,
+        3,
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103398,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-050",
+      "order": 150,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7,
+        5,
+        5,
+        1,
+        5,
+        5,
+        1,
+        1,
+        7,
+        7,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        2,
+        2,
+        0,
+        5,
+        4,
+        5,
+        5,
+        5,
+        1,
+        2,
+        2,
+        0,
+        4,
+        4,
+        4,
+        4,
+        6,
+        2,
+        2,
+        2,
+        0,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        0,
+        0,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        8,
+        8,
+        4,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        8,
+        8,
+        4,
+        3,
+        3,
+        3,
+        3,
+        6,
+        8,
+        8,
+        8
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 5,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 3
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 8
+        },
+        {
+          "row": 6,
+          "column": 4
+        },
+        {
+          "row": 7,
+          "column": 2
+        },
+        {
+          "row": 8,
+          "column": 6
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103756,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-051",
+      "order": 151,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        3,
+        3,
+        3,
+        8,
+        3,
+        8,
+        8,
+        8,
+        8,
+        3,
+        3,
+        3,
+        3,
+        3,
+        8,
+        8,
+        6,
+        1,
+        0,
+        0,
+        0,
+        5,
+        5,
+        6,
+        6,
+        6,
+        1,
+        2,
+        0,
+        0,
+        5,
+        5,
+        6,
+        6,
+        6,
+        1,
+        2,
+        0,
+        4,
+        5,
+        5,
+        6,
+        6,
+        1,
+        1,
+        2,
+        0,
+        4,
+        5,
+        6,
+        6,
+        1,
+        1,
+        1,
+        2,
+        0,
+        4,
+        7,
+        7,
+        6,
+        7,
+        1,
+        1,
+        4,
+        4,
+        4,
+        7,
+        7,
+        7,
+        7,
+        7,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 8
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 7
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 0
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 5
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026104112,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-052",
+      "order": 152,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        3,
+        1,
+        1,
+        0,
+        0,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        4,
+        7,
+        7,
+        5,
+        3,
+        1,
+        0,
+        0,
+        0,
+        4,
+        7,
+        5,
+        5,
+        1,
+        1,
+        2,
+        6,
+        0,
+        4,
+        5,
+        5,
+        5,
+        5,
+        1,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        1,
+        6,
+        6,
+        8,
+        8,
+        8,
+        4,
+        4,
+        1,
+        1,
+        6,
+        6,
+        8,
+        8,
+        8,
+        4,
+        8,
+        1,
+        1,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 5
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 6
+        },
+        {
+          "row": 4,
+          "column": 0
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026104069,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-053",
+      "order": 153,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        6,
+        6,
+        0,
+        2,
+        0,
+        0,
+        6,
+        6,
+        6,
+        6,
+        6,
+        2,
+        2,
+        0,
+        5,
+        5,
+        8,
+        8,
+        6,
+        6,
+        2,
+        5,
+        5,
+        5,
+        8,
+        8,
+        8,
+        8,
+        1,
+        2,
+        2,
+        5,
+        5,
+        5,
+        8,
+        1,
+        1,
+        1,
+        2,
+        7,
+        5,
+        7,
+        5,
+        5,
+        5,
+        1,
+        3,
+        2,
+        7,
+        7,
+        7,
+        5,
+        4,
+        4,
+        1,
+        3,
+        7,
+        7,
+        7,
+        7,
+        4,
+        4,
+        3,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 7,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 1
+        },
+        {
+          "row": 3,
+          "column": 5
+        },
+        {
+          "row": 4,
+          "column": 2
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 3
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103259,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-054",
+      "order": 154,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        7,
+        8,
+        8,
+        8,
+        3,
+        2,
+        2,
+        1,
+        1,
+        7,
+        8,
+        8,
+        8,
+        3,
+        0,
+        2,
+        1,
+        1,
+        7,
+        7,
+        7,
+        0,
+        0,
+        0,
+        2,
+        1,
+        1,
+        1,
+        1,
+        7,
+        0,
+        2,
+        2,
+        2,
+        4,
+        1,
+        1,
+        1,
+        4,
+        5,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        6,
+        5,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        5,
+        5,
+        5
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 1,
+          "column": 2
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 8
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 3
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 4
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103773,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-055",
+      "order": 155,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        3,
+        3,
+        3,
+        0,
+        2,
+        7,
+        7,
+        1,
+        1,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        7,
+        7,
+        1,
+        5,
+        5,
+        3,
+        2,
+        7,
+        7,
+        7,
+        1,
+        1,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        1,
+        1,
+        5,
+        8,
+        6,
+        6,
+        7,
+        7,
+        7,
+        1,
+        1,
+        8,
+        8,
+        6,
+        6,
+        6,
+        7,
+        7,
+        1,
+        1,
+        8,
+        8,
+        6,
+        6,
+        4,
+        7,
+        4,
+        4,
+        1,
+        8,
+        8,
+        8,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        8,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 3,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 3
+        },
+        {
+          "row": 1,
+          "column": 5
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 4
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 1
+        },
+        {
+          "row": 8,
+          "column": 7
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103971,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-056",
+      "order": 156,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        3,
+        3,
+        6,
+        6,
+        0,
+        0,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        6,
+        7,
+        7,
+        7,
+        2,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        7,
+        4,
+        2,
+        3,
+        3,
+        3,
+        8,
+        8,
+        6,
+        5,
+        4,
+        4,
+        8,
+        8,
+        8,
+        8,
+        8,
+        6,
+        5,
+        4,
+        4,
+        8,
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        4,
+        4,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 7
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 1
+        },
+        {
+          "row": 5,
+          "column": 6
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 2
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103948,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-057",
+      "order": 157,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        8,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        4,
+        4,
+        8,
+        2,
+        2,
+        2,
+        1,
+        1,
+        4,
+        4,
+        4,
+        8,
+        5,
+        5,
+        2,
+        1,
+        1,
+        1,
+        4,
+        3,
+        8,
+        5,
+        6,
+        2,
+        1,
+        1,
+        4,
+        4,
+        3,
+        7,
+        5,
+        6,
+        2,
+        1,
+        1,
+        4,
+        3,
+        3,
+        7,
+        6,
+        6,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        7,
+        6,
+        6,
+        6,
+        0,
+        0,
+        3,
+        3,
+        3,
+        7,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3,
+        7,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 2
+        },
+        {
+          "row": 3,
+          "column": 7
+        },
+        {
+          "row": 4,
+          "column": 3
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 8
+        },
+        {
+          "row": 7,
+          "column": 6
+        },
+        {
+          "row": 8,
+          "column": 1
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103947,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-058",
+      "order": 158,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        2,
+        2,
+        2,
+        7,
+        1,
+        5,
+        5,
+        5,
+        5,
+        2,
+        7,
+        7,
+        7,
+        1,
+        5,
+        8,
+        8,
+        8,
+        2,
+        7,
+        7,
+        7,
+        1,
+        5,
+        5,
+        8,
+        8,
+        2,
+        7,
+        3,
+        4,
+        4,
+        5,
+        4,
+        8,
+        8,
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        8,
+        6,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 0
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 0
+        },
+        {
+          "row": 1,
+          "column": 4
+        },
+        {
+          "row": 2,
+          "column": 6
+        },
+        {
+          "row": 3,
+          "column": 1
+        },
+        {
+          "row": 4,
+          "column": 7
+        },
+        {
+          "row": 5,
+          "column": 5
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 8
+        },
+        {
+          "row": 8,
+          "column": 3
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103453,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-059",
+      "order": 159,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        4,
+        6,
+        6,
+        6,
+        6,
+        2,
+        2,
+        8,
+        7,
+        4,
+        4,
+        4,
+        4,
+        6,
+        2,
+        2,
+        8,
+        7,
+        4,
+        5,
+        4,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        5,
+        3,
+        0,
+        1,
+        1,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [
+        {
+          "row": 0,
+          "column": 6
+        }
+      ],
+      "solution": [
+        {
+          "row": 0,
+          "column": 6
+        },
+        {
+          "row": 1,
+          "column": 3
+        },
+        {
+          "row": 2,
+          "column": 8
+        },
+        {
+          "row": 3,
+          "column": 0
+        },
+        {
+          "row": 4,
+          "column": 5
+        },
+        {
+          "row": 5,
+          "column": 7
+        },
+        {
+          "row": 6,
+          "column": 2
+        },
+        {
+          "row": 7,
+          "column": 4
+        },
+        {
+          "row": 8,
+          "column": 1
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103449,
+      "chapter": 2,
+      "focusTuning": {
+        "threeStarTime": 75000,
+        "twoStarTime": 95000,
+        "oneStarTime": 120000,
+        "baseScore": 1000,
+        "cleanSolveBonus": 250,
+        "noHintBonus": 250,
+        "timeBonusRate": 10
+      }
+    },
+    {
+      "id": "v2-060",
+      "order": 160,
+      "kind": "standard",
+      "size": 9,
+      "regionIDs": [
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        8,
+        8,
+        8,
+        1,
+        4,
+        4,
+        5,
+        5,
+        8,
+        8,
+        8,
+        8,
+        1,
+        2,
+        2,
+        2,
+        2,
+        8,
+        3,
+        3,
+        3,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        1,
+        1,
+        6,
+        2,
+        7,
+        2,
+        7,
+        3,
+        3,
+        6,
+        1,
+        6,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        0,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        0,
+        3,
+        6,
+        6,
+        6,
+        6,
+        0,
+        0,
+        0,
+        3,
+        3
+      ],
+      "adjacencyRule": "noTouching",
+      "initialMarkers": [],
+      "solution": [
+        {
+          "row": 0,
+          "column": 4
+        },
+        {
+          "row": 1,
+          "column": 2
+        },
+        {
+          "row": 2,
+          "column": 5
+        },
+        {
+          "row": 3,
+          "column": 3
+        },
+        {
+          "row": 4,
+          "column": 6
+        },
+        {
+          "row": 5,
+          "column": 1
+        },
+        {
+          "row": 6,
+          "column": 7
+        },
+        {
+          "row": 7,
+          "column": 0
+        },
+        {
+          "row": 8,
+          "column": 8
+        }
+      ],
+      "difficulty": 5,
+      "authoringSeed": 2026103257,
+      "chapter": 2,
       "focusTuning": {
         "threeStarTime": 75000,
         "twoStarTime": 95000,

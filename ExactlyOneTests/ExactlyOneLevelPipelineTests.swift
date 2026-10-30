@@ -47,7 +47,7 @@ import Testing
     let secondPass = try ExactlyOneLevelPackValidator.validate(pack)
 
     #expect(pack.schemaVersion == 1)
-    #expect(pack.levels.count == 100)
+    #expect(pack.levels.count == 160)
     #expect(ExactlyOneContentGate.day3.isSatisfied(by: pack.levels.count))
     #expect(ExactlyOneContentGate.testFlight.isSatisfied(by: pack.levels.count))
     #expect(ExactlyOneContentGate.submission.isSatisfied(by: pack.levels.count))
@@ -78,6 +78,132 @@ import Testing
         })
         #expect((1...5).contains(item.record.difficulty))
         #expect(item.solver.metrics.maxBranching > 0 || item.level.initialMarkers.count == item.level.definition.size)
+    }
+}
+
+@Test func bundledChapterTwoIsHarderAndFollowsChapterOne() throws {
+    let pack = try ExactlyOneLevelCatalog.loadBundled()
+    let chapters = pack.resolvedChapters
+    let levels = PrototypeLevels.production
+
+    #expect(chapters.map(\.number) == [1, 2])
+    #expect(chapters[0].requiredStars == 0)
+    #expect(chapters[1].requiredStars == 180)
+
+    // The original 100 levels keep their ids and stay in Chapter 1.
+    #expect(levels.prefix(100).allSatisfy { $0.chapter == 1 && $0.definition.id.hasPrefix("v1-") })
+    let chapterTwo = Array(levels.dropFirst(100))
+    #expect(chapterTwo.count == 60)
+    #expect(chapterTwo.allSatisfy { $0.chapter == 2 && $0.definition.id.hasPrefix("v2-") })
+    #expect(chapterTwo.allSatisfy { $0.definition.size >= 8 && $0.initialMarkers.count <= 1 })
+}
+
+@Test func validatorRejectsUnreachableOrOutOfSequenceChapters() throws {
+    let pack = try ExactlyOneLevelCatalog.loadBundled()
+    let chapterOne = Array(pack.levels.prefix(2))
+    var chapterTwo = pack.levels[100]
+    chapterTwo.chapter = 2
+
+    let unreachable = ExactlyOneLevelPack(
+        schemaVersion: 1,
+        chapters: [
+            ExactlyOneChapter(number: 1, title: "One", requiredStars: 0),
+            ExactlyOneChapter(number: 2, title: "Two", requiredStars: 7)
+        ],
+        levels: chapterOne + [chapterTwo]
+    )
+    #expect(throws: ExactlyOneLevelPackError.self) {
+        _ = try ExactlyOneLevelPackValidator.validate(unreachable)
+    }
+
+    var skipped = chapterTwo
+    skipped.chapter = 3
+    let outOfSequence = ExactlyOneLevelPack(
+        schemaVersion: 1,
+        chapters: unreachable.chapters,
+        levels: chapterOne + [skipped]
+    )
+    #expect(throws: ExactlyOneLevelPackError.invalidChapter(levelID: skipped.id, chapter: 3)) {
+        _ = try ExactlyOneLevelPackValidator.validate(outOfSequence)
+    }
+
+    let lockedFirstChapter = ExactlyOneLevelPack(
+        schemaVersion: 1,
+        chapters: [ExactlyOneChapter(number: 1, title: "One", requiredStars: 3)],
+        levels: chapterOne
+    )
+    #expect(throws: ExactlyOneLevelPackError.malformedChapters("chapter 1 must be open")) {
+        _ = try ExactlyOneLevelPackValidator.validate(lockedFirstChapter)
+    }
+}
+
+@Test func chapterTwoOpensOnChapterOneStarsAndStaysOpen() throws {
+    let levels = PrototypeLevels.production
+    let chapters = PrototypeLevels.productionChapters
+    let chapterTwo = try #require(chapters.first { $0.number == 2 })
+    let firstOfChapterTwo = try #require(levels.first { $0.chapter == 2 }).definition.id
+    var state = ExactlyOneSaveState.fresh(levels: levels)
+
+    #expect(
+        ExactlyOneChapterGate.status(of: chapterTwo, levels: levels, progress: state)
+            == .locked(earnedStars: 0, requiredStars: 180)
+    )
+    let openedWithNoStars = state.unlockEarnedChapters(levels: levels, chapters: chapters)
+    #expect(openedWithNoStars.isEmpty)
+
+    func rate(_ level: PrototypeLevel, stars: Int) {
+        var progress = ExactlyOneLevelProgress(completionCount: 1)
+        progress.mastery = ExactlyOnePersonalMastery(stars: stars, best: nil)
+        state.levelProgress[level.definition.id] = progress
+    }
+
+    // Two stars on 89 levels is 178: two short.
+    for level in levels.prefix(89) { rate(level, stars: 2) }
+    // Stars earned inside Chapter 2 don't count toward its own gate.
+    rate(try #require(levels.first { $0.chapter == 2 }), stars: 3)
+    #expect(
+        ExactlyOneChapterGate.status(of: chapterTwo, levels: levels, progress: state)
+            == .locked(earnedStars: 178, requiredStars: 180)
+    )
+    let openedShort = state.unlockEarnedChapters(levels: levels, chapters: chapters)
+    #expect(openedShort.isEmpty)
+    #expect(!state.unlockedLevelIDs.contains(firstOfChapterTwo))
+
+    // Replaying an old puzzle for a third star tips it over.
+    rate(levels[0], stars: 3)
+    rate(levels[1], stars: 3)
+    #expect(ExactlyOneChapterGate.status(of: chapterTwo, levels: levels, progress: state) == .open)
+    let opened = state.unlockEarnedChapters(levels: levels, chapters: chapters)
+    #expect(opened == [chapterTwo])
+    #expect(state.unlockedLevelIDs.contains(firstOfChapterTwo))
+    let openedAgain = state.unlockEarnedChapters(levels: levels, chapters: chapters)
+    #expect(openedAgain.isEmpty)
+
+    // An opened chapter survives a save round trip and a sanitize pass.
+    let reloaded = try ExactlyOneSaveCodec.decode(ExactlyOneSaveCodec.encode(state))
+        .sanitized(levels: levels, todayDayKey: "2026-10-30")
+    #expect(reloaded.unlockedLevelIDs.contains(firstOfChapterTwo))
+}
+
+@Test func dailyPoolIgnoresChapterTwoSoExistingDaysKeepTheirPuzzle() throws {
+    let levels = PrototypeLevels.production
+    let pool = ExactlyOneDailyChallenge.pool(from: levels)
+
+    #expect(pool.count == 100)
+    #expect(pool.allSatisfy { $0.chapter == 1 })
+
+    // Pinned to the selections 1.0.1 made from its 100-level catalog.
+    let pinned: [(TimeInterval, Int)] = [
+        (1_793_318_400, 36), // 2026-10-30
+        (1_798_761_600, 97)  // 2027-01-01
+    ]
+    for (seconds, expected) in pinned {
+        let index = ExactlyOneDailyChallenge.levelIndex(
+            for: Date(timeIntervalSince1970: seconds),
+            in: pool,
+            excludingFirst: 5
+        )
+        #expect(index == expected)
     }
 }
 

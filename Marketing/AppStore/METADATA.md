@@ -19,10 +19,11 @@ A tactile logic puzzle with one simple goal: one pebble in every row, column, an
 
 Exactly One is a tactile logic puzzle built around a simple rule: place exactly one pebble in every row, every column, and every territory. No two pebbles may touch, even diagonally.
 
-Learn by playing, then work your way through increasingly challenging boards. Every bundled puzzle is checked for a unique solution.
+Learn by playing, then work your way through 160 increasingly challenging boards in two chapters. Every bundled puzzle is checked for a unique solution.
 
 - Learn the rules through an interactive introduction.
 - Solve colorful, irregular territories with satisfying pebble placement.
+- Earn up to three stars on every puzzle, and replay any puzzle to improve.
 - Undo a move, reset a board, or use a hint when you need a fresh perspective.
 - Return for a daily puzzle and build your streak.
 - Keep playing the core puzzles offline.
@@ -31,6 +32,10 @@ Learn by playing, then work your way through increasingly challenging boards. Ev
 One pebble. Every territory.
 
 From Knowlly Games.
+
+## What's New (1.1)
+
+Chapter 2: Deep Territories. 60 new 8×8 and 9×9 puzzles with fewer starting pebbles and longer deductions. Earn 180 stars in Chapter 1 to open it. A new Levels screen lets you replay any puzzle for a better rating.
 
 ## Keywords
 

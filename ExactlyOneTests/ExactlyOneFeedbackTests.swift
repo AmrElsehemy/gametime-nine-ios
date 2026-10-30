@@ -293,6 +293,7 @@ import Testing
     #expect(event.properties["level_id"] == level.definition.id)
     #expect(event.properties["level_version"] == String(level.definition.schemaVersion))
     #expect(event.properties["board_size"] == String(level.definition.size))
+    #expect(event.properties["chapter"] == String(level.chapter))
     #expect(event.properties["mode"] == ExactlyOnePlayMode.progression.rawValue)
     #expect(event.properties["duration_ms"] == "1234")
     #expect(event.properties["reason"] == "solved")

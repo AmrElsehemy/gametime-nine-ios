@@ -41,12 +41,24 @@ Completing a normal level:
 
 Marker placements are saved as the active session while playing, so terminating and reopening the app returns to the same puzzle state.
 
+## Chapters and stars
+
+Levels belong to chapters (see `docs/LEVEL_PIPELINE.md`). Within a chapter, completing a level unlocks the next one as before. The first level of a later chapter unlocks only through its **star gate**: the best star rating on every level in the earlier chapters, from any mode, must add up to the chapter's `requiredStars`.
+
+- `ExactlyOneChapterGate.status` answers `open` or `locked(earnedStars:requiredStars:)`. Stars earned inside a chapter don't count toward its own gate.
+- `ExactlyOneSaveState.unlockEarnedChapters` adds the first level of each newly qualifying chapter to `unlockedLevelIDs` and reports which ones opened. It runs after every completion and at launch, so a player who already had enough stars when an update added a chapter gets it immediately.
+- An opened chapter stays open: unlocks live in `unlockedLevelIDs`, never recomputed from stars.
+- Completing the last level of a chapter whose successor is still locked leaves `currentLevelID` on that level and shows how many stars are missing. The **Levels** picker lets players replay any unlocked level to raise its rating.
+
+Chapters needed no save-schema change: stars already lived in `levelProgress[...].mastery`.
+
 ## Daily challenge
 
 Daily selection is deterministic and entirely offline:
 
 - day identity uses the Gregorian calendar fixed to **UTC**
 - onboarding levels are excluded
+- only Chapter 1 levels are candidates (`ExactlyOneDailyChallenge.pool`), so adding chapters never changes which board a day selects and players on different app versions race the same daily
 - a stable FNV-1a hash of `exactly-one-daily-v1|YYYY-MM-DD` selects a bundled standard level
 - Swift `hashValue` is never used because it is intentionally process-randomized
 - a future remote config may provide an override **only for a bundled level ID**

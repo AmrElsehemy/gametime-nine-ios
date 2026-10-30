@@ -274,6 +274,7 @@ struct PrototypeLevel: Sendable {
     let initialMarkers: Set<BoardCoordinate>
     let solution: [BoardCoordinate]
     var focusTuning: ExactlyOneFocusTuning = .initial(size: 6)
+    var chapter = 1
 
     init(
         id: String,

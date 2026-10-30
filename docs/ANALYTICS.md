@@ -34,6 +34,9 @@ Gameplay and lifecycle:
 - `hint`
 - `daily_started`
 - `daily_completed`
+- `chapter_unlocked`
+- `level_select_opened`
+- `level_selected`
 
 Commerce hooks are reserved now so the later commerce implementation does not invent an incompatible vocabulary:
 
@@ -54,6 +57,7 @@ Events include only dimensions useful for product decisions:
 - `level_id` when applicable
 - `level_version` when applicable
 - `board_size` when applicable
+- `chapter` when a level is attached
 - `mode` (`progression` or `daily`) when applicable
 - `duration_ms` as session-relative or level-relative elapsed time
 - a small event-specific value such as `reason`, `day_key`, `hint_action`, or whether a level was restored
@@ -78,6 +82,12 @@ That is enough to identify suspicious difficulty spikes without recording every 
 ## Daily
 
 Entering the daily mode emits `daily_started` alongside the level start. Solving it emits `daily_completed` alongside the level completion. The UTC day key is attached so daily retention can be grouped without storing personal time-zone or location information.
+
+## Chapters
+
+`chapter_unlocked` fires once per chapter, when its star gate is met: after a completion, or at launch for a player whose existing stars already qualify. It carries `chapter` and `total_stars`. Comparing it with `level_completed` on the last puzzle of the previous chapter shows how many players reach the gate and then have to replay for stars, which is the signal for retuning `requiredStars`.
+
+`level_select_opened` and `level_selected` measure whether players actually go back for stars.
 
 ## Provider boundary
 

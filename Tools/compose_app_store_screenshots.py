@@ -10,10 +10,13 @@ OUT = ROOT / "Marketing" / "AppStore" / "Screenshots"
 TARGET = (1320, 2868)
 CARD_WIDTH = 1240
 CARD_TOP = 470
-STATUS_CROP = 120  # raw px (at capture width) covering the status bar and Dynamic Island
+STATUS_CROP = 120  # raw px covering the status bar and Dynamic Island
 
 # Raw-frame row ranges that hold only empty app background. They are cut out so the
 # board and controls sit closer together and the phone reads larger in the thumbnail.
+# Like STATUS_CROP, they are measured on a REFERENCE_WIDTH-wide capture and scaled to
+# the actual capture, which differs by simulator (980 px recovered frames, 1320 px Pro Max).
+REFERENCE_WIDTH = 980
 HEADER_GAP = (400, 470)
 BOTTOM_GAP = (1480, 1560)
 RESULT_GAP = (1500, 1545)
@@ -24,7 +27,7 @@ COPY = [
     ("01-simple.png", "01-solve.png", "Solve the Logic Grid", "One per row, column and territory.", [HEADER_GAP, BOTTOM_GAP]),
     ("04-daily.png", "02-daily.png", "A New Puzzle Every Day", "Build your streak. One missed day is forgiven.", [HEADER_GAP, BOTTOM_GAP]),
     ("05-solved.png", "03-solved.png", "Chase Three Stars", "Every board has exactly one solution.", [HEADER_GAP, RESULT_GAP]),
-    ("03-territories.png", "04-boards.png", "100 Boards, All Solvable", "Solver-verified, from gentle to demanding.", [HEADER_GAP, BOTTOM_GAP]),
+    ("03-territories.png", "04-boards.png", "160 Boards, All Solvable", "Solver-verified, from gentle to demanding.", [HEADER_GAP, BOTTOM_GAP]),
     ("02-placement.png", "05-placement.png", "Tap, Think Ahead, Place", "Undo, reset, or ask for a hint.", [HEADER_GAP, BOTTOM_GAP]),
 ]
 
@@ -97,8 +100,13 @@ def centered_multiline(
     return y
 
 
+def scaled(rows: int, raw: Image.Image) -> int:
+    return round(rows * raw.width / REFERENCE_WIDTH)
+
+
 def cut_bands(raw: Image.Image, bands) -> Image.Image:
     """Remove empty horizontal bands (raw-frame rows), highest first so offsets stay valid."""
+    bands = [(scaled(start, raw), scaled(end, raw)) for start, end in bands]
     for start, end in sorted(bands, reverse=True):
         top = raw.crop((0, 0, raw.width, start))
         bottom = raw.crop((0, end, raw.width, raw.height))
@@ -109,7 +117,7 @@ def cut_bands(raw: Image.Image, bands) -> Image.Image:
 
 
 def rounded_card(raw: Image.Image) -> Image.Image:
-    raw = raw.crop((0, STATUS_CROP, raw.width, raw.height))
+    raw = raw.crop((0, scaled(STATUS_CROP, raw), raw.width, raw.height))
     scale = CARD_WIDTH / raw.width
     card = raw.resize((CARD_WIDTH, round(raw.height * scale)), Image.Resampling.LANCZOS).convert("RGBA")
     max_h = TARGET[1] - CARD_TOP
