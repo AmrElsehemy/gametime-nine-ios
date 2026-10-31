@@ -1,4 +1,5 @@
 import Foundation
+import GameTimeServices
 import UIKit
 import Testing
 @testable import ExactlyOne
@@ -263,6 +264,27 @@ import Testing
     )
     secondTracker.trackFirstOpenIfNeeded()
     #expect(secondClient.events.isEmpty)
+}
+
+private final class RecordingKitClient: AnalyticsClient, @unchecked Sendable {
+    private let lock = NSLock()
+    private var received: [AnalyticsEvent] = []
+    var events: [AnalyticsEvent] { lock.withLock { received } }
+    func track(_ event: AnalyticsEvent) { lock.withLock { received.append(event) } }
+}
+
+@MainActor
+@Test func pipelineBridgeForwardsGameplayButLeavesLifecycleToThePipeline() {
+    let kit = RecordingKitClient()
+    let bridge = ExactlyOnePipelineAnalyticsClient(pipeline: kit)
+
+    bridge.track(ExactlyOneAnalyticsEvent(name: .firstOpen, properties: [:]))
+    bridge.track(ExactlyOneAnalyticsEvent(name: .sessionStart, properties: [:]))
+    bridge.track(ExactlyOneAnalyticsEvent(name: .levelCompleted, properties: ["level_id": "L012"]))
+    bridge.track(ExactlyOneAnalyticsEvent(name: .sessionEnd, properties: [:]))
+
+    #expect(kit.events.map(\.name) == ["level_completed"])
+    #expect(kit.events.first?.properties["level_id"] == "L012")
 }
 
 @MainActor

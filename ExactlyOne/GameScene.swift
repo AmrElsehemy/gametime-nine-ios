@@ -88,7 +88,8 @@ final class GameScene: SKScene {
     private var replayRecorder: ExactlyOneReplayRecorder?
     private var lastCompletedReplay: ExactlyOneReplay?
 
-    private let analyticsClient = ExactlyOneDebugAnalyticsClient()
+    /// Set before the scene is presented; capture runs keep the in-memory debug client so nothing is sent.
+    var analyticsClient: ExactlyOneAnalyticsClient = ExactlyOneDebugAnalyticsClient()
     private lazy var analytics = ExactlyOneAnalyticsTracker(client: analyticsClient)
     private var analyticsSessionStartedAt: TimeInterval?
     private var analyticsAttemptID = UUID()

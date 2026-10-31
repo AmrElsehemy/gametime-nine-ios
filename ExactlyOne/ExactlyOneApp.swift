@@ -1,6 +1,7 @@
 import GameKit
 import SpriteKit
 import SwiftUI
+import GameTimeAnalytics
 import GameTimeCore
 import GameTimeExperience
 
@@ -17,6 +18,7 @@ struct ExactlyOneApp: App {
 private struct ExactlyOneRootView: View {
     @StateObject private var shell = ExactlyOneShellModel()
     @State private var showsSettings = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -42,6 +44,14 @@ private struct ExactlyOneRootView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            guard ExactlyOneCapturePreset.current == nil else { return }
+            switch phase {
+            case .active: ExactlyOneAnalytics.pipeline.appDidBecomeActive()
+            case .background: ExactlyOneAnalytics.pipeline.appDidEnterBackground()
+            default: break
+            }
+        }
         .sheet(isPresented: $showsSettings) {
             ExactlyOneSettingsView(
                 onResetGameplay: {
@@ -72,6 +82,9 @@ private final class ExactlyOneShellModel: ObservableObject {
     private static func makeScene() -> SKScene {
         let scene = GameScene(size: CGSize(width: 390, height: 844))
         scene.scaleMode = .resizeFill
+        if ExactlyOneCapturePreset.current == nil {
+            scene.analyticsClient = ExactlyOnePipelineAnalyticsClient(pipeline: ExactlyOneAnalytics.pipeline)
+        }
         return scene
     }
 }
@@ -88,6 +101,7 @@ private struct ExactlyOneSettingsView: View {
     private var hapticsEnabled = true
 
     @State private var showsResetConfirmation = false
+    @State private var sharesUsageData = ExactlyOneAnalytics.pipeline.isSharingEnabled
 
     let onResetGameplay: () -> Void
 
@@ -125,6 +139,17 @@ private struct ExactlyOneSettingsView: View {
                             ExactlyOneGameCenterService.shared.authenticateIfNeeded()
                         }
                     }
+                }
+
+                Section {
+                    Toggle("Share anonymous usage data", isOn: $sharesUsageData)
+                        .onChange(of: sharesUsageData) { _, enabled in
+                            ExactlyOneAnalytics.pipeline.setSharingEnabled(enabled)
+                        }
+                } header: {
+                    Text("Usage data")
+                } footer: {
+                    Text("Anonymous gameplay facts, such as which puzzles are started, finished or reset, help us make Exactly One better. They are never linked to you or used for advertising.")
                 }
 
                 Section("Help & Privacy") {

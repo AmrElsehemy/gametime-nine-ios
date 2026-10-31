@@ -81,9 +81,18 @@ Entering the daily mode emits `daily_started` alongside the level start. Solving
 
 ## Provider boundary
 
-`ExactlyOneAnalyticsClient` is injectable and intentionally tiny. The game currently uses a bounded debug client for local inspection; a production analytics SDK adapter can replace it without changing gameplay code or the event vocabulary.
+`ExactlyOneAnalyticsClient` is injectable and intentionally tiny. The app plugs in `ExactlyOnePipelineAnalyticsClient`, which forwards events to GameTimeKit's shared `AnalyticsPipeline` (`ExactlyOneAnalytics.pipeline`). The pipeline:
 
-The adapter contract does not throw into gameplay. Any SDK/network failure must be swallowed or buffered inside the adapter. Exactly One remains fully playable with a no-op analytics client.
+- adds the common fields (`game = exactly-one`, `schema`, `install_id`, `session_id`, `seq`, `ts`, `app_version`, `build`, `idiom`, `os_major`, `lang`, `platform`);
+- keeps a copy in `Application Support/ExactlyOne/events.jsonl`;
+- while **Share anonymous usage data** is on (the default; it is in Settings), sends events to the studio's single PostHog Cloud EU project with no SDK linked: random install id, no person profiles, no IP-derived location, no IDFA;
+- records `first_open`, `session_start` and `session_end` itself (a session ends after 30 minutes away), so the bridge does not forward the game's own lifecycle events. Players who were already playing before this update are flagged as predating analytics, so they record no `first_open` and are not counted as new.
+
+The PostHog project key comes from the `POSTHOG_API_KEY` build setting (empty in the repo) via `Info.plist` (`PostHogAPIKey`); with it empty nothing leaves the device. Capture runs keep the in-memory debug client.
+
+App Store privacy answers: **Usage Data → Product Interaction**, used for **Analytics**, **not linked**, **not used for tracking**; `PrivacyInfo.xcprivacy` declares the same.
+
+The adapter contract does not throw into gameplay. Any network failure is buffered inside the kit's PostHog client. Exactly One remains fully playable with a no-op analytics client.
 
 ## Debugging
 
@@ -98,7 +107,4 @@ Automated coverage verifies:
 - critical dedupe keys suppress duplicate lifecycle events
 - level events receive level/version/size/mode/duration dimensions
 - board coordinates are not automatically included in analytics
-
-## Future provider integration
-
-When the production analytics provider is selected, prefer adapting the shared GameTime services layer rather than adding provider-specific calls throughout Exactly One. The event contract in this document remains the game-facing source of truth.
+- the pipeline bridge forwards gameplay events and leaves `first_open` and sessions to the pipeline
