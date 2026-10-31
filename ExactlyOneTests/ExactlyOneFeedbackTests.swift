@@ -276,7 +276,8 @@ private final class RecordingKitClient: AnalyticsClient, @unchecked Sendable {
 @MainActor
 @Test func pipelineBridgeForwardsGameplayButLeavesLifecycleToThePipeline() {
     let kit = RecordingKitClient()
-    let bridge = ExactlyOnePipelineAnalyticsClient(pipeline: kit)
+    var completions = 0
+    let bridge = ExactlyOnePipelineAnalyticsClient(pipeline: kit, onLevelCompleted: { completions += 1 })
 
     bridge.track(ExactlyOneAnalyticsEvent(name: .firstOpen, properties: [:]))
     bridge.track(ExactlyOneAnalyticsEvent(name: .sessionStart, properties: [:]))
@@ -285,6 +286,7 @@ private final class RecordingKitClient: AnalyticsClient, @unchecked Sendable {
 
     #expect(kit.events.map(\.name) == ["level_completed"])
     #expect(kit.events.first?.properties["level_id"] == "L012")
+    #expect(completions == 1, "Each solved puzzle counts toward the session summary")
 }
 
 @MainActor

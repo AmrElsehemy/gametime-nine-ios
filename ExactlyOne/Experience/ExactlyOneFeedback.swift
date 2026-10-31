@@ -634,14 +634,19 @@ final class ExactlyOnePipelineAnalyticsClient: ExactlyOneAnalyticsClient {
     static let pipelineOwnedEvents: Set<ExactlyOneAnalyticsEventName> = [.firstOpen, .sessionStart, .sessionEnd]
 
     private let pipeline: any AnalyticsClient
+    private let onLevelCompleted: () -> Void
 
-    init(pipeline: any AnalyticsClient) {
+    /// `onLevelCompleted` runs once per forwarded `level_completed`, so the pipeline's
+    /// `session_end.levels_completed` counts solved puzzles.
+    init(pipeline: any AnalyticsClient, onLevelCompleted: @escaping () -> Void = {}) {
         self.pipeline = pipeline
+        self.onLevelCompleted = onLevelCompleted
     }
 
     func track(_ event: ExactlyOneAnalyticsEvent) {
         guard !Self.pipelineOwnedEvents.contains(event.name) else { return }
         pipeline.track(AnalyticsEvent(name: event.name.rawValue, properties: event.properties))
+        if event.name == .levelCompleted { onLevelCompleted() }
     }
 }
 

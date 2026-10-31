@@ -83,7 +83,11 @@ private final class ExactlyOneShellModel: ObservableObject {
         let scene = GameScene(size: CGSize(width: 390, height: 844))
         scene.scaleMode = .resizeFill
         if ExactlyOneCapturePreset.current == nil {
-            scene.analyticsClient = ExactlyOnePipelineAnalyticsClient(pipeline: ExactlyOneAnalytics.pipeline)
+            let pipeline = ExactlyOneAnalytics.pipeline
+            scene.analyticsClient = ExactlyOnePipelineAnalyticsClient(
+                pipeline: pipeline,
+                onLevelCompleted: { pipeline.noteLevelCompleted() }
+            )
         }
         return scene
     }
