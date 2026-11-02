@@ -892,7 +892,7 @@ final class GameScene: SKScene {
         }
 
         if playMode == .daily {
-            let count = progress.streak.currentCount
+            let count = progress.streak.displayedCount(todayDayKey: todayDayKey)
             let streakCopy = count > 0
                 ? "Current streak: \(count). One missed day is forgiven."
                 : "Solve once today to start your streak."
@@ -1305,7 +1305,7 @@ final class GameScene: SKScene {
         if !tutorialSession.isActive || playMode == .daily {
             let dailyTitle = playMode == .daily
                 ? "Back to levels"
-                : "Daily  ·  \(progress.streak.currentCount)"
+                : "Daily  ·  \(progress.streak.displayedCount(todayDayKey: todayDayKey))"
             let daily = makeButton(
                 title: dailyTitle,
                 name: NodeName.daily,
