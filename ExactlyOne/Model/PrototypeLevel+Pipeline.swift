@@ -1,4 +1,5 @@
 import Foundation
+import GameTimeCore
 
 extension PrototypeLevel {
     init(
@@ -80,6 +81,14 @@ struct ExactlyOneStreakState: Codable, Equatable, Sendable {
         longestCount: 0,
         lastCompletedDayKey: nil
     )
+
+    /// The streak to show on `todayDayKey`: the saved count while it can still be continued, 0 once two
+    /// days in a row have been missed. `currentCount` itself only changes at the next completion.
+    func displayedCount(todayDayKey: String) -> Int {
+        guard let today = DailyDay(key: todayDayKey) else { return currentCount }
+        return ExactlyOneStreakPolicy.dailyStreak(from: self)
+            .displayed(today: today, policy: ExactlyOneStreakPolicy.missPolicy)
+    }
 }
 
 struct ExactlyOneSavedSession: Codable, Equatable, Sendable {
@@ -430,47 +439,15 @@ final class ExactlyOneProgressStore {
 
 // MARK: - Daily challenge and streak
 
+/// UTC day keys from GameTimeKit's shared daily calendar.
 enum ExactlyOneUTCDate {
-    private static var calendar: Calendar {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-        return calendar
-    }
-
     static func dayKey(for date: Date) -> String {
-        let components = calendar.dateComponents([.year, .month, .day], from: date)
-        return String(
-            format: "%04d-%02d-%02d",
-            components.year ?? 0,
-            components.month ?? 0,
-            components.day ?? 0
-        )
+        DailyCalendar.utc.day(for: date).key
     }
 
     static func dayDistance(from startKey: String, to endKey: String) -> Int? {
-        guard let start = date(from: startKey),
-              let end = date(from: endKey) else {
-            return nil
-        }
-        return calendar.dateComponents([.day], from: start, to: end).day
-    }
-
-    private static func date(from key: String) -> Date? {
-        let parts = key.split(separator: "-")
-        guard parts.count == 3,
-              let year = Int(parts[0]),
-              let month = Int(parts[1]),
-              let day = Int(parts[2]) else {
-            return nil
-        }
-        return calendar.date(
-            from: DateComponents(
-                timeZone: TimeZone(secondsFromGMT: 0),
-                year: year,
-                month: month,
-                day: day
-            )
-        )
+        guard let start = DailyDay(key: startKey), let end = DailyDay(key: endKey) else { return nil }
+        return start.distance(to: end)
     }
 }
 
@@ -495,17 +472,8 @@ enum ExactlyOneDailyChallenge {
         }
 
         let key = "exactly-one-daily-v1|\(ExactlyOneUTCDate.dayKey(for: date))"
-        let hash = stableHash(key)
+        let hash = StableHash.fnv1a(key)
         return candidateIndices[Int(hash % UInt64(candidateIndices.count))]
-    }
-
-    private static func stableHash(_ value: String) -> UInt64 {
-        var hash: UInt64 = 14_695_981_039_346_656_037
-        for byte in value.utf8 {
-            hash ^= UInt64(byte)
-            hash &*= 1_099_511_628_211
-        }
-        return hash
     }
 }
 
@@ -513,40 +481,31 @@ enum ExactlyOneStreakPolicy {
     /// A same-day repeat is ignored. Consecutive UTC days increment the streak.
     /// One missed UTC day preserves (but does not increment) the current streak.
     /// Larger gaps reset to one. Using UTC makes timezone changes non-destructive.
+    static let missPolicy: DailyStreak.MissPolicy = .forgiveOneMissedDay
+
     static func applyingCompletion(
         dayKey: String,
         to streak: ExactlyOneStreakState
     ) -> ExactlyOneStreakState {
-        guard let previous = streak.lastCompletedDayKey else {
-            return ExactlyOneStreakState(
-                currentCount: 1,
-                longestCount: max(1, streak.longestCount),
-                lastCompletedDayKey: dayKey
-            )
-        }
-
-        guard let gap = ExactlyOneUTCDate.dayDistance(from: previous, to: dayKey) else {
+        guard let day = DailyDay(key: dayKey) else { return streak }
+        if let previous = streak.lastCompletedDayKey, DailyDay(key: previous) == nil {
             return streak
         }
-
-        if gap <= 0 {
-            return streak
-        }
-
-        let nextCount: Int
-        switch gap {
-        case 1:
-            nextCount = max(1, streak.currentCount) + 1
-        case 2:
-            nextCount = max(1, streak.currentCount)
-        default:
-            nextCount = 1
-        }
-
+        var shared = dailyStreak(from: streak)
+        guard shared.recordCompletion(on: day, policy: missPolicy) else { return streak }
         return ExactlyOneStreakState(
-            currentCount: nextCount,
-            longestCount: max(streak.longestCount, nextCount),
-            lastCompletedDayKey: dayKey
+            currentCount: shared.current,
+            longestCount: shared.longest,
+            lastCompletedDayKey: shared.lastCompletedDay?.key
+        )
+    }
+
+    /// The saved streak as GameTimeKit's `DailyStreak`; the save format itself is unchanged.
+    static func dailyStreak(from streak: ExactlyOneStreakState) -> DailyStreak {
+        DailyStreak(
+            current: streak.currentCount,
+            longest: streak.longestCount,
+            lastCompletedDay: streak.lastCompletedDayKey.flatMap(DailyDay.init(key:))
         )
     }
 }

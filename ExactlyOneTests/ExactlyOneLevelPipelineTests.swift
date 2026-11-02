@@ -283,6 +283,60 @@ import Testing
     #expect(streak.longestCount == 3)
 }
 
+@Test func displayedStreakLapsesOnlyAfterTwoMissedDays() {
+    let streak = ExactlyOneStreakState(currentCount: 4, longestCount: 6, lastCompletedDayKey: "2026-09-10")
+
+    #expect(streak.displayedCount(todayDayKey: "2026-09-10") == 4, "Solved today")
+    #expect(streak.displayedCount(todayDayKey: "2026-09-11") == 4, "Today is still open")
+    #expect(streak.displayedCount(todayDayKey: "2026-09-12") == 4, "One missed day is forgiven")
+    #expect(streak.displayedCount(todayDayKey: "2026-09-13") == 0, "Two missed days end it")
+    #expect(ExactlyOneStreakState.empty.displayedCount(todayDayKey: "2026-09-13") == 0)
+}
+
+/// The streak rule before it moved to GameTimeKit, copied verbatim, so the shared one can be checked
+/// against it over randomised play.
+private func legacyStreak(dayKey: String, to streak: ExactlyOneStreakState) -> ExactlyOneStreakState {
+    guard let previous = streak.lastCompletedDayKey else {
+        return ExactlyOneStreakState(currentCount: 1, longestCount: max(1, streak.longestCount), lastCompletedDayKey: dayKey)
+    }
+    guard let gap = ExactlyOneUTCDate.dayDistance(from: previous, to: dayKey) else { return streak }
+    if gap <= 0 { return streak }
+    let nextCount: Int
+    switch gap {
+    case 1: nextCount = max(1, streak.currentCount) + 1
+    case 2: nextCount = max(1, streak.currentCount)
+    default: nextCount = 1
+    }
+    return ExactlyOneStreakState(
+        currentCount: nextCount,
+        longestCount: max(streak.longestCount, nextCount),
+        lastCompletedDayKey: dayKey
+    )
+}
+
+@Test func sharedStreakRuleMatchesThePreviousOne() {
+    var seed: UInt64 = 42
+    func next(_ bound: Int) -> Int {
+        seed = seed &* 6_364_136_223_846_793_005 &+ 1_442_695_040_888_963_407
+        return Int((seed >> 33) % UInt64(bound))
+    }
+    let start = Date(timeIntervalSince1970: 1_788_220_800) // 2026-09-01T00:00:00Z
+    for _ in 0..<200 {
+        var legacy = ExactlyOneStreakState.empty
+        var shared = ExactlyOneStreakState.empty
+        var offset = 0
+        for _ in 0..<40 {
+            offset += next(5) - 1 // repeats, an earlier day, consecutive days and gaps of up to three
+            let key = ExactlyOneUTCDate.dayKey(for: start.addingTimeInterval(Double(offset) * 86_400))
+            legacy = legacyStreak(dayKey: key, to: legacy)
+            shared = ExactlyOneStreakPolicy.applyingCompletion(dayKey: key, to: shared)
+            #expect(shared == legacy)
+        }
+    }
+    let unreadable = ExactlyOneStreakState(currentCount: 3, longestCount: 3, lastCompletedDayKey: "garbled")
+    #expect(ExactlyOneStreakPolicy.applyingCompletion(dayKey: "2026-09-02", to: unreadable) == unreadable)
+}
+
 @Test func dailyCompletionIsIdempotentForStreakCredit() {
     let levels = PrototypeLevels.production
     let level = levels[5]
