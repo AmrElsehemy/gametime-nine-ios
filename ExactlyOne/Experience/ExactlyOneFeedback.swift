@@ -1,6 +1,8 @@
 import AVFoundation
 import CoreHaptics
 import Foundation
+import GameTimeAnalytics
+import GameTimeServices
 import UIKit
 
 enum ExactlyOneFeedbackEvent: String, CaseIterable, Sendable {
@@ -623,6 +625,67 @@ final class ExactlyOneDebugAnalyticsClient: ExactlyOneAnalyticsClient {
         print("[ExactlyOneAnalytics] \(event.name.rawValue) \(event.properties)")
         #endif
     }
+}
+
+/// Forwards Exactly One's events to GameTimeKit's analytics pipeline, which keeps a local copy and,
+/// while the player leaves sharing on, sends them anonymously to the studio's PostHog project. The
+/// pipeline records `first_open` and sessions itself, so the game's own versions are not forwarded.
+final class ExactlyOnePipelineAnalyticsClient: ExactlyOneAnalyticsClient {
+    static let pipelineOwnedEvents: Set<ExactlyOneAnalyticsEventName> = [.firstOpen, .sessionStart, .sessionEnd]
+
+    private let pipeline: any AnalyticsClient
+    private let onLevelCompleted: () -> Void
+
+    /// `onLevelCompleted` runs once per forwarded `level_completed`, so the pipeline's
+    /// `session_end.levels_completed` counts solved puzzles.
+    init(pipeline: any AnalyticsClient, onLevelCompleted: @escaping () -> Void = {}) {
+        self.pipeline = pipeline
+        self.onLevelCompleted = onLevelCompleted
+    }
+
+    func track(_ event: ExactlyOneAnalyticsEvent) {
+        guard !Self.pipelineOwnedEvents.contains(event.name) else { return }
+        pipeline.track(AnalyticsEvent(name: event.name.rawValue, properties: event.properties))
+        if event.name == .levelCompleted { onLevelCompleted() }
+    }
+}
+
+/// The app's single analytics pipeline. Events are kept in `Application Support/ExactlyOne/events.jsonl`
+/// and sent to PostHog while sharing is on (the default; Settings has the switch). A build without
+/// `PostHogAPIKey` in its Info.plist sends nothing.
+@MainActor
+enum ExactlyOneAnalytics {
+    /// Exactly One's slug in the studio's shared PostHog project.
+    static let gameID = "exactly-one"
+    static let schemaVersion = 1
+
+    static let pipeline: AnalyticsPipeline = {
+        let info = Bundle.main.infoDictionary ?? [:]
+        let context = AnalyticsPipeline.Context(
+            game: gameID,
+            appVersion: ExactlyOneRuntimeMetadata.appVersion,
+            build: ExactlyOneRuntimeMetadata.buildVersion,
+            idiom: UIDevice.current.userInterfaceIdiom == .pad ? "pad" : "phone",
+            osMajor: UIDevice.current.systemVersion.split(separator: ".").first.map(String.init) ?? "?",
+            language: Locale.current.language.languageCode?.identifier ?? "?",
+            schemaVersion: schemaVersion
+        )
+        let clients: [any AnalyticsClient] = PostHogConfiguration(infoDictionary: info).map {
+            [PostHogAnalyticsClient(
+                configuration: $0,
+                queueFileURL: PostHogAnalyticsClient.standardQueueURL(directory: "ExactlyOne")
+            )]
+        } ?? []
+        return AnalyticsPipeline(
+            store: FileEventStore(fileURL: FileEventStore.standardURL(directory: "ExactlyOne")),
+            clients: clients,
+            context: context,
+            keyPrefix: "exactlyone.analytics",
+            sharingByDefault: true,
+            // Players from before analytics already recorded their first open; don't count them as new.
+            predatesAnalytics: !ExactlyOneAnalyticsLifecycleStore().shouldSendFirstOpen
+        )
+    }()
 }
 
 @MainActor
