@@ -627,7 +627,7 @@ private func isolatedDefaults() -> (UserDefaults, String) {
 }
 
 @MainActor
-@Test func savedProgressRoundTripsAndResetKeepsBackups() {
+@Test func savedProgressRoundTripsAndResetKeepsBackups() throws {
     let (defaults, suite) = isolatedDefaults()
     defer { defaults.removePersistentDomain(forName: suite) }
     let store = ExactlyOneProgressStore(defaults: defaults)
@@ -637,6 +637,15 @@ private func isolatedDefaults() -> (UserDefaults, String) {
     store.save(state)
     #expect(ExactlyOneProgressStore(defaults: defaults).load(levels: []).streak == state.streak)
 
-    store.reset(levels: [])
+    // An unreadable save is backed up; resetting progress afterwards keeps that backup.
+    defaults.set(Data("unreadable".utf8), forKey: "exactlyone.progress.save.v2")
+    let recovering = ExactlyOneProgressStore(defaults: defaults)
+    _ = recovering.load(levels: [])
+    let recovery = try #require(recovering.lastRecovery)
+
+    recovering.reset(levels: [])
     #expect(ExactlyOneProgressStore(defaults: defaults).load(levels: []) == ExactlyOneSaveState.fresh(levels: []))
+    let raw = SaveStore<Data>(key: "exactlyone.progress.save.v2", codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
+    #expect(raw.backups() == [recovery])
+    #expect(raw.backupData(for: recovery) == Data("unreadable".utf8))
 }
