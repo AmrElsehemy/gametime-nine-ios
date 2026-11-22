@@ -136,6 +136,7 @@ final class GameScene: SKScene {
             } else {
                 renderScene()
             }
+            reportSaveRecoveryIfNeeded()
         }
         hasPresentedScene = true
     }
@@ -1475,6 +1476,12 @@ final class GameScene: SKScene {
         analytics.trackFirstOpenIfNeeded()
         analytics.track(.sessionStart, dedupeKey: "session_start")
         analyticsSessionStartedAt = uptime
+    }
+
+    /// A save that could not be read was backed up rather than lost; count how often that happens.
+    private func reportSaveRecoveryIfNeeded() {
+        guard progressStore.lastRecovery != nil else { return }
+        analytics.track(.saveRecovered, extra: ["store": "progress"], dedupeKey: "save_recovered")
     }
 
     private func beginGameCenterIfNeeded() {

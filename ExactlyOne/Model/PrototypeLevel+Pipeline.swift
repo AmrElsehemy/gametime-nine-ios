@@ -1,5 +1,6 @@
 import Foundation
 import GameTimeCore
+import GameTimePersistence
 
 extension PrototypeLevel {
     init(
@@ -390,27 +391,30 @@ final class ExactlyOneProgressStore {
     // change once the app has shipped.
     private static let defaultKey = "exactlyone.progress.save.v2"
 
-    private let defaults: UserDefaults
-    private let key: String
+    /// GameTimeKit's SaveStore with Exactly One's own codec, so the format and migrations are unchanged.
+    /// A save that cannot be read (corrupted, or written by a newer build) is backed up instead of deleted.
+    private let store: SaveStore<ExactlyOneSaveState>
+    private(set) var lastRecovery: SaveRecovery?
 
     init(
         defaults: UserDefaults = .standard,
         key: String = ExactlyOneProgressStore.defaultKey
     ) {
-        self.defaults = defaults
-        self.key = key
+        store = SaveStore(
+            key: key,
+            codec: SaveCodec(encode: ExactlyOneSaveCodec.encode, decode: ExactlyOneSaveCodec.decode),
+            defaults: defaults,
+            // Never returned: load(levels:) builds a fresh state for the levels it is given.
+            makeDefault: { ExactlyOneSaveState.fresh(levels: []) }
+        )
     }
 
     func load(
         levels: [PrototypeLevel],
         now: Date = Date()
     ) -> ExactlyOneSaveState {
-        guard let data = defaults.data(forKey: key) else {
-            return ExactlyOneSaveState.fresh(levels: levels)
-        }
-
-        do {
-            let decoded = try ExactlyOneSaveCodec.decode(data)
+        switch store.load() {
+        case let .loaded(decoded):
             let sanitized = decoded.sanitized(
                 levels: levels,
                 todayDayKey: ExactlyOneUTCDate.dayKey(for: now)
@@ -419,20 +423,21 @@ final class ExactlyOneProgressStore {
                 save(sanitized)
             }
             return sanitized
-        } catch {
-            defaults.removeObject(forKey: key)
+        case .fresh:
+            return ExactlyOneSaveState.fresh(levels: levels)
+        case let .recovered(_, recovery):
+            lastRecovery = recovery
             return ExactlyOneSaveState.fresh(levels: levels)
         }
     }
 
     func save(_ state: ExactlyOneSaveState) {
-        guard let data = try? ExactlyOneSaveCodec.encode(state) else { return }
-        defaults.set(data, forKey: key)
+        store.save(state)
     }
 
     @discardableResult
     func reset(levels: [PrototypeLevel]) -> ExactlyOneSaveState {
-        defaults.removeObject(forKey: key)
+        store.reset()
         return ExactlyOneSaveState.fresh(levels: levels)
     }
 }

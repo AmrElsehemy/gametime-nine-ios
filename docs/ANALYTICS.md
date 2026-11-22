@@ -42,6 +42,7 @@ Commerce hooks are reserved now so the later commerce implementation does not in
 - `reward_completed`
 - `iap_started`
 - `iap_completed`
+- `save_recovered` (at launch, the saved progress could not be read and was backed up instead of being deleted; `store = progress`)
 
 The commerce events are not emitted until the corresponding reward/IAP flows exist.
 
