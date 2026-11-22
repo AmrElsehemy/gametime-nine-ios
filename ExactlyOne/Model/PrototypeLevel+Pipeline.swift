@@ -413,6 +413,7 @@ final class ExactlyOneProgressStore {
         levels: [PrototypeLevel],
         now: Date = Date()
     ) -> ExactlyOneSaveState {
+        lastRecovery = nil
         switch store.load() {
         case let .loaded(decoded):
             let sanitized = decoded.sanitized(

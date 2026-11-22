@@ -608,6 +608,9 @@ private func isolatedDefaults() -> (UserDefaults, String) {
     let raw = SaveStore<Data>(key: "exactlyone.progress.save.v2", codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
     #expect(raw.backups() == [recovery])
     #expect(raw.backupData(for: recovery) == corrupted)
+
+    _ = store.load(levels: [])
+    #expect(store.lastRecovery == nil, "A later successful load clears the recovery")
 }
 
 @MainActor
