@@ -375,7 +375,11 @@ private func legacyStreak(dayKey: String, to streak: ExactlyOneStreakState) -> E
     #expect(recovered.schemaVersion == ExactlyOneSaveState.currentSchemaVersion)
     #expect(recovered.currentLevelID == levels.first?.definition.id)
     #expect(recovered.unlockedLevelIDs == [levels[0].definition.id])
-    #expect(defaults.data(forKey: key) == nil)
+    // The unreadable bytes are kept (and backed up) rather than deleted, so they can still be recovered.
+    #expect(defaults.data(forKey: key) == Data("definitely not json".utf8))
+    let recovery = try #require(store.lastRecovery)
+    let backups = SaveStore<Data>(key: key, codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
+    #expect(backups.backupData(for: recovery) == Data("definitely not json".utf8))
 }
 
 @Test func staleDailySessionIsDiscardedWithoutDestroyingProgressionSession() throws {
