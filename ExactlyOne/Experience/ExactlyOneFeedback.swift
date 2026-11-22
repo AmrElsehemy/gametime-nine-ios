@@ -2,6 +2,7 @@ import AVFoundation
 import CoreHaptics
 import Foundation
 import GameTimeAnalytics
+import GameTimePersistence
 import GameTimeServices
 import UIKit
 
@@ -55,36 +56,34 @@ struct ExactlyOneFeedbackPreferences: Equatable, Sendable {
     )
 }
 
+/// Sound and haptics through GameTimeKit's FeedbackSettingsStore, under the keys the Settings screen's
+/// @AppStorage toggles use.
 @MainActor
 final class ExactlyOneFeedbackPreferenceStore {
-    private enum Key {
-        static let sound = "exactlyone.preferences.soundEnabled"
-        static let haptics = "exactlyone.preferences.hapticsEnabled"
-    }
-
-    private let defaults: UserDefaults
+    private let settings: FeedbackSettingsStore
 
     init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
+        settings = FeedbackSettingsStore(
+            soundKey: "exactlyone.preferences.soundEnabled",
+            hapticsKey: "exactlyone.preferences.hapticsEnabled",
+            defaults: defaults
+        )
     }
 
     var current: ExactlyOneFeedbackPreferences {
-        ExactlyOneFeedbackPreferences(
-            soundEnabled: defaults.object(forKey: Key.sound) == nil
-                ? true
-                : defaults.bool(forKey: Key.sound),
-            hapticsEnabled: defaults.object(forKey: Key.haptics) == nil
-                ? true
-                : defaults.bool(forKey: Key.haptics)
+        let current = settings.current
+        return ExactlyOneFeedbackPreferences(
+            soundEnabled: current.soundEnabled,
+            hapticsEnabled: current.hapticsEnabled
         )
     }
 
     func setSoundEnabled(_ enabled: Bool) {
-        defaults.set(enabled, forKey: Key.sound)
+        settings.setSoundEnabled(enabled)
     }
 
     func setHapticsEnabled(_ enabled: Bool) {
-        defaults.set(enabled, forKey: Key.haptics)
+        settings.setHapticsEnabled(enabled)
     }
 }
 
@@ -593,6 +592,8 @@ enum ExactlyOneAnalyticsEventName: String, CaseIterable, Sendable {
     case rewardCompleted = "reward_completed"
     case iapStarted = "iap_started"
     case iapCompleted = "iap_completed"
+    /// At launch, the saved progress could not be read and was backed up instead of being deleted.
+    case saveRecovered = "save_recovered"
 }
 
 struct ExactlyOneAnalyticsEvent: Equatable, Sendable {

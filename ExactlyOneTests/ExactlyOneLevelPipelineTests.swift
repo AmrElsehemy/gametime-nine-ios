@@ -1,4 +1,5 @@
 import Foundation
+import GameTimePersistence
 import Testing
 @testable import ExactlyOne
 
@@ -374,7 +375,11 @@ private func legacyStreak(dayKey: String, to streak: ExactlyOneStreakState) -> E
     #expect(recovered.schemaVersion == ExactlyOneSaveState.currentSchemaVersion)
     #expect(recovered.currentLevelID == levels.first?.definition.id)
     #expect(recovered.unlockedLevelIDs == [levels[0].definition.id])
-    #expect(defaults.data(forKey: key) == nil)
+    // The unreadable bytes are kept (and backed up) rather than deleted, so they can still be recovered.
+    #expect(defaults.data(forKey: key) == Data("definitely not json".utf8))
+    let recovery = try #require(store.lastRecovery)
+    let backups = SaveStore<Data>(key: key, codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
+    #expect(backups.backupData(for: recovery) == Data("definitely not json".utf8))
 }
 
 @Test func staleDailySessionIsDiscardedWithoutDestroyingProgressionSession() throws {
@@ -580,4 +585,71 @@ private func legacyStreak(dayKey: String, to streak: ExactlyOneStreakState) -> E
     let sanitized = state.sanitized(levels: levels, todayDayKey: "2026-09-18")
 
     #expect(sanitized.progressionSession?.markers == level.initialMarkers.sorted())
+}
+
+// MARK: - Saves are backed up, never deleted
+
+@MainActor
+private func isolatedDefaults() -> (UserDefaults, String) {
+    let suite = "ExactlyOneProgressStoreTests.\(UUID().uuidString)"
+    return (UserDefaults(suiteName: suite)!, suite)
+}
+
+@MainActor
+@Test func unreadableSaveIsBackedUpInsteadOfDeleted() throws {
+    let (defaults, suite) = isolatedDefaults()
+    defer { defaults.removePersistentDomain(forName: suite) }
+    let corrupted = Data("{\"schemaVersion\": 3, \"currentLevelID\": ".utf8)
+    defaults.set(corrupted, forKey: "exactlyone.progress.save.v2")
+
+    let store = ExactlyOneProgressStore(defaults: defaults)
+    let state = store.load(levels: [])
+    #expect(state == ExactlyOneSaveState.fresh(levels: []))
+    let recovery = try #require(store.lastRecovery)
+
+    // The previous store deleted the bytes here. They are kept, and survive the next save.
+    store.save(state)
+    let raw = SaveStore<Data>(key: "exactlyone.progress.save.v2", codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
+    #expect(raw.backups() == [recovery])
+    #expect(raw.backupData(for: recovery) == corrupted)
+
+    _ = store.load(levels: [])
+    #expect(store.lastRecovery == nil, "A later successful load clears the recovery")
+}
+
+@MainActor
+@Test func saveFromANewerBuildIsBackedUpInsteadOfDeleted() throws {
+    let (defaults, suite) = isolatedDefaults()
+    defer { defaults.removePersistentDomain(forName: suite) }
+    let newer = Data("{\"schemaVersion\": 99}".utf8)
+    defaults.set(newer, forKey: "exactlyone.progress.save.v2")
+
+    let store = ExactlyOneProgressStore(defaults: defaults)
+    _ = store.load(levels: [])
+    let recovery = try #require(store.lastRecovery)
+    #expect(recovery.reason.contains("unsupportedSchemaVersion(99)"))
+}
+
+@MainActor
+@Test func savedProgressRoundTripsAndResetKeepsBackups() throws {
+    let (defaults, suite) = isolatedDefaults()
+    defer { defaults.removePersistentDomain(forName: suite) }
+    let store = ExactlyOneProgressStore(defaults: defaults)
+    var state = store.load(levels: [])
+    #expect(store.lastRecovery == nil)
+    state.streak = ExactlyOneStreakState(currentCount: 3, longestCount: 5, lastCompletedDayKey: "2026-11-20")
+    store.save(state)
+    #expect(ExactlyOneProgressStore(defaults: defaults).load(levels: []).streak == state.streak)
+
+    // An unreadable save is backed up; resetting progress afterwards keeps that backup.
+    defaults.set(Data("unreadable".utf8), forKey: "exactlyone.progress.save.v2")
+    let recovering = ExactlyOneProgressStore(defaults: defaults)
+    _ = recovering.load(levels: [])
+    let recovery = try #require(recovering.lastRecovery)
+
+    recovering.reset(levels: [])
+    #expect(ExactlyOneProgressStore(defaults: defaults).load(levels: []) == ExactlyOneSaveState.fresh(levels: []))
+    let raw = SaveStore<Data>(key: "exactlyone.progress.save.v2", codec: SaveCodec(encode: { $0 }, decode: { $0 }), defaults: defaults) { Data() }
+    #expect(raw.backups() == [recovery])
+    #expect(raw.backupData(for: recovery) == Data("unreadable".utf8))
 }

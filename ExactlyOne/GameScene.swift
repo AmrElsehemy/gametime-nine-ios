@@ -68,6 +68,7 @@ final class GameScene: SKScene {
     private lazy var feedback = ExactlyOneFeedbackEngine(preferences: feedbackPreferences)
 
     private let progressStore = ExactlyOneProgressStore()
+    private var hasReportedSaveRecovery = false
     private lazy var progress = capturePreset == nil
         ? progressStore.load(levels: levels)
         : ExactlyOneSaveState.fresh(levels: levels)
@@ -136,6 +137,7 @@ final class GameScene: SKScene {
             } else {
                 renderScene()
             }
+            reportSaveRecoveryIfNeeded()
         }
         hasPresentedScene = true
     }
@@ -1475,6 +1477,14 @@ final class GameScene: SKScene {
         analytics.trackFirstOpenIfNeeded()
         analytics.track(.sessionStart, dedupeKey: "session_start")
         analyticsSessionStartedAt = uptime
+    }
+
+    /// A save that could not be read was backed up rather than lost; count how often that happens.
+    /// Reported once per scene: the tracker's dedupe keys reset with each analytics session.
+    private func reportSaveRecoveryIfNeeded() {
+        guard !hasReportedSaveRecovery, progressStore.lastRecovery != nil else { return }
+        hasReportedSaveRecovery = true
+        analytics.track(.saveRecovered, extra: ["store": "progress"])
     }
 
     private func beginGameCenterIfNeeded() {

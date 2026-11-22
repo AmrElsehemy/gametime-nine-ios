@@ -29,6 +29,8 @@
 		D10000000000000000000010 /* GameTimeAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000003 /* GameTimeAnalytics */; };
 		D10000000000000000000011 /* GameTimeServices in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000004 /* GameTimeServices */; };
 		D10000000000000000000012 /* GameTimeServices in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000004 /* GameTimeServices */; };
+		D10000000000000000000013 /* GameTimePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000005 /* GameTimePersistence */; };
+		D10000000000000000000014 /* GameTimePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = D90000000000000000000005 /* GameTimePersistence */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,7 @@
 				D10000000000000000000005 /* GameTimeExperience in Frameworks */,
 				D10000000000000000000010 /* GameTimeAnalytics in Frameworks */,
 				D10000000000000000000011 /* GameTimeServices in Frameworks */,
+				D10000000000000000000013 /* GameTimePersistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +83,7 @@
 			files = (
 				D10000000000000000000006 /* GameTimeCore in Frameworks */,
 				D10000000000000000000012 /* GameTimeServices in Frameworks */,
+				D10000000000000000000014 /* GameTimePersistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +159,7 @@
 				D90000000000000000000002 /* GameTimeExperience */,
 				D90000000000000000000003 /* GameTimeAnalytics */,
 				D90000000000000000000004 /* GameTimeServices */,
+				D90000000000000000000005 /* GameTimePersistence */,
 			);
 			productName = ExactlyOne;
 			productReference = D20000000000000000000004 /* ExactlyOne.app */;
@@ -177,6 +182,7 @@
 			packageProductDependencies = (
 				D90000000000000000000001 /* GameTimeCore */,
 				D90000000000000000000004 /* GameTimeServices */,
+				D90000000000000000000005 /* GameTimePersistence */,
 			);
 			productName = ExactlyOneTests;
 			productReference = D20000000000000000000005 /* ExactlyOneTests.xctest */;
@@ -466,6 +472,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
 			productName = GameTimeServices;
+		};
+		D90000000000000000000005 /* GameTimePersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D92000000000000000000001 /* XCLocalSwiftPackageReference "../gametime-ios" */;
+			productName = GameTimePersistence;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
